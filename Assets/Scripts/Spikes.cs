@@ -5,11 +5,9 @@ public class Spikes : MonoBehaviour {
 	public Player player;
 	private Rigidbody2D m_rb2d;
 
-	// Movement Stuff
-	public float maxRetractTimer;
-	private float retractTimer;
-
-	// my Stuff
+	// Movement
+	public float maxResetTimer;
+	private float resetTimer;
 	private MoveObject moveObject;
 	public bool isHidden;
 	private bool isActive;
@@ -17,12 +15,11 @@ public class Spikes : MonoBehaviour {
 	public float moveSpeed;
 	public float moveHorizontal;
 	public float moveVertical;
-	private Vector3 finalPosition;
 
 	void Start() {
-		m_rb2d = GetComponent<Rigidbody2D>();
-		retractTimer = maxRetractTimer;
 		player = GameObject.Find("Player").GetComponent<Player>();
+		m_rb2d = GetComponent<Rigidbody2D>();
+		resetTimer = maxResetTimer;
 		if (isHidden){
 			moveObject = GetComponent<MoveObject>();
 			moveObject.SetSpeed(moveSpeed);
@@ -37,7 +34,7 @@ public class Spikes : MonoBehaviour {
 
 	void HandleMovement() {
 		if (isActivated){
-			retractTimer -= Time.fixedDeltaTime;
+			resetTimer -= Time.fixedDeltaTime;
 			if (isActive) {
 				GetComponent<Collider2D>().enabled = true;
 				if (isHidden){
@@ -45,7 +42,7 @@ public class Spikes : MonoBehaviour {
 					isActive = false;
 				}
 			}
-			if (retractTimer <= 0) {
+			if (resetTimer <= 0) {
 				isActivated = false;
 				if (isHidden){
 					moveObject.SetSpeed(moveSpeed/3);
@@ -53,28 +50,26 @@ public class Spikes : MonoBehaviour {
 					moveObject.SetDistanceY(-moveVertical);
 					moveObject.Move();
 				}
-				retractTimer = maxRetractTimer;
+				resetTimer = maxResetTimer;
 			}
 		}
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if(other.gameObject.tag == "Player" && !player.isDead) {
-			if (!isActivated){
-				if (isHidden){
-					moveObject.SetSpeed(moveSpeed);
-					moveObject.SetDistanceX(moveHorizontal);
-					moveObject.SetDistanceY(moveVertical);
-				}
-				GetComponent<Collider2D>().enabled = true;
-				isActive = true;
-				isActivated = true;
+		if (other.gameObject.tag == "Player" && !player.isDead && !isActivated){
+			if (isHidden){
+				moveObject.SetSpeed(moveSpeed);
+				moveObject.SetDistanceX(moveHorizontal);
+				moveObject.SetDistanceY(moveVertical);
 			}
+			GetComponent<Collider2D>().enabled = true;
+			isActive = true;
+			isActivated = true;
 		}
 	}
 
 	void OnCollisionEnter2D(Collision2D other) {
-		if(other.collider.tag == "Player") {
+		if (other.collider.tag == "Player") {
 			GetComponent<Collider2D>().enabled = false;
 		}
 	}

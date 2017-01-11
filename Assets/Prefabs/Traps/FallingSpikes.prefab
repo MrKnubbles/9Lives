@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 50712407208779850}
   - component: {fileID: 114001872557695518}
   - component: {fileID: 61608260814502766}
+  - component: {fileID: 114851231675019718}
   m_Layer: 10
   m_Name: FallingSpikes
   m_TagString: Trap
@@ -85,7 +86,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 7.5
+  m_LinearDrag: 0.15
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -137,15 +138,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4846ff0c94a71c0409207adde63188bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_activate: 0
-  m_isFake: 0
-  m_moveSpeed: 10
-  m_moveDistance: 0.05
-  m_maxResetTimer: 2
-  m_hasTriggered: 0
-  m_wiggleTimer: 0
-  m_maxWiggleTimer: 0
-  m_wiggle: 0
+  maxResetTimer: 2
+  isActivated: 0
+  moveSpeed: 1
+  moveVertical: -1
+--- !u!114 &114851231675019718
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1203913740873572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a19643b6d44791e40b879bc9d62520f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &212651620371924128
 SpriteRenderer:
   m_ObjectHideFlags: 1
