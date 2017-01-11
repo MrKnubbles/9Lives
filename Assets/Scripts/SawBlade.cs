@@ -1,72 +1,109 @@
 ﻿using UnityEngine;
+using System;
 
 public class SawBlade : MonoBehaviour {
 
-	// Rigidbody
-	private Rigidbody2D m_rb2d;
-
-	// Movement Stuff
-	private Vector2 m_velocity;
-	private Vector3 m_startPosition;
-	private Vector3 m_targetPositionHorizontal;
-	private Vector3 m_targetPositionVertical;
-	public bool m_moveHorizontal;
-	public bool m_moveVertical;
-	public bool m_invert;
-	public float m_moveSpeed;
-	public float m_moveDistance;
+	private Vector3 startPosition;
+	public float moveSpeed;
+	public float moveHorizontal;
+	public float moveVertical;
+	private Vector3 resetPosition;
+	private MoveObject moveObject;
 
 	void Start() {
-		m_rb2d = GetComponent<Rigidbody2D>();
-		m_startPosition = transform.position;
-		m_targetPositionHorizontal = new Vector3(m_startPosition.x + m_moveDistance, m_startPosition.y, m_startPosition.z);
-		m_targetPositionVertical = new Vector3(m_startPosition.x, m_startPosition.y + m_moveDistance, m_startPosition.z);
+		startPosition = transform.localPosition;
+		resetPosition.x = startPosition.x + moveHorizontal;
+		resetPosition.y = startPosition.y + moveVertical;
+		moveObject = GetComponent<MoveObject>();
+		moveObject.SetSpeed(moveSpeed);
+		moveObject.SetDistanceX(moveHorizontal);
+		moveObject.SetDistanceY(moveVertical);
+		moveObject.Move();
 	}
 	
 	void FixedUpdate() {
-		if(m_moveHorizontal){
-			m_velocity = new Vector2(1, 0);
-			MoveHorizontal();
-		} else if(m_moveVertical) {
-			m_velocity = new Vector2(0, 1);
-			MoveVertical();
-		} else {
-			m_rb2d.position = m_startPosition;
-			m_rb2d.velocity = new Vector3(0, 0, 0);
+		if (moveHorizontal != 0){
+			HorizontalMovement();
+		}
+		if (moveVertical != 0){
+			VerticalMovement();
 		}
 	}
 
-	void MoveHorizontal() {
-		if (m_invert){
-			if(transform.position.x >= m_startPosition.x) {
-			m_rb2d.velocity += (m_velocity * -m_moveSpeed) * Time.fixedDeltaTime;
-			} else if(transform.position.x <= m_targetPositionHorizontal.x) {
-				m_rb2d.velocity += (m_velocity * m_moveSpeed) * Time.fixedDeltaTime;
+	void HorizontalMovement(){
+		// If initial horizontal move amount is positive.
+		if (moveHorizontal > 0){
+			// If moving left and reached final position, reverse direction.
+			if (transform.localPosition.x <= startPosition.x){
+				moveObject.SetDistanceX(moveHorizontal);
+				moveObject.SetDistanceY(moveVertical);
+				moveObject.Move();
+			}
+			// If moving right and reached final position, reverse direction.
+			else if (transform.localPosition.x >= resetPosition.x){
+				moveObject.SetDistanceX(-moveHorizontal);
+				moveObject.SetDistanceY(-moveVertical);
+				moveObject.Move();
 			}
 		}
-		else{
-			if(transform.position.x <= m_startPosition.x) {
-				m_rb2d.velocity += (m_velocity * m_moveSpeed) * Time.fixedDeltaTime;
-			} else if(transform.position.x >= m_targetPositionHorizontal.x) {
-				m_rb2d.velocity += (m_velocity * -m_moveSpeed) * Time.fixedDeltaTime;
+		// If initial horizontal move amount is negative.
+		else if (moveHorizontal < 0){
+			// If moving right and reached final position, reverse direction.
+			if (transform.localPosition.x >= startPosition.x){
+				moveObject.SetDistanceX(moveHorizontal);
+				moveObject.SetDistanceY(moveVertical);
+				moveObject.Move();
+			}
+			// If moving left and reached final position, reverse direction.
+			else if (transform.localPosition.x <= resetPosition.x){
+				moveObject.SetDistanceX(-moveHorizontal);
+				moveObject.SetDistanceY(-moveVertical);
+				moveObject.Move();
+			}
+		}
+	}
+	void VerticalMovement(){
+		// If initial vertical move amount is positive.
+		if (moveVertical > 0){
+			// If moving down and reached final position, reverse direction.
+			if (transform.localPosition.y <= startPosition.y){
+				moveObject.SetDistanceX(moveHorizontal);
+				moveObject.SetDistanceY(moveVertical);
+				moveObject.Move();
+			}
+			// If moving up and reached final position, reverse direction.
+			else if (transform.localPosition.y >= resetPosition.y){
+				moveObject.SetDistanceX(-moveHorizontal);
+				moveObject.SetDistanceY(-moveVertical);
+				moveObject.Move();
+			}
+		}
+		// If initial vertical move amount is negative.
+		else if (moveVertical < 0){
+			// If moving up and reached final position, reverse direction.
+			if (transform.localPosition.y >= startPosition.y){
+				moveObject.SetDistanceX(moveHorizontal);
+				moveObject.SetDistanceY(moveVertical);
+				moveObject.Move();
+			}
+			// If moving down and reached final position, reverse direction.
+			else if (transform.localPosition.y <= resetPosition.y){
+				moveObject.SetDistanceX(-moveHorizontal);
+				moveObject.SetDistanceY(-moveVertical);
+				moveObject.Move();
 			}
 		}
 	}
 
-	void MoveVertical() {
-		if (m_invert){
-			if(transform.position.y >= m_startPosition.y) {
-			m_rb2d.velocity += (m_velocity * -m_moveSpeed) * Time.fixedDeltaTime;
-			} else if(transform.position.y <= m_targetPositionVertical.y) {
-				m_rb2d.velocity += (m_velocity * m_moveSpeed) * Time.fixedDeltaTime;
-			}
+	void OnCollisionEnter2D(Collision2D other){
+		if (other.gameObject.tag == "Player"){
+			GetComponent<Collider2D>().enabled = false;
 		}
-		else{
-			if(transform.position.y <= m_startPosition.y) {
-				m_rb2d.velocity += (m_velocity * m_moveSpeed) * Time.fixedDeltaTime;
-			} else if(transform.position.y >= m_targetPositionVertical.y) {
-				m_rb2d.velocity += (m_velocity * -m_moveSpeed) * Time.fixedDeltaTime;
-			}
+	}
+
+	void OnTriggerEnter2D(Collider2D other){
+		if (other.gameObject.tag == "Player"){
+			GetComponent<Collider2D>().enabled = true;
 		}
 	}
 }

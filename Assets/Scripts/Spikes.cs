@@ -2,23 +2,19 @@
 
 public class Spikes : MonoBehaviour {
 
-	public Player player;
-	private Rigidbody2D m_rb2d;
-
-	// Movement
-	public float maxResetTimer;
-	private float resetTimer;
-	private MoveObject moveObject;
 	public bool isHidden;
-	private bool isActive;
-	private bool isActivated;
 	public float moveSpeed;
 	public float moveHorizontal;
 	public float moveVertical;
+	private float maxResetTimer = 1.25f;
+	private float resetTimer;
+	private bool isActive;
+	private bool isActivated;
+	private Player player;
+	private MoveObject moveObject;
 
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<Player>();
-		m_rb2d = GetComponent<Rigidbody2D>();
 		resetTimer = maxResetTimer;
 		if (isHidden){
 			moveObject = GetComponent<MoveObject>();
