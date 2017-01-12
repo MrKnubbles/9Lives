@@ -2,29 +2,36 @@
 
 public class DoorSwitch : MonoBehaviour {
 
-	public GameObject m_greenSwitch;
-	public GameObject m_redSwitch;
-	public Player player;
-	public bool m_timedSwitch;
-	public bool m_activate;
-	public bool m_inRange = false;
-	public float m_maxDeactivateTimer;
-	private float m_deactivateTimer;
+	private Player player;
+	public GameObject onSwitch;
+	public GameObject offSwitch;
+	public bool isTimedSwitch;
+	public bool isActive;
+	public float maxDeactivateTimer;
+	private float deactivateTimer;
 
 	void Start() {
-		m_deactivateTimer = m_maxDeactivateTimer;
+		player = GameObject.Find("Player").GetComponent<Player>();
+		onSwitch = this.transform.GetChild(0).gameObject;
+		offSwitch = this.transform.GetChild(1).gameObject;
+		if (maxDeactivateTimer == 0){
+			isTimedSwitch = false;
+		}
+		else{
+			isTimedSwitch = true;
+			deactivateTimer = maxDeactivateTimer;
+		}
 	}
 
 	void Update() {
-		
 		HandleSwitch();
 
-		if(m_activate) {
-			m_greenSwitch.SetActive(true);
-			m_redSwitch.SetActive(false);
-			if(m_timedSwitch) {
-				m_deactivateTimer -= Time.deltaTime;
-				if(m_deactivateTimer <= 0) {
+		if(isActive) {
+			onSwitch.SetActive(true);
+			offSwitch.SetActive(false);
+			if(isTimedSwitch) {
+				deactivateTimer -= Time.deltaTime;
+				if(deactivateTimer <= 0) {
 					DeactivateSwitch();
 				}
 			}
@@ -35,29 +42,35 @@ public class DoorSwitch : MonoBehaviour {
 	}
 
 	void HandleSwitch() {
-		if(m_inRange) {
+		if(player.isNearSwitch) {
 			if(Input.GetKeyDown(KeyCode.E)) {
-				m_activate = true;
+				isActive = true;
 			}
 		}
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
 		if(other.tag == "Player") {
-			m_inRange = true;
+			player.isNearSwitch = true;
+		}
+	}
+
+	void OnTriggerStay2D(Collider2D other){
+		if (other.tag == "Player" && player.isActivatingSwitch){
+			isActive = true;
 		}
 	}
 	
 	void OnTriggerExit2D(Collider2D other) {
 		if(other.tag == "Player") {
-			m_inRange = false;;
+			player.isNearSwitch = false;
 		}
 	}
 
 	void DeactivateSwitch(){
-		m_redSwitch.SetActive(true);
-		m_greenSwitch.SetActive(false);
-		m_deactivateTimer = m_maxDeactivateTimer;
-		m_activate = false;
+		offSwitch.SetActive(true);
+		onSwitch.SetActive(false);
+		deactivateTimer = maxDeactivateTimer;
+		isActive = false;
 	}
 }

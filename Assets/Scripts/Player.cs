@@ -27,6 +27,9 @@ public class Player : MonoBehaviour {
 	public Vector3 pos;
 	public Vector3 facing;
 	private float slideTimer = 0;
+	// Needed for activating a switch.
+	public bool isNearSwitch = false;
+	public bool isActivatingSwitch = false;
 	
     void Start(){
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -118,7 +121,7 @@ public class Player : MonoBehaviour {
 		if (other.gameObject.tag == "FallingSpikes" && !isDead){
 			Die();
 		}
-		if (other.gameObject.tag == "Exit" && !isDead && exitDoor.m_activate){
+		if (other.gameObject.tag == "Exit" && !isDead && exitDoor.isActive){
 			// Hides player behind the exit door and stops time.
 			GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
 			Time.timeScale = 0;
