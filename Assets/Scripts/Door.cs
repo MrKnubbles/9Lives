@@ -13,7 +13,7 @@ public class Door : MonoBehaviour {
 		openDoor = this.transform.GetChild(0).gameObject;
 		closedDoor = this.transform.GetChild(1).gameObject;
 		if (GameObject.Find("DoorSwitch") != null){
-			doorSwitch = GameObject.Find("DoorSwitch").GetComponent<DoorSwitch>();
+			doorSwitch = GameObject.Find("DoorSwitch/Switches").GetComponent<DoorSwitch>();
 			CloseDoor();
 			isActive = false;
 		}
