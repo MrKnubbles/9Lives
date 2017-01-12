@@ -7,7 +7,7 @@ public class LevelManager : MonoBehaviour {
 	public static LevelManager Instance { get { return m_instance; } }
 	static bool GameBegin = false;
 	public ScoreTracker scoreTracker;
-	private bool playOnceMain = false;
+	public bool playOnceMain = false;
 	public bool playOnceLevel = false;
 	// To control which levels the player has unlocked.
 	public int maxLevels;
@@ -54,7 +54,7 @@ public class LevelManager : MonoBehaviour {
 		}
 	}
 	
-	void Update(){
+	void LateUpdate(){
 		if (!playOnceMain && SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main")){
 			// Sets the game objects needed to track and set locked levels, unlocked levels and level stars.
 			unlockedLevels = new GameObject[levelsPerPage * unlockedPages.Length];
@@ -65,9 +65,10 @@ public class LevelManager : MonoBehaviour {
 			unlockedPages[1] = HUD.transform.Find("LevelSelectScreen/Page2/Levels").gameObject;
 			lockedPages[0] = HUD.transform.Find("LevelSelectScreen/Page1/LockedLevels").gameObject;
 			lockedPages[1] = HUD.transform.Find("LevelSelectScreen/Page2/LockedLevels").gameObject;
+			GameObject.Find("LevelSelectScreen").gameObject.SetActive(false);
 
 			playerLevel = PlayerPrefs.GetInt("PlayerLevel");
-			starManager = GameObject.Find("HUD").transform.Find("LevelSelectScreen").gameObject.GetComponent<StarManager>();
+			starManager = HUD.transform.Find("LevelSelectScreen").gameObject.GetComponent<StarManager>();
 			maxLevels = PlayerPrefs.GetInt("PlayerLevel");
 			lockedLevelScript.FindLockedLevels();
 			lockedLevelScript.CheckUnlockedLevels();
@@ -77,6 +78,7 @@ public class LevelManager : MonoBehaviour {
 		}
 		if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main") && scoreTracker == null){
 			scoreTracker = GameObject.Find("HUD").GetComponent<ScoreTracker>();
+			playOnceMain = false;
 		}
 	}
 

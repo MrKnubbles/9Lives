@@ -2086,7 +2086,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &201954227
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4155,7 +4155,6 @@ GameObject:
   - component: {fileID: 368158912}
   - component: {fileID: 368158911}
   - component: {fileID: 368158910}
-  - component: {fileID: 368158909}
   m_Layer: 5
   m_Name: ShopButton
   m_TagString: Untagged
@@ -4181,40 +4180,6 @@ RectTransform:
   m_AnchoredPosition: {x: 160, y: -117.5}
   m_SizeDelta: {x: 91.5, y: 95}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &368158909
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 368158907}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca52362f768f94740a79c5d45e533b46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  levelSelectScreen: {fileID: 201954226}
-  controlsScreen: {fileID: 262055989}
-  mainMenuScreen: {fileID: 1307479219}
-  pauseMenuScreen: {fileID: 0}
-  optionsMenuScreen: {fileID: 1962852258}
-  creditsScreen: {fileID: 0}
-  shopScreen: {fileID: 0}
-  musicMuted: {fileID: 1407622955}
-  soundMuted: {fileID: 1613204444}
-  pauseButton: {fileID: 0}
-  page1: {fileID: 0}
-  page2: {fileID: 0}
-  music: {fileID: 0}
-  sound: {fileID: 0}
-  gameManager: {fileID: 0}
-  gameMan: {fileID: 0}
-  levelManager: {fileID: 0}
-  HUD: {fileID: 0}
-  currentLevel: 0
-  currentLevelName: 
-  nextLevelName: 
-  unityAds: {fileID: 0}
 --- !u!114 &368158910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4254,7 +4219,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 368158909}
+      - m_Target: {fileID: 1527496773}
         m_MethodName: ShowStore
         m_Mode: 1
         m_Arguments:
@@ -5011,7 +4976,6 @@ GameObject:
   - component: {fileID: 498366612}
   - component: {fileID: 498366611}
   - component: {fileID: 498366610}
-  - component: {fileID: 498366609}
   m_Layer: 5
   m_Name: QuitGameButton
   m_TagString: Untagged
@@ -5037,40 +5001,6 @@ RectTransform:
   m_AnchoredPosition: {x: 275, y: -117.5}
   m_SizeDelta: {x: 91.5, y: 95}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &498366609
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 498366607}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca52362f768f94740a79c5d45e533b46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  levelSelectScreen: {fileID: 201954226}
-  controlsScreen: {fileID: 262055989}
-  mainMenuScreen: {fileID: 1307479219}
-  pauseMenuScreen: {fileID: 0}
-  optionsMenuScreen: {fileID: 1962852258}
-  creditsScreen: {fileID: 0}
-  shopScreen: {fileID: 0}
-  musicMuted: {fileID: 1407622955}
-  soundMuted: {fileID: 1613204444}
-  pauseButton: {fileID: 0}
-  page1: {fileID: 0}
-  page2: {fileID: 0}
-  music: {fileID: 0}
-  sound: {fileID: 0}
-  gameManager: {fileID: 0}
-  gameMan: {fileID: 0}
-  levelManager: {fileID: 0}
-  HUD: {fileID: 0}
-  currentLevel: 0
-  currentLevelName: 
-  nextLevelName: 
-  unityAds: {fileID: 0}
 --- !u!114 &498366610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5110,7 +5040,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 498366609}
+      - m_Target: {fileID: 1527496773}
         m_MethodName: QuitGame
         m_Mode: 1
         m_Arguments:
@@ -5388,7 +5318,18 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114000011761138794, guid: 158b7e8875a3e0348afde42d0dc763ff,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1527496773}
+    - target: {fileID: 114000011761138794, guid: 158b7e8875a3e0348afde42d0dc763ff,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MuteMusic
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114000013831950880, guid: 158b7e8875a3e0348afde42d0dc763ff, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 158b7e8875a3e0348afde42d0dc763ff, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &523892913
@@ -9373,7 +9314,6 @@ GameObject:
   - component: {fileID: 910879128}
   - component: {fileID: 910879127}
   - component: {fileID: 910879126}
-  - component: {fileID: 910879125}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -9399,40 +9339,6 @@ RectTransform:
   m_AnchoredPosition: {x: 138.3, y: 75.3}
   m_SizeDelta: {x: 45.5, y: 47.75}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &910879125
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 910879123}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca52362f768f94740a79c5d45e533b46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  levelSelectScreen: {fileID: 201954226}
-  controlsScreen: {fileID: 262055989}
-  mainMenuScreen: {fileID: 1307479219}
-  pauseMenuScreen: {fileID: 0}
-  optionsMenuScreen: {fileID: 1962852258}
-  creditsScreen: {fileID: 1300634155}
-  shopScreen: {fileID: 0}
-  musicMuted: {fileID: 0}
-  soundMuted: {fileID: 0}
-  pauseButton: {fileID: 0}
-  page1: {fileID: 0}
-  page2: {fileID: 0}
-  music: {fileID: 0}
-  sound: {fileID: 0}
-  gameManager: {fileID: 37592813}
-  gameMan: {fileID: 0}
-  levelManager: {fileID: 0}
-  HUD: {fileID: 0}
-  currentLevel: 0
-  currentLevelName: 
-  nextLevelName: 
-  unityAds: {fileID: 0}
 --- !u!114 &910879126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9472,7 +9378,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 910879125}
+      - m_Target: {fileID: 1527496773}
         m_MethodName: BackButton
         m_Mode: 1
         m_Arguments:
@@ -11604,7 +11510,18 @@ Prefab:
       propertyPath: m_LocalScale.y
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114000011502023722, guid: 8ab19082e32d799438ab876ece714603,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1527496773}
+    - target: {fileID: 114000011502023722, guid: 8ab19082e32d799438ab876ece714603,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: MuteSound
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114000010466415306, guid: 8ab19082e32d799438ab876ece714603, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 8ab19082e32d799438ab876ece714603, type: 2}
   m_IsPrefabParent: 0
 --- !u!224 &1133806467 stripped
@@ -13188,7 +13105,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1291872439
 Transform:
   m_ObjectHideFlags: 0
@@ -14631,7 +14548,6 @@ GameObject:
   - component: {fileID: 1463851886}
   - component: {fileID: 1463851885}
   - component: {fileID: 1463851884}
-  - component: {fileID: 1463851883}
   m_Layer: 5
   m_Name: Play Button
   m_TagString: Untagged
@@ -14657,40 +14573,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -80}
   m_SizeDelta: {x: 182, y: 191}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1463851883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1463851881}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca52362f768f94740a79c5d45e533b46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  levelSelectScreen: {fileID: 201954226}
-  controlsScreen: {fileID: 2027757828}
-  mainMenuScreen: {fileID: 1307479219}
-  pauseMenuScreen: {fileID: 0}
-  optionsMenuScreen: {fileID: 1962852258}
-  creditsScreen: {fileID: 0}
-  shopScreen: {fileID: 0}
-  musicMuted: {fileID: 1407622955}
-  soundMuted: {fileID: 1613204444}
-  pauseButton: {fileID: 0}
-  page1: {fileID: 0}
-  page2: {fileID: 0}
-  music: {fileID: 0}
-  sound: {fileID: 0}
-  gameManager: {fileID: 37592813}
-  gameMan: {fileID: 0}
-  levelManager: {fileID: 0}
-  HUD: {fileID: 0}
-  currentLevel: 0
-  currentLevelName: 
-  nextLevelName: 
-  unityAds: {fileID: 0}
 --- !u!114 &1463851884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14730,7 +14612,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1463851883}
+      - m_Target: {fileID: 1527496773}
         m_MethodName: ShowLevelSelect
         m_Mode: 1
         m_Arguments:
@@ -16121,7 +16003,6 @@ GameObject:
   - component: {fileID: 1641061576}
   - component: {fileID: 1641061575}
   - component: {fileID: 1641061574}
-  - component: {fileID: 1641061573}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -16147,40 +16028,6 @@ RectTransform:
   m_AnchoredPosition: {x: 140, y: 71.1}
   m_SizeDelta: {x: 45.5, y: 47.75}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1641061573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1641061571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca52362f768f94740a79c5d45e533b46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  levelSelectScreen: {fileID: 201954226}
-  controlsScreen: {fileID: 262055989}
-  mainMenuScreen: {fileID: 1307479219}
-  pauseMenuScreen: {fileID: 0}
-  optionsMenuScreen: {fileID: 1962852258}
-  creditsScreen: {fileID: 1300634155}
-  shopScreen: {fileID: 0}
-  musicMuted: {fileID: 0}
-  soundMuted: {fileID: 0}
-  pauseButton: {fileID: 0}
-  page1: {fileID: 0}
-  page2: {fileID: 0}
-  music: {fileID: 0}
-  sound: {fileID: 0}
-  gameManager: {fileID: 37592813}
-  gameMan: {fileID: 0}
-  levelManager: {fileID: 0}
-  HUD: {fileID: 0}
-  currentLevel: 0
-  currentLevelName: 
-  nextLevelName: 
-  unityAds: {fileID: 0}
 --- !u!114 &1641061574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16220,7 +16067,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1641061573}
+      - m_Target: {fileID: 1527496773}
         m_MethodName: BackButton
         m_Mode: 1
         m_Arguments:
@@ -16619,7 +16466,6 @@ GameObject:
   - component: {fileID: 1690397104}
   - component: {fileID: 1690397103}
   - component: {fileID: 1690397102}
-  - component: {fileID: 1690397105}
   m_Layer: 0
   m_Name: CreditsButton
   m_TagString: Untagged
@@ -16685,7 +16531,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1690397105}
+      - m_Target: {fileID: 1527496773}
         m_MethodName: ShowCredits
         m_Mode: 1
         m_Arguments:
@@ -16731,40 +16577,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1690397100}
---- !u!114 &1690397105
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1690397100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca52362f768f94740a79c5d45e533b46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  levelSelectScreen: {fileID: 0}
-  controlsScreen: {fileID: 0}
-  mainMenuScreen: {fileID: 0}
-  pauseMenuScreen: {fileID: 0}
-  optionsMenuScreen: {fileID: 1962852258}
-  creditsScreen: {fileID: 1300634155}
-  shopScreen: {fileID: 0}
-  musicMuted: {fileID: 1407622955}
-  soundMuted: {fileID: 1613204444}
-  pauseButton: {fileID: 0}
-  page1: {fileID: 0}
-  page2: {fileID: 0}
-  music: {fileID: 0}
-  sound: {fileID: 0}
-  gameManager: {fileID: 37592813}
-  gameMan: {fileID: 0}
-  levelManager: {fileID: 0}
-  HUD: {fileID: 0}
-  currentLevel: 0
-  currentLevelName: 
-  nextLevelName: 
-  unityAds: {fileID: 0}
 --- !u!1 &1700746363
 GameObject:
   m_ObjectHideFlags: 0
@@ -18531,7 +18343,6 @@ GameObject:
   - component: {fileID: 1827272102}
   - component: {fileID: 1827272101}
   - component: {fileID: 1827272100}
-  - component: {fileID: 1827272099}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -18557,40 +18368,6 @@ RectTransform:
   m_AnchoredPosition: {x: 140, y: 71.1}
   m_SizeDelta: {x: 45.5, y: 47.75}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1827272099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1827272097}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca52362f768f94740a79c5d45e533b46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  levelSelectScreen: {fileID: 611395000}
-  controlsScreen: {fileID: 262055989}
-  mainMenuScreen: {fileID: 1307479219}
-  pauseMenuScreen: {fileID: 0}
-  optionsMenuScreen: {fileID: 1962852258}
-  creditsScreen: {fileID: 1300634155}
-  shopScreen: {fileID: 0}
-  musicMuted: {fileID: 0}
-  soundMuted: {fileID: 0}
-  pauseButton: {fileID: 0}
-  page1: {fileID: 0}
-  page2: {fileID: 0}
-  music: {fileID: 0}
-  sound: {fileID: 0}
-  gameManager: {fileID: 37592813}
-  gameMan: {fileID: 0}
-  levelManager: {fileID: 0}
-  HUD: {fileID: 0}
-  currentLevel: 0
-  currentLevelName: 
-  nextLevelName: 
-  unityAds: {fileID: 0}
 --- !u!114 &1827272100
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18630,7 +18407,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1827272099}
+      - m_Target: {fileID: 1527496773}
         m_MethodName: BackButton
         m_Mode: 1
         m_Arguments:
@@ -20315,11 +20092,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f7e4a12b1b525a46954e19f6608f982, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreTracker: {fileID: 0}
+  playOnceMain: 0
+  playOnceLevel: 0
   maxLevels: 0
   lockedLevelScript: {fileID: 0}
   starManager: {fileID: 0}
-  scoreTracker: {fileID: 0}
-  playOnceLevel: 0
   HUD: {fileID: 0}
   levelsPerPage: 15
   unlockedPages:
@@ -20512,7 +20290,6 @@ GameObject:
   - component: {fileID: 1980166401}
   - component: {fileID: 1980166400}
   - component: {fileID: 1980166399}
-  - component: {fileID: 1980166398}
   m_Layer: 5
   m_Name: OptionsButton
   m_TagString: Untagged
@@ -20538,40 +20315,6 @@ RectTransform:
   m_AnchoredPosition: {x: -160, y: -117.5}
   m_SizeDelta: {x: 91.5, y: 95}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1980166398
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1980166396}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca52362f768f94740a79c5d45e533b46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  levelSelectScreen: {fileID: 201954226}
-  controlsScreen: {fileID: 262055989}
-  mainMenuScreen: {fileID: 1307479219}
-  pauseMenuScreen: {fileID: 0}
-  optionsMenuScreen: {fileID: 1962852258}
-  creditsScreen: {fileID: 0}
-  shopScreen: {fileID: 0}
-  musicMuted: {fileID: 1407622955}
-  soundMuted: {fileID: 1613204444}
-  pauseButton: {fileID: 0}
-  page1: {fileID: 0}
-  page2: {fileID: 0}
-  music: {fileID: 0}
-  sound: {fileID: 0}
-  gameManager: {fileID: 0}
-  gameMan: {fileID: 0}
-  levelManager: {fileID: 0}
-  HUD: {fileID: 0}
-  currentLevel: 0
-  currentLevelName: 
-  nextLevelName: 
-  unityAds: {fileID: 0}
 --- !u!114 &1980166399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20611,7 +20354,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1980166398}
+      - m_Target: {fileID: 1527496773}
         m_MethodName: ShowOptions
         m_Mode: 1
         m_Arguments:
@@ -21008,7 +20751,6 @@ GameObject:
   - component: {fileID: 2027757833}
   - component: {fileID: 2027757832}
   - component: {fileID: 2027757831}
-  - component: {fileID: 2027757830}
   m_Layer: 5
   m_Name: ControlsButton
   m_TagString: Untagged
@@ -21034,40 +20776,6 @@ RectTransform:
   m_AnchoredPosition: {x: -275, y: -117.5}
   m_SizeDelta: {x: 91.5, y: 95}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2027757830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2027757828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca52362f768f94740a79c5d45e533b46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  levelSelectScreen: {fileID: 201954226}
-  controlsScreen: {fileID: 262055989}
-  mainMenuScreen: {fileID: 1307479219}
-  pauseMenuScreen: {fileID: 0}
-  optionsMenuScreen: {fileID: 1962852258}
-  creditsScreen: {fileID: 0}
-  shopScreen: {fileID: 0}
-  musicMuted: {fileID: 1407622955}
-  soundMuted: {fileID: 1613204444}
-  pauseButton: {fileID: 0}
-  page1: {fileID: 0}
-  page2: {fileID: 0}
-  music: {fileID: 0}
-  sound: {fileID: 0}
-  gameManager: {fileID: 0}
-  gameMan: {fileID: 0}
-  levelManager: {fileID: 0}
-  HUD: {fileID: 0}
-  currentLevel: 0
-  currentLevelName: 
-  nextLevelName: 
-  unityAds: {fileID: 0}
 --- !u!114 &2027757831
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21107,7 +20815,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2027757830}
+      - m_Target: {fileID: 1527496773}
         m_MethodName: ShowControls
         m_Mode: 1
         m_Arguments:
@@ -21419,7 +21127,6 @@ GameObject:
   - component: {fileID: 2067842580}
   - component: {fileID: 2067842579}
   - component: {fileID: 2067842578}
-  - component: {fileID: 2067842577}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -21445,40 +21152,6 @@ RectTransform:
   m_AnchoredPosition: {x: 140.00003, y: 71.09999}
   m_SizeDelta: {x: 45.5, y: 47.75}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2067842577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2067842575}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca52362f768f94740a79c5d45e533b46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  levelSelectScreen: {fileID: 201954226}
-  controlsScreen: {fileID: 262055989}
-  mainMenuScreen: {fileID: 1307479219}
-  pauseMenuScreen: {fileID: 0}
-  optionsMenuScreen: {fileID: 1962852258}
-  creditsScreen: {fileID: 1300634155}
-  shopScreen: {fileID: 0}
-  musicMuted: {fileID: 0}
-  soundMuted: {fileID: 0}
-  pauseButton: {fileID: 0}
-  page1: {fileID: 0}
-  page2: {fileID: 0}
-  music: {fileID: 0}
-  sound: {fileID: 0}
-  gameManager: {fileID: 37592813}
-  gameMan: {fileID: 0}
-  levelManager: {fileID: 0}
-  HUD: {fileID: 0}
-  currentLevel: 0
-  currentLevelName: 
-  nextLevelName: 
-  unityAds: {fileID: 0}
 --- !u!114 &2067842578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21518,7 +21191,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2067842577}
+      - m_Target: {fileID: 1527496773}
         m_MethodName: BackButton
         m_Mode: 1
         m_Arguments:
@@ -22326,7 +21999,6 @@ GameObject:
   - component: {fileID: 2122120220}
   - component: {fileID: 2122120219}
   - component: {fileID: 2122120218}
-  - component: {fileID: 2122120217}
   m_Layer: 5
   m_Name: CloseButton
   m_TagString: Untagged
@@ -22352,40 +22024,6 @@ RectTransform:
   m_AnchoredPosition: {x: 71.7, y: 93.7}
   m_SizeDelta: {x: 45.5, y: 47.75}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2122120217
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2122120215}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca52362f768f94740a79c5d45e533b46, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  levelSelectScreen: {fileID: 201954226}
-  controlsScreen: {fileID: 262055989}
-  mainMenuScreen: {fileID: 1307479219}
-  pauseMenuScreen: {fileID: 0}
-  optionsMenuScreen: {fileID: 1962852258}
-  creditsScreen: {fileID: 1300634155}
-  shopScreen: {fileID: 0}
-  musicMuted: {fileID: 1407622955}
-  soundMuted: {fileID: 1613204444}
-  pauseButton: {fileID: 0}
-  page1: {fileID: 0}
-  page2: {fileID: 0}
-  music: {fileID: 0}
-  sound: {fileID: 0}
-  gameManager: {fileID: 37592813}
-  gameMan: {fileID: 0}
-  levelManager: {fileID: 0}
-  HUD: {fileID: 0}
-  currentLevel: 0
-  currentLevelName: 
-  nextLevelName: 
-  unityAds: {fileID: 0}
 --- !u!114 &2122120218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22425,7 +22063,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2122120217}
+      - m_Target: {fileID: 1527496773}
         m_MethodName: BackButton
         m_Mode: 1
         m_Arguments:
