@@ -43,7 +43,7 @@ public class DoorSwitch : MonoBehaviour {
 
 	void HandleSwitch() {
 		if(player.isNearSwitch) {
-			if(Input.GetKeyDown(KeyCode.E)) {
+			if(Input.GetKeyDown(KeyCode.E) || player.isActivatingSwitch) {
 				isActive = true;
 			}
 		}
@@ -56,9 +56,8 @@ public class DoorSwitch : MonoBehaviour {
 	}
 
 	void OnTriggerStay2D(Collider2D other){
-		if (other.tag == "Player" && player.isActivatingSwitch){
-			isActive = true;
-		}
+		if (other.tag == "Player")
+			player.isNearSwitch = true;
 	}
 	
 	void OnTriggerExit2D(Collider2D other) {

@@ -231,6 +231,38 @@ public class LevelManager : MonoBehaviour {
 				playOnceMain = false;
 				playOnceLevel = false;
 				break;
+			case "Level19":
+				if (playerLevel <= 19){
+					playerLevel++;
+					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
+				}
+				playOnceMain = false;
+				playOnceLevel = false;
+				break;
+			case "Level20":
+				if (playerLevel <= 20){
+					playerLevel++;
+					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
+				}
+				playOnceMain = false;
+				playOnceLevel = false;
+				break;
+			case "Level21":
+				if (playerLevel <= 21){
+					playerLevel++;
+					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
+				}
+				playOnceMain = false;
+				playOnceLevel = false;
+				break;
+			case "Level22":
+				if (playerLevel <= 22){
+					playerLevel++;
+					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
+				}
+				playOnceMain = false;
+				playOnceLevel = false;
+				break;
 		}
 	}
 }

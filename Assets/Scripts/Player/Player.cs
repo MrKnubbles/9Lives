@@ -83,6 +83,7 @@ public class Player : MonoBehaviour {
 		audio.clip = sfxDie;
 		audio.Play();
 		GetComponent<Animator>().SetBool("isDead", true);
+		isActivatingSwitch = false;
 		if (lives == 1){
 			lives = 0;
 			bloodParticle.SetActive(false);
