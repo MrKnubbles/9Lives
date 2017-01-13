@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4000010167156284}
   - component: {fileID: 212000012221140302}
   - component: {fileID: 114000012520182638}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: SawBlade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4000012957803770}
   - component: {fileID: 198000010997780716}
   - component: {fileID: 199000014193610998}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: SparkParticles - Fast
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4000012792799602}
   - component: {fileID: 198000010454887594}
   - component: {fileID: 199000013842797138}
-  m_Layer: 11
+  m_Layer: 0
   m_Name: SparkParticles - Fast (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -73,7 +73,9 @@ GameObject:
   - component: {fileID: 114000013788043874}
   - component: {fileID: 50000011341966604}
   - component: {fileID: 58000010276134834}
-  m_Layer: 11
+  - component: {fileID: 114954049067609608}
+  - component: {fileID: 58527191239716474}
+  m_Layer: 0
   m_Name: Saw
   m_TagString: Trap
   m_Icon: {fileID: 0}
@@ -169,6 +171,20 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.775
+--- !u!58 &58527191239716474
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011946446812}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1
 --- !u!114 &114000012520182638
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -192,11 +208,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cfb831dda826fe4289af296e71e81fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_moveHorizontal: 0
-  m_moveVertical: 1
-  m_invert: 1
-  m_moveSpeed: 90
-  m_moveDistance: -6
+  moveSpeed: 2
+  moveHorizontal: 0
+  moveVertical: 0
+--- !u!114 &114954049067609608
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011946446812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a19643b6d44791e40b879bc9d62520f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!198 &198000010454887594
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -5456,7 +5481,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -317523991
+  m_SortingLayerID: 2031717509
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d124e0260e921e34a90b2763d81318d3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

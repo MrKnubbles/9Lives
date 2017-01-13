@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour {
 					player.isJumping = true;
 					player.isGrounded = false;
 				}
+				// Double jump
 				else if (player.isJumping && !player.isGrounded){
 					player.audio.clip = player.sfxDoubleJump;
 					player.audio.Play();
@@ -34,18 +35,13 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 
-	// public void DoubleJump(){
-	// 	player.audio.clip = player.sfxDoubleJump;
-	// 	player.audio.Play();
-	// 	player.rb2d.velocity = new Vector2(0, 0);
-	// 	player.rb2d.AddForce(transform.up * player.jumpSpeed / 1.25f);
-	// 	player.hasDoubleJumped = true;
-	// }
-
 	public void Special(){
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
 			if (!player.isDead){
-				if (player.isGrounded){
+				if (player.isNearSwitch){
+					ActivateSwitch();
+				}
+				else if (player.isGrounded){
 					Slide();
 				}
 				else{
@@ -53,6 +49,10 @@ public class PlayerMovement : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	private void ActivateSwitch(){
+		player.isActivatingSwitch = true;
 	}
 
 	private void Slam(){
@@ -85,14 +85,15 @@ public class PlayerMovement : MonoBehaviour {
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
 			if (!player.isDead){
 				if (player.isSliding && player.isFacingRight){
+					player.rb2d.velocity = new Vector2(player.rb2d.velocity.x, 0);
 					player.rb2d.velocity *= -1;
 				}
 				else if (!player.isSliding){
 					player.GetComponent<Animator>().SetBool("isRunning", true);
-					player.pos = player.transform.position;
+					player.pos = player.transform.localPosition;
 					player.facing = player.transform.localScale;
 					player.pos.x -= player.moveSpeed * Time.deltaTime;
-					player.transform.position = player.pos;
+					player.transform.localPosition = player.pos;
 				}
 				if (player.facing.x > 0){
 					player.facing.x *= -1;
@@ -107,14 +108,15 @@ public class PlayerMovement : MonoBehaviour {
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
 			if (!player.isDead){
 				if (player.isSliding && !player.isFacingRight){
+					player.rb2d.velocity = new Vector2(player.rb2d.velocity.x, 0);
 					player.rb2d.velocity *= -1;
 				}
 				else if (!player.isSliding){
 					player.GetComponent<Animator>().SetBool("isRunning", true);
-					player.pos = player.transform.position;
+					player.pos = player.transform.localPosition;
 					player.facing = player.transform.localScale;
 					player.pos.x += player.moveSpeed * Time.deltaTime;
-					player.transform.position = player.pos;
+					player.transform.localPosition = player.pos;
 				}
 				if (player.facing.x < 0){
 					player.facing.x *= -1;

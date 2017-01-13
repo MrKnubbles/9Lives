@@ -27,6 +27,9 @@ public class Player : MonoBehaviour {
 	public Vector3 pos;
 	public Vector3 facing;
 	private float slideTimer = 0;
+	// Needed for activating a switch.
+	public bool isNearSwitch = false;
+	public bool isActivatingSwitch = false;
 	
     void Start(){
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -80,10 +83,10 @@ public class Player : MonoBehaviour {
 		audio.clip = sfxDie;
 		audio.Play();
 		GetComponent<Animator>().SetBool("isDead", true);
+		isActivatingSwitch = false;
 		if (lives == 1){
 			lives = 0;
 			bloodParticle.SetActive(false);
-			//GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
 			gameManager.isGameOver = true;
 		}
 		else{
@@ -113,12 +116,21 @@ public class Player : MonoBehaviour {
 		if (other.gameObject.tag == "Trap" && !isDead){
 			Die();
 		}
+		if (other.gameObject.tag == "MovingPlatform"){
+			transform.parent = other.transform;
+		}
+	}
+
+	void OnCollisionExit2D(Collision2D other){
+		if (other.gameObject.tag == "MovingPlatform"){
+			transform.parent = null;
+		}
 	}
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.gameObject.tag == "FallingSpikes" && !isDead){
 			Die();
 		}
-		if (other.gameObject.tag == "Exit" && !isDead && exitDoor.m_activate){
+		if (other.gameObject.tag == "Exit" && !isDead && exitDoor.isActive){
 			// Hides player behind the exit door and stops time.
 			GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
 			Time.timeScale = 0;

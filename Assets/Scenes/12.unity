@@ -690,7 +690,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000010161910770, guid: 74224ac316f7a0542855a89c6603cc99, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.44549948
+      value: 0.44022843
       objectReference: {fileID: 0}
     - target: {fileID: 4000010161910770, guid: 74224ac316f7a0542855a89c6603cc99, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1664,25 +1664,6 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
---- !u!1 &625020059 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 1414744925010004, guid: 0527d057ab17585438327874fb5df3ff,
-    type: 2}
-  m_PrefabInternal: {fileID: 716814584}
---- !u!61 &625020062
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 625020059}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_Offset: {x: 0, y: -0.2}
-  serializedVersion: 2
-  m_Size: {x: 1, y: 0.6}
 --- !u!1001 &633344425
 Prefab:
   m_ObjectHideFlags: 0
@@ -1980,46 +1961,6 @@ Prefab:
       propertyPath: m_Name
       value: FallingSpikes1
       objectReference: {fileID: 0}
-    - target: {fileID: 4349974913415670, guid: 0527d057ab17585438327874fb5df3ff, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4349974913415670, guid: 0527d057ab17585438327874fb5df3ff, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 50712407208779850, guid: 0527d057ab17585438327874fb5df3ff,
-        type: 2}
-      propertyPath: m_LinearDrag
-      value: 7.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 61631165513161168, guid: 0527d057ab17585438327874fb5df3ff,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1203913740873572, guid: 0527d057ab17585438327874fb5df3ff, type: 2}
-      propertyPath: m_TagString
-      value: Trap
-      objectReference: {fileID: 0}
-    - target: {fileID: 1414744925010004, guid: 0527d057ab17585438327874fb5df3ff, type: 2}
-      propertyPath: m_TagString
-      value: FallingSpikes
-      objectReference: {fileID: 0}
-    - target: {fileID: 1414744925010004, guid: 0527d057ab17585438327874fb5df3ff, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 61608260814502766, guid: 0527d057ab17585438327874fb5df3ff,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 61608260814502766, guid: 0527d057ab17585438327874fb5df3ff,
-        type: 2}
-      propertyPath: m_Size.x
-      value: 1.75
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0527d057ab17585438327874fb5df3ff, type: 2}
   m_IsPrefabParent: 0
@@ -2170,7 +2111,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000014020108118, guid: f0fd98f1e4278fe4588dc2caf8958c2f, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.44549948
+      value: 0.44022843
       objectReference: {fileID: 0}
     - target: {fileID: 4000014020108118, guid: f0fd98f1e4278fe4588dc2caf8958c2f, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2890,7 +2831,6 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 909751143}
-  - component: {fileID: 909751144}
   m_Layer: 0
   m_Name: Ceiling
   m_TagString: Platform
@@ -2931,20 +2871,6 @@ Transform:
   m_Father: {fileID: 2017667375}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &909751144
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 909751142}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_Offset: {x: 9, y: 0}
-  serializedVersion: 2
-  m_Size: {x: 19, y: 0.9725}
 --- !u!1001 &964900485
 Prefab:
   m_ObjectHideFlags: 0
@@ -4649,11 +4575,6 @@ Prefab:
       propertyPath: m_Name
       value: FallingSpikes2
       objectReference: {fileID: 0}
-    - target: {fileID: 50712407208779850, guid: 0527d057ab17585438327874fb5df3ff,
-        type: 2}
-      propertyPath: m_LinearDrag
-      value: 7.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0527d057ab17585438327874fb5df3ff, type: 2}
   m_IsPrefabParent: 0
@@ -5668,7 +5589,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4555679131544594, guid: 5ad77bf0758a70549aff29bc7afc69f7, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2.975
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 4555679131544594, guid: 5ad77bf0758a70549aff29bc7afc69f7, type: 2}
       propertyPath: m_LocalPosition.z

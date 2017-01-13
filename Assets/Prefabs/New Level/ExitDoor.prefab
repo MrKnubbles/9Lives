@@ -100,7 +100,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4755003260128880}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4753264064115434
 Transform:
@@ -113,7 +113,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4755003260128880}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4755003260128880
 Transform:
@@ -125,8 +125,8 @@ Transform:
   m_LocalPosition: {x: 8, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4732025712397196}
   - {fileID: 4753264064115434}
+  - {fileID: 4732025712397196}
   m_Father: {fileID: 4608610891876368}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -155,15 +155,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa3122885af53644bc0a53fde485da5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_openDoor: {fileID: 1348787064947138}
-  m_closedDoor: {fileID: 1713201890636554}
-  doorSwitch1: {fileID: 0}
-  doorSwitch2: {fileID: 0}
-  player: {fileID: 0}
-  m_timedDoor: 0
-  m_hasTwoSwitches: 0
-  m_activate: 1
-  m_maxDeactivateTimer: 0
+  doorSwitch: {fileID: 0}
+  isActive: 1
 --- !u!212 &212488738095229404
 SpriteRenderer:
   m_ObjectHideFlags: 1

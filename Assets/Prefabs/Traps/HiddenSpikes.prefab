@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 60595735473487948}
   - component: {fileID: 61149169933829552}
   - component: {fileID: 212723862054251224}
+  - component: {fileID: 114217385784844632}
   m_Layer: 0
   m_Name: HiddenSpikes
   m_TagString: Trap
@@ -38,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1081739294413208}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.975, z: 0}
+  m_LocalPosition: {x: 0, y: -2, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -97,6 +98,17 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 1}
   serializedVersion: 2
   m_Size: {x: 1.5, y: 3}
+--- !u!114 &114217385784844632
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1081739294413208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a19643b6d44791e40b879bc9d62520f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114548584855416138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -109,15 +121,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  m_invert: 0
-  m_activate: 0
-  m_moveUp: 1
-  m_moveDown: 0
-  m_moveLeft: 0
-  m_moveRight: 0
-  m_moveSpeed: 20
-  m_moveDistance: 0.9
-  m_maxRetractTimer: 1.05
+  maxResetTimer: 1.25
+  isHidden: 1
+  moveSpeed: 3
+  moveHorizontal: 0
+  moveVertical: 1
 --- !u!212 &212723862054251224
 SpriteRenderer:
   m_ObjectHideFlags: 1

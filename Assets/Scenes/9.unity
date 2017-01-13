@@ -469,7 +469,7 @@ MonoBehaviour:
   isPaused: 0
   isGameOver: 0
   isGameStarted: 0
-  isLevelOver: 0
+  isLevelComplete: 0
 --- !u!4 &156555196
 Transform:
   m_ObjectHideFlags: 0
@@ -592,6 +592,11 @@ Prefab:
     - target: {fileID: 114000013788043874, guid: 8209863b543939d4e81a970f49029f50,
         type: 2}
       propertyPath: m_moveDistance
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000013788043874, guid: 8209863b543939d4e81a970f49029f50,
+        type: 2}
+      propertyPath: moveVertical
       value: -6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -4648,7 +4653,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4555679131544594, guid: 5ad77bf0758a70549aff29bc7afc69f7, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.9725
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 4555679131544594, guid: 5ad77bf0758a70549aff29bc7afc69f7, type: 2}
       propertyPath: m_LocalPosition.z
@@ -4691,6 +4696,26 @@ Prefab:
     - target: {fileID: 4555679131544594, guid: 5ad77bf0758a70549aff29bc7afc69f7, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114548584855416138, guid: 5ad77bf0758a70549aff29bc7afc69f7,
+        type: 2}
+      propertyPath: moveVertical
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114548584855416138, guid: 5ad77bf0758a70549aff29bc7afc69f7,
+        type: 2}
+      propertyPath: moveHorizontal
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114548584855416138, guid: 5ad77bf0758a70549aff29bc7afc69f7,
+        type: 2}
+      propertyPath: isHidden
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114548584855416138, guid: 5ad77bf0758a70549aff29bc7afc69f7,
+        type: 2}
+      propertyPath: moveSpeed
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5ad77bf0758a70549aff29bc7afc69f7, type: 2}
@@ -5496,7 +5521,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000014020108118, guid: f0fd98f1e4278fe4588dc2caf8958c2f, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2.424649
+      value: 2.408862
       objectReference: {fileID: 0}
     - target: {fileID: 4000014020108118, guid: f0fd98f1e4278fe4588dc2caf8958c2f, type: 2}
       propertyPath: m_LocalPosition.z
@@ -6437,7 +6462,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000010161910770, guid: 74224ac316f7a0542855a89c6603cc99, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2.424649
+      value: 2.408862
       objectReference: {fileID: 0}
     - target: {fileID: 4000010161910770, guid: 74224ac316f7a0542855a89c6603cc99, type: 2}
       propertyPath: m_LocalPosition.z

@@ -116,7 +116,7 @@ public class ScoreTracker : MonoBehaviour {
 			star3.SetActive(true);
 		}
 		CalculateScore();
-		levelManager.UnlockLevel("" + scene.name);
+		levelManager.UnlockLevel(levelNumber);
 	}
 
 	void GameOver(){
