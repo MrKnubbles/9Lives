@@ -6,9 +6,11 @@ public class DoorSwitch : MonoBehaviour {
 	public GameObject onSwitch;
 	public GameObject offSwitch;
 	public bool isTimedSwitch;
-	public bool isActive;
+	public bool isActive = false;
 	public float maxDeactivateTimer;
 	private float deactivateTimer;
+	private AudioManager audioManager;
+	public bool isTicking = false;
 
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<Player>();
@@ -20,6 +22,7 @@ public class DoorSwitch : MonoBehaviour {
 		else{
 			isTimedSwitch = true;
 			deactivateTimer = maxDeactivateTimer;
+			audioManager = AudioManager.Instance;
 		}
 	}
 
@@ -30,9 +33,16 @@ public class DoorSwitch : MonoBehaviour {
 			onSwitch.SetActive(true);
 			offSwitch.SetActive(false);
 			if(isTimedSwitch) {
+				if (!isTicking){
+					audioManager.PlayLoop(audioManager.sfxTicking);
+					isTicking = true;
+				}
 				deactivateTimer -= Time.deltaTime;
 				if(deactivateTimer <= 0) {
 					DeactivateSwitch();
+					// TODO: Find out how to target the ticking sfx specifically and stop it.
+					audioManager.sfx[0].Stop();
+					isTicking = false;
 				}
 			}
 		}
