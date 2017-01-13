@@ -87,7 +87,6 @@ public class Player : MonoBehaviour {
 		if (lives == 1){
 			lives = 0;
 			bloodParticle.SetActive(false);
-			//GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
 			gameManager.isGameOver = true;
 		}
 		else{
@@ -116,6 +115,15 @@ public class Player : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D other){
 		if (other.gameObject.tag == "Trap" && !isDead){
 			Die();
+		}
+		if (other.gameObject.tag == "MovingPlatform"){
+			transform.parent = other.transform;
+		}
+	}
+
+	void OnCollisionExit2D(Collision2D other){
+		if (other.gameObject.tag == "MovingPlatform"){
+			transform.parent = null;
 		}
 	}
 	void OnTriggerEnter2D(Collider2D other){

@@ -54,7 +54,7 @@ public class LevelManager : MonoBehaviour {
 		}
 	}
 	
-	void LateUpdate(){
+	void Update(){
 		if (!playOnceMain && SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main")){
 			// Sets the game objects needed to track and set locked levels, unlocked levels and level stars.
 			unlockedLevels = new GameObject[levelsPerPage * unlockedPages.Length];
@@ -82,187 +82,15 @@ public class LevelManager : MonoBehaviour {
 		}
 	}
 
-	public void UnlockLevel(string levelName){
+	public void UnlockLevel(int levelName){
 		if (PlayerPrefs.GetInt("Level" + levelName + "Score") == 0 || PlayerPrefs.GetInt("Level" + levelName + "Score") < scoreTracker.GetScore()){
 			PlayerPrefs.SetInt("Level" + levelName + "Score", scoreTracker.GetScore());
 		}
-		switch ("Level" + levelName){
-			case "Level1":
-				if (playerLevel <= 1){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level2":
-				if (playerLevel <= 2){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level3":
-				if (playerLevel <= 3){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level4":
-				if (playerLevel <= 4){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level5":
-				if (playerLevel <= 5){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level6":
-				if (playerLevel <= 6){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level7":
-				if (playerLevel <= 7){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level8":
-				if (playerLevel <= 8){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level9":
-				if (playerLevel <= 9){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level10":
-				if (playerLevel <= 10){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level11":
-				if (playerLevel <= 11){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level12":
-				if (playerLevel <= 12){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level13":
-				if (playerLevel <= 13){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level14":
-				if (playerLevel <= 14){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level15":
-				if (playerLevel <= 15){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level16":
-				if (playerLevel <= 16){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level17":
-				if (playerLevel <= 17){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level18":
-				if (playerLevel <= 18){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level19":
-				if (playerLevel <= 19){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level20":
-				if (playerLevel <= 20){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level21":
-				if (playerLevel <= 21){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
-			case "Level22":
-				if (playerLevel <= 22){
-					playerLevel++;
-					PlayerPrefs.SetInt("PlayerLevel", playerLevel);
-				}
-				playOnceMain = false;
-				playOnceLevel = false;
-				break;
+		if (playerLevel <= levelName){
+			playerLevel++;
+			PlayerPrefs.SetInt("PlayerLevel", playerLevel);
 		}
+		playOnceMain = false;
+		playOnceLevel = false;
 	}
 }

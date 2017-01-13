@@ -15,13 +15,13 @@ public class RightFootCollision : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.gameObject.tag == "Platform"){
+		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "MovingPlatform"){
 			isGrounded = true;
 		}
 	}
 
 	void OnTriggerStay2D(Collider2D other){
-		if (other.gameObject.tag == "Platform"){
+		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "MovingPlatform"){
 			if (leftFoot.isGrounded){
 				SetGrounded();
 			}
@@ -32,7 +32,7 @@ public class RightFootCollision : MonoBehaviour {
 	}
 
 	void OnTriggerExit2D(Collider2D other){
-		if (other.gameObject.tag == "Platform"){
+		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "MovingPlatform"){
 			isGrounded = false;
 		}
 	}
