@@ -29,6 +29,7 @@ public class ScoreTracker : MonoBehaviour {
 	//public LevelManager levelMan;
 	public LevelManager levelManager;
 	public Scene scene;
+	private AudioManager audioManager;
 	
 	void Awake(){
 		//GameObject levelMan = GameObject.Find("LevelManager");
@@ -53,6 +54,7 @@ public class ScoreTracker : MonoBehaviour {
 			worldNumber = 2;
 		}
 		levelNumberText.text = worldNumber + "-" + levelNumber;
+		audioManager = AudioManager.Instance;
 	}
 
 	// Update is called once per frame
@@ -104,7 +106,8 @@ public class ScoreTracker : MonoBehaviour {
 	void LevelComplete(){
 		levelCompleteScreen.SetActive(true);
 		pauseButton.SetActive(false);
-		//livesText.transform.parent.gameObject.SetActive(false);
+		Time.timeScale = 0;
+		audioManager.StopSFX();
 
 		if (score > 0){
 			star1.SetActive(true);
@@ -120,10 +123,10 @@ public class ScoreTracker : MonoBehaviour {
 	}
 
 	void GameOver(){
-		//Time.timeScale = 0;
+		Time.timeScale = 0;
+		audioManager.StopSFX();
 		gameOverScreen.SetActive(true);
 		pauseButton.SetActive(false);
-		//livesText.transform.parent.gameObject.SetActive(false);
 		CalculateScore();
 	}
 

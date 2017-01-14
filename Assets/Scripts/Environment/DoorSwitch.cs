@@ -40,9 +40,6 @@ public class DoorSwitch : MonoBehaviour {
 				deactivateTimer -= Time.deltaTime;
 				if(deactivateTimer <= 0) {
 					DeactivateSwitch();
-					// TODO: Find out how to target the ticking sfx specifically and stop it.
-					audioManager.sfx[0].Stop();
-					isTicking = false;
 				}
 			}
 		}
@@ -81,5 +78,10 @@ public class DoorSwitch : MonoBehaviour {
 		onSwitch.SetActive(false);
 		deactivateTimer = maxDeactivateTimer;
 		isActive = false;
+		if (isTimedSwitch){
+			// TODO: Find out how to target the ticking sfx specifically and stop it.
+			audioManager.sfx[0].Stop();
+			isTicking = false;
+		}
 	}
 }

@@ -40,14 +40,15 @@ public class GameManager : MonoBehaviour {
 	// 	Time.timeScale = 0;
 	// 	gameOverScreen.SetActive(true);
 	// }
-	void Update(){
-		if (isPaused){
-			Time.timeScale = 0;
-			audioManager.PauseSFX();
-		}
-		else{
-			Time.timeScale = 1;
-			audioManager.UnpauseSFX();
-		}
+	public void PauseGame(){
+		isPaused = true;
+		Time.timeScale = 0;
+		audioManager.PauseSFX();
+	}
+
+	public void UnpauseGame(){
+		isPaused = false;
+		Time.timeScale = 1;
+		audioManager.UnpauseSFX();
 	}
 }

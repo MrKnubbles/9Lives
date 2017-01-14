@@ -94,6 +94,21 @@ public class AudioManager : MonoBehaviour {
 		return emptySource;
 	}
 
+	// public AudioSource SetEmptyAudioForLoop(AudioClip clip){
+	// 	bool found = false;
+	// 	int i = 0;
+	// 	AudioSource emptyLoopSource = sfx[0];
+	// 	do {
+	// 		if (!sfx[i].isPlaying && !found) {
+	// 			found = true;
+	// 			emptyLoopSource = sfx[i];
+	// 			sfx[i].clip = clip;
+	// 		}
+	// 		i++;
+	// 	} while (i < sfx.Length && !found);
+	// 	return sfx[i];
+	// }
+
 	public void PlayOnce(AudioClip clip) { 
 		AudioSource soundFX = GetEmptyAudioSource();
 		soundFX.clip = clip;
@@ -126,6 +141,11 @@ public class AudioManager : MonoBehaviour {
 	public void UnpauseSFX(){
 		for (int i = 0; i < sfx.Length; i++) {
 			sfx[i].UnPause();
+		}
+	}
+	public void StopSFX(){
+		for (int i = 0; i < sfx.Length; i++) {
+			sfx[i].Stop();
 		}
 	}
 

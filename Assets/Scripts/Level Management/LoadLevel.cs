@@ -134,13 +134,13 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	public void PauseGame(){
-		gameManager.isPaused = true;
+		gameManager.PauseGame();
 		pauseMenuScreen.SetActive(true);
 		pauseButton.SetActive(false);
 	}
 
 	public void ResumeGame(){
-		gameManager.isPaused = false;
+		gameManager.UnpauseGame();
 		pauseMenuScreen.SetActive(false);
 		pauseButton.SetActive(true);
 	}
