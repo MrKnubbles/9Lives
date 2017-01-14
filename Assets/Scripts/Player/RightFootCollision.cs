@@ -23,10 +23,10 @@ public class RightFootCollision : MonoBehaviour {
 	void OnTriggerStay2D(Collider2D other){
 		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "MovingPlatform"){
 			if (leftFoot.isGrounded){
-				SetGrounded();
+				player.SetGrounded();
 			}
 			else if (player.rb2d.velocity.y == 0){
-				SetGrounded();
+				player.SetGrounded();
 			}
 		}
 	}
@@ -35,13 +35,5 @@ public class RightFootCollision : MonoBehaviour {
 		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "MovingPlatform"){
 			isGrounded = false;
 		}
-	}
-
-	void SetGrounded(){
-		player.GetComponent<Animator>().SetBool("isJumping", false);
-		player.GetComponent<Animator>().SetBool("isFalling", false);
-		player.isGrounded = true;
-		player.isJumping = false;
-		player.hasDoubleJumped = false;
 	}
 }

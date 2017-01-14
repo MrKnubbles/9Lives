@@ -15,33 +15,25 @@ public class LeftFootCollision : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.gameObject.tag == "Platform"){
+		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "MovingPlatform"){
 			isGrounded = true;
 		}
 	}
 
 	void OnTriggerStay2D(Collider2D other){
-		if (other.gameObject.tag == "Platform"){
+		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "MovingPlatform"){
 			if (rightFoot.isGrounded){
-				SetGrounded();
+				player.SetGrounded();
 			}
 			else if (player.rb2d.velocity.y == 0){
-				SetGrounded();
+				player.SetGrounded();
 			}
 		}
 	}
 
 	void OnTriggerExit2D(Collider2D other){
-		if (other.gameObject.tag == "Platform"){
+		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "MovingPlatform"){
 			isGrounded = false;
 		}
-	}
-
-	void SetGrounded(){
-		player.GetComponent<Animator>().SetBool("isJumping", false);
-		player.GetComponent<Animator>().SetBool("isFalling", false);
-		player.isGrounded = true;
-		player.isJumping = false;
-		player.hasDoubleJumped = false;
 	}
 }

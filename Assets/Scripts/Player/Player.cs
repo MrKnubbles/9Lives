@@ -56,7 +56,7 @@ public class Player : MonoBehaviour {
 				if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)){
 					action.MoveLeft();
 				}
-				if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) && !isSliding){
+				if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))){
 					action.Jump();
 				}
 				if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && !isSliding){
@@ -64,6 +64,9 @@ public class Player : MonoBehaviour {
 				}
 				if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow)){
 					GetComponent<Animator>().SetBool("isRunning", false);
+				}
+				if (rb2d.velocity.y < 0 && !isFalling){
+					SetFalling();
 				}
 			}
 		}
@@ -73,7 +76,7 @@ public class Player : MonoBehaviour {
 		GetComponent<Animator>().SetBool("isSliding", false);
 		GetComponent<CircleCollider2D>().enabled = true;
 		slideTimer = 0;
-		rb2d.velocity = new Vector2(0, 0);
+		rb2d.velocity = new Vector2(0, rb2d.velocity.y);
 		isSliding = false;
 	}
 
@@ -136,5 +139,23 @@ public class Player : MonoBehaviour {
 			Time.timeScale = 0;
 			gameManager.isLevelComplete = true;
 		}
+	}
+
+	public void SetGrounded(){
+		GetComponent<Animator>().SetBool("isJumping", false);
+		GetComponent<Animator>().SetBool("isFalling", false);
+		isGrounded = true;
+		isJumping = false;
+		isFalling = false;
+		hasDoubleJumped = false;
+	}
+
+	public void SetFalling(){
+		GetComponent<Animator>().SetBool("isJumping", false);
+		GetComponent<Animator>().SetBool("isSliding", false);
+		GetComponent<Animator>().SetBool("isFalling", true);
+		isGrounded = false;
+		isJumping = false;
+		isFalling = true;
 	}
 }
