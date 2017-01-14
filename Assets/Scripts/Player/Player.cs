@@ -112,6 +112,7 @@ public class Player : MonoBehaviour {
 			GetComponent<Animator>().SetBool("isRunning", false);
 			GetComponent<Animator>().SetBool("isDead", false);
 			transform.position = respawnPos.transform.position;
+			transform.localScale = respawnPos.transform.localScale;
 		}
 	}
 
