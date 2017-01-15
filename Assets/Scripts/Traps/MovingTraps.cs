@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-public class SawBlade : MonoBehaviour {
+public class MovingTraps : MonoBehaviour {
 
 	private Vector3 startPosition;
 	public float moveSpeed;
