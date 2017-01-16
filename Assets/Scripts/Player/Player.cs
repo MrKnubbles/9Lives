@@ -21,7 +21,8 @@ public class Player : MonoBehaviour {
 	public AudioClip sfxHit;
 	public AudioClip sfxJump;
 	public AudioClip sfxSlam;
-	public AudioSource audio;
+	// public AudioSource audio;
+	public AudioManager audioManager;
 	public Rigidbody2D rb2d;
 	public PlayerMovement action;
 	public Vector3 pos;
@@ -34,7 +35,8 @@ public class Player : MonoBehaviour {
     void Start(){
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 		rb2d = GetComponent<Rigidbody2D>();
-		audio = GetComponent<AudioSource>();
+		// audio = GetComponent<AudioSource>();
+		audioManager = AudioManager.Instance;
 		gameManager.isGameStarted = true;
 		GetComponent<Animator>().SetBool("isGameStarted", true);
 		gameManager.isLevelComplete = false;
@@ -83,8 +85,9 @@ public class Player : MonoBehaviour {
 	public void Die(){
 		bloodParticle.SetActive(true);
 		isDead = true;
-		audio.clip = sfxDie;
-		audio.Play();
+		audioManager.PlayOnce(sfxDie);
+		// audio.clip = sfxDie;
+		// audio.Play();
 		GetComponent<Animator>().SetBool("isDead", true);
 		isActivatingSwitch = false;
 		if (lives == 1){

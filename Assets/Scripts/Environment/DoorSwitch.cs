@@ -9,6 +9,7 @@ public class DoorSwitch : MonoBehaviour {
 	public bool isActive = false;
 	public float maxDeactivateTimer;
 	private float deactivateTimer;
+	public AudioClip sfxTicking;
 	private AudioManager audioManager;
 	public bool isTicking = false;
 
@@ -34,7 +35,8 @@ public class DoorSwitch : MonoBehaviour {
 			offSwitch.SetActive(false);
 			if(isTimedSwitch) {
 				if (!isTicking){
-					audioManager.PlayLoop(audioManager.sfxTicking);
+					// Sets the ticking sfx to the last location in the array.
+					audioManager.PlayLoop(sfxTicking);
 					isTicking = true;
 				}
 				deactivateTimer -= Time.deltaTime;
@@ -70,6 +72,7 @@ public class DoorSwitch : MonoBehaviour {
 	void OnTriggerExit2D(Collider2D other) {
 		if(other.tag == "Player") {
 			player.isNearSwitch = false;
+			player.isActivatingSwitch = false;
 		}
 	}
 
@@ -79,8 +82,8 @@ public class DoorSwitch : MonoBehaviour {
 		deactivateTimer = maxDeactivateTimer;
 		isActive = false;
 		if (isTimedSwitch){
-			// TODO: Find out how to target the ticking sfx specifically and stop it.
-			audioManager.sfx[0].Stop();
+			// Ticking sfx is always set to the last array location so you need to stop that one specifically.
+			audioManager.sfx[audioManager.sfx.Length-1].Stop();
 			isTicking = false;
 		}
 	}

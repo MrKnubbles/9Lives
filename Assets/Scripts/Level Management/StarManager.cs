@@ -39,18 +39,18 @@ public class StarManager : MonoBehaviour {
 				}
 			}
 			// Sets the stars for levels 31-45 on LevelSelectScreen.
-			// if (i >= levelManager.levelsPerPage * 2 && i < levelManager.levelsPerPage * 3){
-			// 	levelManager.unlockedLevels[i] = levelManager.unlockedPages[1].transform.GetChild(i-levelManager.levelsPerPage*2).gameObject;
-			// 	if (savedScore > 0){
-			// 		levelManager.unlockedLevels[i].transform.GetChild(1).transform.GetChild(0).gameObject.SetActive(true);
-			// 	}
-			// 	if (savedScore >= 350){
-			// 		levelManager.unlockedLevels[i].transform.GetChild(1).transform.GetChild(1).gameObject.SetActive(true);
-			// 	}
-			// 	if (savedScore >= 650){
-			// 		levelManager.unlockedLevels[i].transform.GetChild(1).transform.GetChild(2).gameObject.SetActive(true);
-			// 	}
-			// }
+			if (i >= levelManager.levelsPerPage * 2 && i < levelManager.levelsPerPage * 3){
+				levelManager.unlockedLevels[i] = levelManager.unlockedPages[2].transform.GetChild(i-levelManager.levelsPerPage*2).gameObject;
+				if (savedScore > 0){
+					levelManager.unlockedLevels[i].transform.GetChild(1).transform.GetChild(0).gameObject.SetActive(true);
+				}
+				if (savedScore >= 350){
+					levelManager.unlockedLevels[i].transform.GetChild(1).transform.GetChild(1).gameObject.SetActive(true);
+				}
+				if (savedScore >= 650){
+					levelManager.unlockedLevels[i].transform.GetChild(1).transform.GetChild(2).gameObject.SetActive(true);
+				}
+			}
 		}
 	}
 }

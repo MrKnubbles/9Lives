@@ -8,7 +8,6 @@ public class AudioManager : MonoBehaviour {
 
 	public AudioClip musicMain;
 	public AudioClip musicLevels;
-	public AudioClip sfxTicking;
 	public AudioSource music;
 	public AudioSource[] sfx;
 	private bool playOnce = false;
@@ -90,24 +89,9 @@ public class AudioManager : MonoBehaviour {
 				emptySource = sfx[i];
 			}
 			i++;
-		} while (i < sfx.Length && !found);
+		} while (i < (sfx.Length - 1) && !found);
 		return emptySource;
 	}
-
-	// public AudioSource SetEmptyAudioForLoop(AudioClip clip){
-	// 	bool found = false;
-	// 	int i = 0;
-	// 	AudioSource emptyLoopSource = sfx[0];
-	// 	do {
-	// 		if (!sfx[i].isPlaying && !found) {
-	// 			found = true;
-	// 			emptyLoopSource = sfx[i];
-	// 			sfx[i].clip = clip;
-	// 		}
-	// 		i++;
-	// 	} while (i < sfx.Length && !found);
-	// 	return sfx[i];
-	// }
 
 	public void PlayOnce(AudioClip clip) { 
 		AudioSource soundFX = GetEmptyAudioSource();
@@ -116,10 +100,11 @@ public class AudioManager : MonoBehaviour {
 	}
 
 	public void PlayLoop(AudioClip clip){
-		AudioSource soundFX = GetEmptyAudioSource();
-		soundFX.clip = clip;
-		soundFX.loop = true;
-		soundFX.Play();
+		// Used ONLY for the ticking sound on the TimedSwitches.
+		// Sets it to the last array location so it can be targeted and stopped.
+		sfx[sfx.Length - 1].clip = clip;
+		sfx[sfx.Length - 1].loop = true;
+		sfx[sfx.Length - 1].Play();
 	}
 
 	public void MuteMusic(){
