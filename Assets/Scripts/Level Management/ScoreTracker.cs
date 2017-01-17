@@ -71,8 +71,10 @@ public class ScoreTracker : MonoBehaviour {
 			else {
 				time -= Time.deltaTime;
 			}
-			timeText.text = "" + GetTime();
 			livesText.text = "x " + player.lives;
+			if (time >= 0){
+				timeText.text = "" + GetTime();
+			}
 		}
 		else if (gameManager.isLevelComplete){
 			timeText.text = "" + GetTime();
