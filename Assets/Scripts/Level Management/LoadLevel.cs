@@ -189,6 +189,16 @@ public class LoadLevel : MonoBehaviour {
 		return levelName;
 	}
 
+	public void ShowNextPage(){
+		if (page1.activeSelf){
+			page1.SetActive(false);
+			page2.SetActive(true);
+		}
+		else if (page2.activeSelf){
+			page2.SetActive(false);
+			page3.SetActive(true);
+		}
+	}
 	public void ShowPreviousPage(){
 		if (page2.activeSelf){
 			page2.SetActive(false);
@@ -200,14 +210,12 @@ public class LoadLevel : MonoBehaviour {
 		}
 	}
 
-	public void ShowNextPage(){
-		if (page1.activeSelf){
-			page1.SetActive(false);
-			page2.SetActive(true);
-		}
-		else if (page2.activeSelf){
-			page2.SetActive(false);
-			page3.SetActive(true);
-		}
+
+	public void ShowNextWorld(){
+		// TODO: Fill out with next world code.
+	}
+
+	public void ShowPreviousWorld(){
+		// TODO: Fill out with previous world code.
 	}
 }
