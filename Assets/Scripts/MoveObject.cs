@@ -10,8 +10,8 @@ public class MoveObject : MonoBehaviour {
 	private float rotationAmount	= 0;		
 	private bool isMoving 		= false; // is this element currently moving? 
 	private bool isRotating		= false;
-	// private bool doneMoving		= false;
-	// private bool doneRotating		= false;
+	private bool doneMoving		= false;
+	private bool doneRotating		= false;
 	private bool startMoving 		= false;
 	private bool startRotating	= false;
 	
@@ -24,8 +24,8 @@ public class MoveObject : MonoBehaviour {
 	public void Rotate() {startRotating = true; }
 	public bool isObjectMoving() { return isMoving; }
 	public bool isObjectRotating() { return isRotating; }
-	// public bool isDoneMoving() { return doneMoving; }
-	// public bool isDoneRotating() { return doneRotating; }
+	public bool isDoneMoving() { return doneMoving; }
+	public bool isDoneRotating() { return doneRotating; }
 		
 	void Update () {	
 		if ((!isMoving && startMoving) && (this)) {
@@ -42,10 +42,11 @@ public class MoveObject : MonoBehaviour {
 		}
 		// if (!isMoving && doneMoving){
 		// 	doneMoving = false;
+		// 	print("done");
 		// }
-		// if (!isRotating && doneRotating){
-		// 	doneRotating = false;
-		// }
+		if (!isRotating && doneRotating){
+			doneRotating = false;
+		}
 	}
 
 	// Co-Routines to do the work
@@ -62,7 +63,7 @@ public class MoveObject : MonoBehaviour {
 		
 			yield return null;
 		}
-		//doneMoving = true;
+		// doneMoving = true;
 		isMoving = false;
 		yield return 0;
 	}
@@ -80,7 +81,7 @@ public class MoveObject : MonoBehaviour {
 			
 			yield return null;
 		}
-		//doneMoving = true;
+		// doneMoving = true;
 		isMoving = false;
 		yield return 0;
 	}
