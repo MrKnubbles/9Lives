@@ -16,8 +16,8 @@ public class LevelManager : MonoBehaviour {
 	private int playerLevel = 1;
 	public GameObject HUD;
 	public int levelsPerPage = 15;
-	public GameObject[] unlockedPages = new GameObject[2];
-	public GameObject[] lockedPages = new GameObject[2];
+	public GameObject[] unlockedPages = new GameObject[3];
+	public GameObject[] lockedPages = new GameObject[3];
 	public GameObject[] unlockedLevels;
 	public GameObject[] lockedLevels;
 	
@@ -63,11 +63,20 @@ public class LevelManager : MonoBehaviour {
 			lockedLevelScript = HUD.transform.Find("LevelSelectScreen").gameObject.GetComponent<LockedLevels>();
 			unlockedPages[0] = HUD.transform.Find("LevelSelectScreen/Page1/Levels").gameObject;
 			unlockedPages[1] = HUD.transform.Find("LevelSelectScreen/Page2/Levels").gameObject;
+			unlockedPages[2] = HUD.transform.Find("LevelSelectScreen/Page3/Levels").gameObject;
 			lockedPages[0] = HUD.transform.Find("LevelSelectScreen/Page1/LockedLevels").gameObject;
 			lockedPages[1] = HUD.transform.Find("LevelSelectScreen/Page2/LockedLevels").gameObject;
+			lockedPages[2] = HUD.transform.Find("LevelSelectScreen/Page3/LockedLevels").gameObject;
 			GameObject.Find("LevelSelectScreen").gameObject.SetActive(false);
 
-			playerLevel = PlayerPrefs.GetInt("PlayerLevel");
+			if (PlayerPrefs.GetInt("PlayerLevel") <= 1){
+				playerLevel = 1;
+				PlayerPrefs.SetInt("PlayerLevel", 1);
+			}
+			else{
+				playerLevel = PlayerPrefs.GetInt("PlayerLevel");
+			}
+
 			starManager = HUD.transform.Find("LevelSelectScreen").gameObject.GetComponent<StarManager>();
 			maxLevels = PlayerPrefs.GetInt("PlayerLevel");
 			lockedLevelScript.FindLockedLevels();

@@ -16,6 +16,7 @@ public class LoadLevel : MonoBehaviour {
 	public GameObject pauseButton;
 	public GameObject page1;
 	public GameObject page2;
+	public GameObject page3;
 	public AudioSource music;
 	public AudioSource sound;
 	public GameManager gameManager;
@@ -26,7 +27,7 @@ public class LoadLevel : MonoBehaviour {
 	public string currentLevelName;
 	public string nextLevelName;
 	public UnityAds unityAds;
-	//public AudioManager audioManager = AudioManager.Instance;
+	private AudioManager audioManager;
 
 	void Start(){
 		Time.timeScale = 1;
@@ -47,14 +48,13 @@ public class LoadLevel : MonoBehaviour {
 			currentLevelName = "" + currentLevel;
 			nextLevelName = "" + (currentLevel + 1);
 		}
-		GameObject audioManager = GameObject.Find("AudioManager");
-		music = audioManager.GetComponent<AudioSource>();
+		audioManager = AudioManager.Instance;
+		music = audioManager.music;
 		levelManager = LevelManager.Instance;
 	}
 
 	void Update(){
 		//TODO: Make sure sound targets Player sound and mutes it.
-		//TODO: attach audio source to all game objects in scene.
 
 		// If you are in the Main scene and the Options menu is open... show if music/sound is muted.
 		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main") && optionsMenuScreen.activeSelf){
@@ -135,39 +135,36 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	public void PauseGame(){
-		Time.timeScale = 0;
-		gameManager.isPaused = true;
+		gameManager.PauseGame();
 		pauseMenuScreen.SetActive(true);
 		pauseButton.SetActive(false);
 	}
 
 	public void ResumeGame(){
-		Time.timeScale = 1;
-		gameManager.isPaused = false;
+		gameManager.UnpauseGame();
 		pauseMenuScreen.SetActive(false);
 		pauseButton.SetActive(true);
 	}
 
 	public void MuteMusic(){
-		if (!music.mute){
-			music.mute = true;
-			musicMuted.SetActive(true);
-		}
-		else {
-			music.mute = false;
+		audioManager.MuteMusic();
+
+		if (musicMuted.activeSelf){
 			musicMuted.SetActive(false);
+		}
+		else{
+			musicMuted.SetActive(true);
 		}
 	}
 
 	public void MuteSound(){
-		//TODO: Make this button mute ALL sound.
-		if (!sound.mute){
-			sound.mute = true;
-			soundMuted.SetActive(true);
-		}
-		else {
-			sound.mute = false;
+		audioManager.MuteSFX();
+
+		if (soundMuted.activeSelf){
 			soundMuted.SetActive(false);
+		}
+		else{
+			soundMuted.SetActive(true);
 		}
 	}
 
@@ -192,13 +189,33 @@ public class LoadLevel : MonoBehaviour {
 		return levelName;
 	}
 
-	public void ShowPageOne(){
-		page1.SetActive(true);
-		page2.SetActive(false);
+	public void ShowNextPage(){
+		if (page1.activeSelf){
+			page1.SetActive(false);
+			page2.SetActive(true);
+		}
+		else if (page2.activeSelf){
+			page2.SetActive(false);
+			page3.SetActive(true);
+		}
+	}
+	public void ShowPreviousPage(){
+		if (page2.activeSelf){
+			page2.SetActive(false);
+			page1.SetActive(true);
+		}
+		else if (page3.activeSelf){
+			page3.SetActive(false);
+			page2.SetActive(true);
+		}
 	}
 
-	public void ShowPageTwo(){
-		page1.SetActive(false);
-		page2.SetActive(true);
+
+	public void ShowNextWorld(){
+		// TODO: Fill out with next world code.
+	}
+
+	public void ShowPreviousWorld(){
+		// TODO: Fill out with previous world code.
 	}
 }

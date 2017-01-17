@@ -62,7 +62,7 @@ public class MoveObject : MonoBehaviour {
 		
 			yield return null;
 		}
-		//doneMoving = true;
+		// doneMoving = true;
 		isMoving = false;
 		yield return 0;
 	}
@@ -80,7 +80,7 @@ public class MoveObject : MonoBehaviour {
 			
 			yield return null;
 		}
-		//doneMoving = true;
+		// doneMoving = true;
 		isMoving = false;
 		yield return 0;
 	}

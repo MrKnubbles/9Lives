@@ -9,8 +9,13 @@ public class GameManager : MonoBehaviour {
 	public bool isGameOver = false;
 	public bool isGameStarted = false;
 	public bool isLevelComplete = false;
+	private AudioManager audioManager;
 	// public bool isLevelStarted = false;
 	// public float gameSpeed;
+
+	void Start(){
+		audioManager = AudioManager.Instance;
+	}
 	
 	// void Awake(){
 	// 	if (m_instance != null && m_instance != this) {
@@ -35,4 +40,15 @@ public class GameManager : MonoBehaviour {
 	// 	Time.timeScale = 0;
 	// 	gameOverScreen.SetActive(true);
 	// }
+	public void PauseGame(){
+		isPaused = true;
+		Time.timeScale = 0;
+		audioManager.PauseSFX();
+	}
+
+	public void UnpauseGame(){
+		isPaused = false;
+		Time.timeScale = 1;
+		audioManager.UnpauseSFX();
+	}
 }

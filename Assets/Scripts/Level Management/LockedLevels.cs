@@ -20,9 +20,9 @@ public class LockedLevels : MonoBehaviour {
 				levelManager.lockedLevels[i] = levelManager.lockedPages[1].transform.GetChild(i-levelManager.levelsPerPage).gameObject;
 			}
 			// Sets what the locked level game objects are for Levels 31-45;
-			// else if (i >= levelManager.levelsPerPage*2 && i < levelManager.levelsPerPage * 3){
-			// 	levelManager.lockedLevels[i] = levelManager.lockedPages[1].transform.GetChild(i-levelManager.levelsPerPage).gameObject;
-			// }
+			else if (i >= (levelManager.levelsPerPage * 2) && i < levelManager.levelsPerPage * 3){
+				levelManager.lockedLevels[i] = levelManager.lockedPages[2].transform.GetChild(i-levelManager.levelsPerPage*2).gameObject;
+			}
 		}
 	}
 

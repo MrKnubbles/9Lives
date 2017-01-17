@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System;
 
-public class SawBlade : MonoBehaviour {
+public class MovingTraps : MonoBehaviour {
 
 	private Vector3 startPosition;
 	public float moveSpeed;
@@ -9,8 +9,10 @@ public class SawBlade : MonoBehaviour {
 	public float moveVertical;
 	private Vector3 resetPosition;
 	private MoveObject moveObject;
+	private Player player;
 
 	void Start() {
+		player = GameObject.Find("Player").GetComponent<Player>();
 		startPosition = transform.localPosition;
 		resetPosition.x = startPosition.x + moveHorizontal;
 		resetPosition.y = startPosition.y + moveVertical;
@@ -102,7 +104,7 @@ public class SawBlade : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.gameObject.tag == "Player"){
+		if (other.gameObject.tag == "Player" && !player.isDead){
 			GetComponent<Collider2D>().enabled = true;
 		}
 	}

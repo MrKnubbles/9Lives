@@ -13,23 +13,29 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	
 	public void Jump(){
-		if (!player.isDead && !player.isSliding){
+		if (!player.isDead){
 			if (!player.hasDoubleJumped){
-				if (!player.isJumping && player.isGrounded){
-					player.audio.clip = player.sfxJump;
-					player.audio.Play();
+				player.GetComponent<Animator>().SetBool("isJumping", true);
+				player.GetComponent<Animator>().SetBool("isFalling", false);
+				if (player.isSliding){
+					player.ResetSlide();
+				}
+				if (!player.isJumping && !player.isFalling && player.isGrounded){
+					player.audioManager.PlayOnce(player.sfxJump);
+					// player.audio.Play();
 					player.rb2d.AddForce(transform.up * player.jumpSpeed);
-					player.GetComponent<Animator>().SetBool("isJumping", true);
+					player.isFalling = false;
 					player.isJumping = true;
 					player.isGrounded = false;
 				}
 				// Double jump
-				else if (player.isJumping && !player.isGrounded){
-					player.audio.clip = player.sfxDoubleJump;
-					player.audio.Play();
+				else if ((player.isJumping || player.isFalling) && !player.isGrounded){
+					player.audioManager.PlayOnce(player.sfxDoubleJump);
+					// player.audio.Play();
 					player.rb2d.velocity = new Vector2(0, 0);
 					player.rb2d.AddForce(transform.up * player.jumpSpeed / 1.25f);
 					player.hasDoubleJumped = true;
+					player.isFalling = false;
 				}
 			}
 		}
@@ -56,15 +62,16 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	private void Slam(){
-		player.audio.clip = player.sfxSlam;
-		player.audio.Play();
+		player.audioManager.PlayOnce(player.sfxSlam);
+		// player.audio.clip = player.sfxSlam;
+		// player.audio.Play();
 		player.rb2d.AddForce(transform.up * -player.jumpSpeed * 2);
 		player.GetComponent<Animator>().SetBool("isFalling", true);
 		player.isFalling = true;
 	}
 
 	private void Slide(){
-		if (!player.isSliding){
+		if (!player.isSliding && !player.isFalling){
 			player.GetComponent<Animator>().SetBool("isSliding", true);
 			player.GetComponent<CircleCollider2D>().enabled = false;
 			if (player.isFacingRight){

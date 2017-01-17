@@ -4,7 +4,7 @@ using System.Collections;
 public class ClearData : MonoBehaviour {
 
 	public void ClearAllData(){
-		PlayerPrefs.SetInt("PlayerLevel", 1);
+		PlayerPrefs.SetInt("PlayerLevel", 0);
 		print("PlayerLevel == " + PlayerPrefs.GetInt("PlayerLevel"));
 		for (int i = 1; i < 100; i++){
 			PlayerPrefs.SetInt("Level" + i + "Score", 0);
@@ -13,7 +13,7 @@ public class ClearData : MonoBehaviour {
 	}
 
 	public void UnlockAllLevels(){
-		PlayerPrefs.SetInt("PlayerLevel", 100);
+		PlayerPrefs.SetInt("PlayerLevel", 25);
 		print("PlayerLevel == " + PlayerPrefs.GetInt("PlayerLevel"));
 	}
 
