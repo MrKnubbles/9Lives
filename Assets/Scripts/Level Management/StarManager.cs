@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class StarManager : MonoBehaviour {
-	public LevelManager levelManager;
+	private LevelManager levelManager;
 	private int savedScore;
 
 	void Start(){

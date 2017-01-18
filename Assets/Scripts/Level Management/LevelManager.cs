@@ -18,9 +18,7 @@ public class LevelManager : MonoBehaviour {
 	public int levelsPerPage = 15;
 	public GameObject pageTracker;
 	public GameObject[] levelPages = new GameObject[3];
-	// public GameObject[] lockedPages = new GameObject[3];
 	public GameObject[] levelButtons;
-	//public GameObject[] lockedLevels;
 	
 
 	void Awake(){
@@ -59,16 +57,12 @@ public class LevelManager : MonoBehaviour {
 		if (!playOnceMain && SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main")){
 			// Sets the game objects needed to track and set locked levels, unlocked levels and level stars.
 			levelButtons = new GameObject[levelsPerPage * levelPages.Length];
-			//lockedLevels = new GameObject[levelsPerPage * lockedPages.Length];
 			HUD = GameObject.Find("HUD");
 			pageTracker = HUD.transform.Find("LevelSelectScreen/PageTracker").gameObject;
 			lockedLevelScript = HUD.transform.Find("LevelSelectScreen").gameObject.GetComponent<LockedLevels>();
 			levelPages[0] = HUD.transform.Find("LevelSelectScreen/Page1/Levels").gameObject;
 			levelPages[1] = HUD.transform.Find("LevelSelectScreen/Page2/Levels").gameObject;
 			levelPages[2] = HUD.transform.Find("LevelSelectScreen/Page3/Levels").gameObject;
-			// lockedPages[0] = HUD.transform.Find("LevelSelectScreen/Page1/LockedLevels").gameObject;
-			// lockedPages[1] = HUD.transform.Find("LevelSelectScreen/Page2/LockedLevels").gameObject;
-			// lockedPages[2] = HUD.transform.Find("LevelSelectScreen/Page3/LockedLevels").gameObject;
 			GameObject.Find("LevelSelectScreen").gameObject.SetActive(false);
 
 			// Sets the player to level 1 the first time they play.

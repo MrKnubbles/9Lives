@@ -7,8 +7,8 @@ public class ScoreTracker : MonoBehaviour {
 	public int levelScore;
 	public float time;
 	public float score;
-	public int worldNumber;
-	public int levelNumber;
+	private int worldNumber;
+	private int levelNumber;
 	public Text livesText;
 	public Text timeText;
 	public Text levelNumberText;
@@ -23,18 +23,13 @@ public class ScoreTracker : MonoBehaviour {
 	public GameObject levelCompleteScreen;
 	public GameObject gameOverScreen;
 	public GameObject pauseButton;
-	public GameManager gameManager;
-	public Player player;
-	//public LoadLevel level;
-	//public LevelManager levelMan;
-	public LevelManager levelManager;
-	public Scene scene;
+	private GameManager gameManager;
+	private Player player;
+	private LevelManager levelManager;
+	private Scene scene;
 	private AudioManager audioManager;
 	
 	void Awake(){
-		//GameObject levelMan = GameObject.Find("LevelManager");
-		//levelManager = levelMan.GetComponent<LevelManager>();
-		//GameObject LevelManager = GameObject.Find("LevelManager").GetComponent<LevelManager>().gameObject;
 		levelManager = LevelManager.Instance;
 		scene = SceneManager.GetActiveScene();
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -59,13 +54,9 @@ public class ScoreTracker : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-			// print("gm is started " + gameManager.isGameStarted);
-			// print("gm is game over " + gameManager.isGameOver);
-			// print("gm is level over " + gameManager.isLevelOver);
 		if (gameManager.isGameStarted && !gameManager.isGameOver && !gameManager.isLevelComplete){
 			if (time <= 0){
 				time = 0;
-				//gameManager.isLevelOver = true;
 				gameManager.isGameOver = true;
 			}
 			else {
@@ -80,13 +71,11 @@ public class ScoreTracker : MonoBehaviour {
 			timeText.text = "" + GetTime();
 			livesText.text = "" + player.lives;
 			score = GetTime() * player.lives;
-			//SetLevelScore();
 			LevelComplete();
 		}
 		else if (gameManager.isGameOver){
 			loseTimeText.text = "" + GetTime();
 			loseLivesText.text = "" + player.lives;
-			//score = GetTime() * player.lives;
 			GameOver();
 		}
 	}
@@ -98,12 +87,6 @@ public class ScoreTracker : MonoBehaviour {
 	public int GetTime(){
 		return Mathf.FloorToInt(time);
 	}
-
-	// public int SetLevelScore(){
-	// 	// PlayerPrefs.SetInt("score", GetScore());
-	// 	// return levelScore;
-	// 	//return Mathf.FloorToInt()
-	// }
 
 	void LevelComplete(){
 		levelCompleteScreen.SetActive(true);

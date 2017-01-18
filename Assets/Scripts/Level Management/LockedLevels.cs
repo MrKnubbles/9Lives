@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class LockedLevels : MonoBehaviour {
-	public LevelManager levelManager;
+	private LevelManager levelManager;
 	private GameObject HUD;
 
 	void Start(){
@@ -27,11 +27,10 @@ public class LockedLevels : MonoBehaviour {
 	}
 
 	public void CheckUnlockedLevels(){
-		int savedScore;
 		// Checks the scores for each level then unlocks whichever levels the player has already unlocked.
 		for (int i = 0; i < levelManager.maxLevels; i++){
-			savedScore = PlayerPrefs.GetInt("Level" + i + "Score");
 			levelManager.levelButtons[i].transform.GetChild(1).gameObject.SetActive(false);
+			levelManager.levelButtons[i].transform.GetChild(2).gameObject.SetActive(true);
 		}
 	}
 }
