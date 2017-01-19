@@ -39,7 +39,7 @@ public class LoadLevel : MonoBehaviour {
 		else if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main")){
 			musicMuted = HUD.transform.Find("Pause Menu/MuteMusicButton/MusicMuted").gameObject;
 			soundMuted = HUD.transform.Find("Pause Menu/MuteSoundButton/SoundMuted").gameObject;
-			pauseButton = HUD.transform.Find("PauseButton").gameObject;
+			pauseButton = HUD.transform.Find("ControllerBar/PauseButton").gameObject;
 			pauseMenuScreen = HUD.transform.Find("Pause Menu").gameObject;
 			gameMan = GameObject.Find("GameManager");
 			gameManager = gameMan.GetComponent<GameManager>();
@@ -54,8 +54,6 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	void Update(){
-		//TODO: Make sure sound targets Player sound and mutes it.
-
 		// If you are in the Main scene and the Options menu is open... show if music/sound is muted.
 		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main") && optionsMenuScreen.activeSelf){
 			if (music.mute){
@@ -126,7 +124,7 @@ public class LoadLevel : MonoBehaviour {
 		controlsScreen.SetActive(false);
 		optionsMenuScreen.SetActive(false);
 		creditsScreen.SetActive(false);
-		//shopScreen.SetActive(false);
+		shopScreen.SetActive(false);
 		mainMenuScreen.SetActive(true);
 	}
 
@@ -175,7 +173,7 @@ public class LoadLevel : MonoBehaviour {
 
 	public void ShowStore(){
 		//TODO: Make a shop screen.
-		//shopScreen.SetActive(true);
+		shopScreen.SetActive(true);
 	}
 
 	public void ShowCredits(){
@@ -183,36 +181,39 @@ public class LoadLevel : MonoBehaviour {
 		creditsScreen.SetActive(true);
 	}
 
-	public string GetSceneName(){
-		string levelName = "" + SceneManager.GetActiveScene();
-		print ("level name is " + SceneManager.GetActiveScene());
-		return levelName;
-	}
-
 	public void ShowNextPage(){
 		if (page1.activeSelf){
 			page1.SetActive(false);
 			page2.SetActive(true);
+			levelManager.pageTracker.transform.GetChild(0).gameObject.SetActive(false);
+			levelManager.pageTracker.transform.GetChild(1).gameObject.SetActive(true);
 		}
 		else if (page2.activeSelf){
 			page2.SetActive(false);
 			page3.SetActive(true);
+			levelManager.pageTracker.transform.GetChild(1).gameObject.SetActive(false);
+			levelManager.pageTracker.transform.GetChild(2).gameObject.SetActive(true);
 		}
 	}
 	public void ShowPreviousPage(){
 		if (page2.activeSelf){
 			page2.SetActive(false);
 			page1.SetActive(true);
+			levelManager.pageTracker.transform.GetChild(1).gameObject.SetActive(false);
+			levelManager.pageTracker.transform.GetChild(0).gameObject.SetActive(true);
 		}
 		else if (page3.activeSelf){
 			page3.SetActive(false);
 			page2.SetActive(true);
+			levelManager.pageTracker.transform.GetChild(2).gameObject.SetActive(false);
+			levelManager.pageTracker.transform.GetChild(1).gameObject.SetActive(true);
 		}
 	}
 
 
 	public void ShowNextWorld(){
 		// TODO: Fill out with next world code.
+		print("TODO: Show World 2 Level Select Screen.");
 	}
 
 	public void ShowPreviousWorld(){
