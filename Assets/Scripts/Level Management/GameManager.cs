@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
@@ -10,11 +11,13 @@ public class GameManager : MonoBehaviour {
 	public bool isGameStarted = false;
 	public bool isLevelComplete = false;
 	private AudioManager audioManager;
+	public LoadLevel loadLevel;
 	// public bool isLevelStarted = false;
 	// public float gameSpeed;
 
 	void Start(){
 		audioManager = AudioManager.Instance;
+		loadLevel = GameObject.Find("HUD").GetComponent<LoadLevel>();
 	}
 	
 	// void Awake(){
@@ -35,11 +38,13 @@ public class GameManager : MonoBehaviour {
 	// 		gameOverScreen = GameObject.Find("HUD/Game Over");
 	// 	}
 	// }
-
-	// public void GameOver(){
-	// 	Time.timeScale = 0;
-	// 	gameOverScreen.SetActive(true);
-	// }
+	
+	// If the game is minimized while in a level, the game will bring up the PauseMenu.
+	void OnApplicationPause(){
+		if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main")){
+			loadLevel.PauseGame();
+		}
+	}
 	public void PauseGame(){
 		isPaused = true;
 		Time.timeScale = 0;
