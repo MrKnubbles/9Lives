@@ -35,6 +35,7 @@ public class LoadLevel : MonoBehaviour {
 		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main")){
 			musicMuted = HUD.transform.Find("OptionsScreen/MuteMusicButton/MusicMuted").gameObject;
 			soundMuted = HUD.transform.Find("OptionsScreen/MuteSoundButton/SoundMuted").gameObject;
+			Screen.sleepTimeout = SleepTimeout.SystemSetting;
 		}
 		else if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main")){
 			musicMuted = HUD.transform.Find("Pause Menu/MuteMusicButton/MusicMuted").gameObject;
@@ -43,7 +44,6 @@ public class LoadLevel : MonoBehaviour {
 			pauseMenuScreen = HUD.transform.Find("Pause Menu").gameObject;
 			gameMan = GameObject.Find("GameManager");
 			gameManager = gameMan.GetComponent<GameManager>();
-			//sound = player.audio;
 			currentLevel = float.Parse(SceneManager.GetActiveScene().name);
 			currentLevelName = "" + currentLevel;
 			nextLevelName = "" + (currentLevel + 1);

@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour {
 	void Start(){
 		audioManager = AudioManager.Instance;
 		loadLevel = GameObject.Find("HUD").GetComponent<LoadLevel>();
+		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 	}
 	
 	// void Awake(){
@@ -38,7 +39,7 @@ public class GameManager : MonoBehaviour {
 	// 		gameOverScreen = GameObject.Find("HUD/Game Over");
 	// 	}
 	// }
-	
+
 	// If the game is minimized while in a level, the game will bring up the PauseMenu.
 	void OnApplicationPause(){
 		if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main")){
@@ -49,11 +50,13 @@ public class GameManager : MonoBehaviour {
 		isPaused = true;
 		Time.timeScale = 0;
 		audioManager.PauseSFX();
+		Screen.sleepTimeout = SleepTimeout.SystemSetting;
 	}
 
 	public void UnpauseGame(){
 		isPaused = false;
 		Time.timeScale = 1;
 		audioManager.UnpauseSFX();
+		Screen.sleepTimeout = SleepTimeout.NeverSleep;
 	}
 }
