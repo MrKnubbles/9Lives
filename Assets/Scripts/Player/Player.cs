@@ -86,8 +86,6 @@ public class Player : MonoBehaviour {
 		bloodParticle.SetActive(true);
 		isDead = true;
 		audioManager.PlayOnce(sfxDie);
-		// audio.clip = sfxDie;
-		// audio.Play();
 		GetComponent<Animator>().SetBool("isDead", true);
 		isActivatingSwitch = false;
 		if (lives == 1){
@@ -102,6 +100,7 @@ public class Player : MonoBehaviour {
 
 	void Respawn(){
 		if (lives != 0){
+			rb2d.velocity = new Vector2(0, 0);
 			bloodParticle.SetActive(false);
 			isDead = false;
 			isJumping = false;
