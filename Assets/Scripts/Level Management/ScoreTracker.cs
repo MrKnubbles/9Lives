@@ -105,6 +105,7 @@ public class ScoreTracker : MonoBehaviour {
 		}
 		CalculateScore();
 		levelManager.UnlockLevel(levelNumber);
+		Screen.sleepTimeout = SleepTimeout.SystemSetting;
 	}
 
 	void GameOver(){
@@ -113,6 +114,7 @@ public class ScoreTracker : MonoBehaviour {
 		gameOverScreen.SetActive(true);
 		pauseButton.SetActive(false);
 		CalculateScore();
+		Screen.sleepTimeout = SleepTimeout.SystemSetting;
 	}
 
 	void CalculateScore(){
