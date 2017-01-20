@@ -289,7 +289,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012222414346}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.5, y: -1.5200005, z: 0}
+  m_LocalPosition: {x: -8.5, y: -0.5383509, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 4000012724013482}
@@ -922,6 +922,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6713463b7f23f754bb7f67d434600b14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  masks: []
+  bloodSplatPrefab: {fileID: 1808495621626904, guid: 65ae1829183c4fc418c6a723009f1631,
+    type: 2}
   respawnPos: {fileID: 0}
   bloodParticle: {fileID: 1000011488121828}
   exitDoor: {fileID: 0}
@@ -941,11 +944,13 @@ MonoBehaviour:
   sfxHit: {fileID: 8300000, guid: d455f91e37d0fba47bd855f35722bb87, type: 3}
   sfxJump: {fileID: 8300000, guid: f864fbff903ad7c4ba8fc2b1af6f4f26, type: 3}
   sfxSlam: {fileID: 8300000, guid: 517ba4fc8c5361f4689cc0d808bc660a, type: 3}
-  audio: {fileID: 0}
+  audioManager: {fileID: 0}
   rb2d: {fileID: 0}
   action: {fileID: 114507981712792612}
   pos: {x: 0, y: 0, z: 0}
   facing: {x: 0, y: 0, z: 0}
+  isNearSwitch: 0
+  isActivatingSwitch: 0
 --- !u!114 &114439215138745156
 MonoBehaviour:
   m_ObjectHideFlags: 1
