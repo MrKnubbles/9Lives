@@ -153,15 +153,15 @@ public class Player : MonoBehaviour {
 	}
 
 	void SpawnBlood() {
-		Vector3 offsetY = new Vector3(0, -0.5f, 0);
+		//Vector3 offsetY = new Vector3(0, -0.5f, 0);
 		Vector3 spawnPosition = this.transform.position;
 		GameObject tmpBlood;
-		tmpBlood = GameObject.Instantiate(bloodParticle, spawnPosition += offsetY, Quaternion.identity);
+		tmpBlood = GameObject.Instantiate(bloodParticle, spawnPosition, Quaternion.identity);
 		foreach(GameObject g in masks) {
-			offsetY = new Vector3(0, -1f, 0);
+			//offsetY = new Vector3(0, -1f, 0);
 			GameObject tmpBloodSplat;
 			tmpBloodSplat = Instantiate(bloodSplatPrefab, g.transform, false);
-			tmpBloodSplat.transform.position = this.transform.position + offsetY;
+			tmpBloodSplat.transform.position = this.transform.position;
 		}
 
 		int random = Random.Range(0, 4);
