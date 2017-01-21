@@ -23,7 +23,7 @@ public class MovingPlatform : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
 		if (moveHorizontal != 0){
 			HorizontalMovement();
 		}
@@ -34,7 +34,7 @@ public class MovingPlatform : MonoBehaviour {
 
 	void HorizontalMovement(){
 		// If initial horizontal move amount is positive.
-		if (moveHorizontal > 0){
+		if (moveHorizontal > 0 && !moveObject.isObjectMoving()){
 			// If moving left and reached final position, reverse direction.
 			if (transform.localPosition.x <= startPosition.x){
 				moveObject.SetDistanceX(moveHorizontal);
@@ -49,7 +49,7 @@ public class MovingPlatform : MonoBehaviour {
 			}
 		}
 		// If initial horizontal move amount is negative.
-		else if (moveHorizontal < 0){
+		else if (moveHorizontal < 0 && !moveObject.isObjectMoving()){
 			// If moving right and reached final position, reverse direction.
 			if (transform.localPosition.x >= startPosition.x){
 				moveObject.SetDistanceX(moveHorizontal);
@@ -66,7 +66,7 @@ public class MovingPlatform : MonoBehaviour {
 	}
 	void VerticalMovement(){
 		// If initial vertical move amount is positive.
-		if (moveVertical > 0){
+		if (moveVertical > 0 && !moveObject.isObjectMoving()){
 			// If moving down and reached final position, reverse direction.
 			if (transform.localPosition.y <= startPosition.y){
 				moveObject.SetDistanceX(moveHorizontal);
@@ -81,7 +81,7 @@ public class MovingPlatform : MonoBehaviour {
 			}
 		}
 		// If initial vertical move amount is negative.
-		else if (moveVertical < 0){
+		else if (moveVertical < 0 && !moveObject.isObjectMoving()){
 			// If moving up and reached final position, reverse direction.
 			if (transform.localPosition.y >= startPosition.y){
 				moveObject.SetDistanceX(moveHorizontal);
