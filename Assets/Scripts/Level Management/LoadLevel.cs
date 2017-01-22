@@ -17,8 +17,8 @@ public class LoadLevel : MonoBehaviour {
 	public GameObject page1;
 	public GameObject page2;
 	public GameObject page3;
-	public AudioSource music;
-	public AudioSource sound;
+	// public AudioSource music;
+	// public AudioSource sound;
 	public GameManager gameManager;
 	public GameObject gameMan;
 	public LevelManager levelManager;
@@ -49,35 +49,39 @@ public class LoadLevel : MonoBehaviour {
 			nextLevelName = "" + (currentLevel + 1);
 		}
 		audioManager = AudioManager.Instance;
-		music = audioManager.music;
 		levelManager = LevelManager.Instance;
 	}
 
 	void Update(){
 		// If you are in the Main scene and the Options menu is open... show if music/sound is muted.
 		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main") && optionsMenuScreen.activeSelf){
-			if (music.mute){
+			if (PlayerPrefs.GetInt("MusicMuted") == -1){
 				musicMuted.SetActive(true);
 			}
 			else{
 				musicMuted.SetActive(false);
 			}
-			// if (sound.mute == false){
-			// 	soundMuted.SetActive(true);
-			// }
+			if (PlayerPrefs.GetInt("SFXMuted") == -1){
+				soundMuted.SetActive(true);
+			}
+			else{
+				soundMuted.SetActive(false);
+			}
 		}
 		// If you are in any level scene and the Pause menu is open... show if music/sound is muted.
 		else if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main") && pauseMenuScreen.activeSelf){
-			//pauseButton = GameObject.Find("HUD/PauseButton");
-			if (music.mute){
+			if (PlayerPrefs.GetInt("MusicMuted") == -1){
 				musicMuted.SetActive(true);
 			}
 			else{
 				musicMuted.SetActive(false);
 			}
-			// if (sound.mute == false){
-			// 	soundMuted.SetActive(true);
-			// }
+			if (PlayerPrefs.GetInt("SFXMuted") == -1){
+				soundMuted.SetActive(true);
+			}
+			else{
+				soundMuted.SetActive(false);
+			}
 		}
 	}
 
@@ -147,23 +151,23 @@ public class LoadLevel : MonoBehaviour {
 	public void MuteMusic(){
 		audioManager.MuteMusic();
 
-		if (musicMuted.activeSelf){
-			musicMuted.SetActive(false);
-		}
-		else{
-			musicMuted.SetActive(true);
-		}
+		// if (musicMuted.activeSelf){
+		// 	musicMuted.SetActive(false);
+		// }
+		// else{
+		// 	musicMuted.SetActive(true);
+		// }
 	}
 
 	public void MuteSound(){
 		audioManager.MuteSFX();
 
-		if (soundMuted.activeSelf){
-			soundMuted.SetActive(false);
-		}
-		else{
-			soundMuted.SetActive(true);
-		}
+		// if (soundMuted.activeSelf){
+		// 	soundMuted.SetActive(false);
+		// }
+		// else{
+		// 	soundMuted.SetActive(true);
+		// }
 	}
 
 	public void ShowOptions(){

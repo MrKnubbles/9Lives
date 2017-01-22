@@ -13,7 +13,7 @@ public class LevelManager : MonoBehaviour {
 	public int maxLevels;
 	public LockedLevels lockedLevelScript;
 	public StarManager starManager;
-	private int playerLevel = 1;
+	private int playerLevel = 0;
 	public GameObject HUD;
 	public int levelsPerPage = 15;
 	public GameObject pageTracker;
@@ -66,11 +66,15 @@ public class LevelManager : MonoBehaviour {
 			GameObject.Find("LevelSelectScreen").gameObject.SetActive(false);
 
 			// Sets the player to level 1 the first time they play.
-			if (PlayerPrefs.GetInt("PlayerLevel") <= 1){
+			if (PlayerPrefs.GetInt("PlayerLevel") <= 0){
 				PlayerPrefs.SetInt("PlayerLevel", 1);
+				PlayerPrefs.SetInt("MusicMuted", 1);
+				PlayerPrefs.SetInt("SFXMuted", 1);
 			}
 			else{
 				playerLevel = PlayerPrefs.GetInt("PlayerLevel");
+				PlayerPrefs.GetInt("MusicMuted");
+				PlayerPrefs.GetInt("SFXMuted");
 			}
 
 			starManager = HUD.transform.Find("LevelSelectScreen").gameObject.GetComponent<StarManager>();

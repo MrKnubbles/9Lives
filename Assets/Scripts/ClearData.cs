@@ -13,7 +13,7 @@ public class ClearData : MonoBehaviour {
 	}
 
 	public void UnlockAllLevels(){
-		PlayerPrefs.SetInt("PlayerLevel", 25);
+		PlayerPrefs.SetInt("PlayerLevel", 40);
 		print("PlayerLevel == " + PlayerPrefs.GetInt("PlayerLevel"));
 	}
 

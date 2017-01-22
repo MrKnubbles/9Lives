@@ -50,7 +50,6 @@ public class AudioManager : MonoBehaviour {
 			AudioBegin = false;
 			music.clip = musicLevels;
 			playOnce = false;
-			UpdateMuteButtons();
 			if (GameObject.Find("DoorSwitch") != null){
 				doorSwitch = GameObject.Find("DoorSwitch").transform.GetChild(0).GetComponent<DoorSwitch>();
 			}
@@ -61,8 +60,6 @@ public class AudioManager : MonoBehaviour {
 			AudioBegin = false;
 			music.clip = musicMain;
 			playOnce = true;
-
-			UpdateMuteButtons();
 		}
 	}
 
@@ -109,12 +106,16 @@ public class AudioManager : MonoBehaviour {
 
 	public void MuteMusic(){
 		music.mute = !music.mute;
+		int musicMuted = PlayerPrefs.GetInt("MusicMuted");
+		PlayerPrefs.SetInt("MusicMuted", musicMuted * -1);
 	}
 
 	public void MuteSFX(){
 		for (int i = 0; i < sfx.Length; i++) {
 			sfx[i].mute = !sfx[i].mute;
 		}
+		int sfxMuted = PlayerPrefs.GetInt("SFXMuted");
+		PlayerPrefs.SetInt("SFXMuted", sfxMuted * -1);
 	}
 
 	public void PauseSFX(){
@@ -131,15 +132,6 @@ public class AudioManager : MonoBehaviour {
 	public void StopSFX(){
 		for (int i = 0; i < sfx.Length; i++) {
 			sfx[i].Stop();
-		}
-	}
-
-	private void UpdateMuteButtons(){
-		if (music.mute){
-			mainMenu.musicMuted.SetActive(true);
-		}
-		else{
-			mainMenu.musicMuted.SetActive(false);
 		}
 	}
 }
