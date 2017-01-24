@@ -147,7 +147,7 @@ public class Player : MonoBehaviour {
 		}
 	}
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.gameObject.tag == "FallingSpikes" && !isDead){
+		if ((other.gameObject.tag == "FallingSpikes" || other.gameObject.tag == "DrippingPipe") && !isDead){
 			Die();
 		}
 		if (other.gameObject.tag == "Exit" && !isDead && exitDoor.isActive){

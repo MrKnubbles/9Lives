@@ -10,5 +10,9 @@ public class TrapCatcher : MonoBehaviour {
 			script.isActivated = true;
 			script.Reset();
 		}
+		else if (other.gameObject.tag == "DrippingPipe"){
+			DrippingPipe script = other.transform.GetComponent<DrippingPipe>();
+			script.Reset();
+		}
 	}
 }
