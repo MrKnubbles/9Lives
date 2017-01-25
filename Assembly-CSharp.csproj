@@ -49,39 +49,37 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\Particles\Fx Explosion Pack\Script\DestroyEffect.cs" />
-     <Compile Include="Assets\Particles\Fx Explosion Pack\Script\csLightControl.cs" />
-     <Compile Include="Assets\Scripts\ClearData.cs" />
-     <Compile Include="Assets\Scripts\Environment\Door.cs" />
-     <Compile Include="Assets\Scripts\Environment\DoorSwitch.cs" />
-     <Compile Include="Assets\Scripts\Environment\Exit.cs" />
-     <Compile Include="Assets\Scripts\Environment\FallingPlatform.cs" />
-     <Compile Include="Assets\Scripts\Environment\MovingPlatform.cs" />
-     <Compile Include="Assets\Scripts\Level Management\AudioManager.cs" />
-     <Compile Include="Assets\Scripts\Level Management\GameManager.cs" />
-     <Compile Include="Assets\Scripts\Level Management\LevelManager.cs" />
-     <Compile Include="Assets\Scripts\Level Management\LoadLevel.cs" />
-     <Compile Include="Assets\Scripts\Level Management\LockedLevels.cs" />
-     <Compile Include="Assets\Scripts\Level Management\MainMenu.cs" />
-     <Compile Include="Assets\Scripts\Level Management\ScoreTracker.cs" />
-     <Compile Include="Assets\Scripts\Level Management\StarManager.cs" />
-     <Compile Include="Assets\Scripts\MoveObject.cs" />
+     <Compile Include="Assets\Particles\Explosion\Script\DestroyEffect.cs" />
+     <Compile Include="Assets\Particles\Explosion\Script\csLightControl.cs" />
+     <Compile Include="Assets\Scripts\LevelManagement\AudioManager.cs" />
+     <Compile Include="Assets\Scripts\LevelManagement\GameManager.cs" />
+     <Compile Include="Assets\Scripts\LevelManagement\LevelManager.cs" />
+     <Compile Include="Assets\Scripts\LevelManagement\LoadLevel.cs" />
+     <Compile Include="Assets\Scripts\LevelManagement\LockedLevels.cs" />
+     <Compile Include="Assets\Scripts\LevelManagement\MainMenu.cs" />
+     <Compile Include="Assets\Scripts\LevelManagement\ScoreTracker.cs" />
+     <Compile Include="Assets\Scripts\LevelManagement\StarManager.cs" />
+     <Compile Include="Assets\Scripts\Other\ClearData.cs" />
+     <Compile Include="Assets\Scripts\Other\UnityAds.cs" />
      <Compile Include="Assets\Scripts\Player\LeftFootCollision.cs" />
      <Compile Include="Assets\Scripts\Player\Player.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
      <Compile Include="Assets\Scripts\Player\PointerListener.cs" />
      <Compile Include="Assets\Scripts\Player\RightFootCollision.cs" />
-     <Compile Include="Assets\Scripts\Rotate.cs" />
-     <Compile Include="Assets\Scripts\TrapCatcher.cs" />
-     <Compile Include="Assets\Scripts\Traps\ElectricFence.cs" />
-     <Compile Include="Assets\Scripts\Traps\ExplosiveBarrel.cs" />
-     <Compile Include="Assets\Scripts\Traps\FallingSpikes.cs" />
-     <Compile Include="Assets\Scripts\Traps\MovingTraps.cs" />
-     <Compile Include="Assets\Scripts\Traps\Spikes.cs" />
-     <Compile Include="Assets\Scripts\UnityAds.cs" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
+     <Compile Include="Assets\Scripts\Traps_Mechanics\Door.cs" />
+     <Compile Include="Assets\Scripts\Traps_Mechanics\DoorSwitch.cs" />
+     <Compile Include="Assets\Scripts\Traps_Mechanics\DrippingPipe.cs" />
+     <Compile Include="Assets\Scripts\Traps_Mechanics\ElectricFence.cs" />
+     <Compile Include="Assets\Scripts\Traps_Mechanics\Exit.cs" />
+     <Compile Include="Assets\Scripts\Traps_Mechanics\ExplosiveBarrel.cs" />
+     <Compile Include="Assets\Scripts\Traps_Mechanics\FallingPlatform.cs" />
+     <Compile Include="Assets\Scripts\Traps_Mechanics\FallingSpikes.cs" />
+     <Compile Include="Assets\Scripts\Traps_Mechanics\MoveObject.cs" />
+     <Compile Include="Assets\Scripts\Traps_Mechanics\MovingPlatform.cs" />
+     <Compile Include="Assets\Scripts\Traps_Mechanics\MovingTraps.cs" />
+     <Compile Include="Assets\Scripts\Traps_Mechanics\Rotate.cs" />
+     <Compile Include="Assets\Scripts\Traps_Mechanics\Spikes.cs" />
+     <Compile Include="Assets\Scripts\Traps_Mechanics\TrapCatcher.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -96,9 +94,6 @@
  </Reference>
  <Reference Include="UnityEngine.HoloLens">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Purchasing">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityPurchasing/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.VR">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>

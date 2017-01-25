@@ -1,7 +1,14 @@
 ﻿using UnityEngine;
-using System;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
+	private GameObject masksContainer;
+	[SerializeField]
+	private List<GameObject> masks;
+	public GameObject bloodSplatPrefab;
+	private Quaternion bloodRot = new Quaternion();
 	public GameObject respawnPos;
 	public GameObject bloodParticle;
 	public Door exitDoor;
@@ -33,6 +40,10 @@ public class Player : MonoBehaviour {
 	public bool isActivatingSwitch = false;
 	
     void Start(){
+		masksContainer = GameObject.Find("Masks");
+		foreach(RectTransform g in masksContainer.transform) {
+			masks.Add(g.gameObject);
+		}
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 		rb2d = GetComponent<Rigidbody2D>();
 		// audio = GetComponent<AudioSource>();
@@ -83,16 +94,13 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Die(){
-		bloodParticle.SetActive(true);
+		SpawnBlood();
 		isDead = true;
 		audioManager.PlayOnce(sfxDie);
-		// audio.clip = sfxDie;
-		// audio.Play();
 		GetComponent<Animator>().SetBool("isDead", true);
 		isActivatingSwitch = false;
 		if (lives == 1){
 			lives = 0;
-			bloodParticle.SetActive(false);
 			gameManager.isGameOver = true;
 		}
 		else{
@@ -102,7 +110,6 @@ public class Player : MonoBehaviour {
 
 	void Respawn(){
 		if (lives != 0){
-			bloodParticle.SetActive(false);
 			isDead = false;
 			isJumping = false;
 			hasDoubleJumped = false;
@@ -128,13 +135,19 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	void OnCollisionStay2D(Collision2D other){
+		if (other.gameObject.tag == "MovingPlatform"){
+			transform.parent = other.transform;
+		}
+	}
+
 	void OnCollisionExit2D(Collision2D other){
 		if (other.gameObject.tag == "MovingPlatform"){
 			transform.parent = null;
 		}
 	}
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.gameObject.tag == "FallingSpikes" && !isDead){
+		if ((other.gameObject.tag == "FallingSpikes" || other.gameObject.tag == "DrippingPipe") && !isDead){
 			Die();
 		}
 		if (other.gameObject.tag == "Exit" && !isDead && exitDoor.isActive){
@@ -142,6 +155,45 @@ public class Player : MonoBehaviour {
 			GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
 			Time.timeScale = 0;
 			gameManager.isLevelComplete = true;
+		}
+	}
+
+	void SpawnBlood() {
+		//Vector3 offsetY = new Vector3(0, -0.5f, 0);
+		Vector3 spawnPosition = this.transform.position;
+		GameObject tmpBlood;
+		tmpBlood = GameObject.Instantiate(bloodParticle, spawnPosition, Quaternion.identity);
+		foreach(GameObject g in masks) {
+			//offsetY = new Vector3(0, -1f, 0);
+			GameObject tmpBloodSplat;
+			tmpBloodSplat = Instantiate(bloodSplatPrefab, g.transform, false);
+			tmpBloodSplat.transform.position = this.transform.position;
+		}
+
+		int random = Random.Range(0, 4);
+		switch(random) {
+			case 0:
+				bloodRot = Quaternion.Euler(0, 0, 0);
+				bloodSplatPrefab.transform.rotation = bloodRot;
+			break;
+
+			case 1:
+				bloodRot = Quaternion.Euler(0, 0, 90);
+				bloodSplatPrefab.transform.rotation = bloodRot;
+			break;
+
+			case 2:
+				bloodRot = Quaternion.Euler(0, 0, 180);
+				bloodSplatPrefab.transform.rotation = bloodRot;
+			break;
+
+			case 3:
+				bloodRot = Quaternion.Euler(0, 0, 270);
+				bloodSplatPrefab.transform.rotation = bloodRot;
+			break;
+
+			default:
+			break;
 		}
 	}
 
