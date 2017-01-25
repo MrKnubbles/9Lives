@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour {
 	public void Special(){
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
 			if (!player.isDead){
-				if (player.isNearSwitch){
+				if (player.isNearSwitch && !player.isActivatingSwitch){
 					ActivateSwitch();
 				}
 				else if (player.isGrounded){
