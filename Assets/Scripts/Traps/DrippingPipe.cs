@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
 
 public class DrippingPipe : MonoBehaviour {
-
-	public float moveSpeed;
-	public float moveVertical;
 	public bool isActivated;
 	public float maxDelayTimer = 2f;
 	private float resetTimer;
@@ -11,7 +8,6 @@ public class DrippingPipe : MonoBehaviour {
 	private Vector3 resetPosition;
 	private Player player;
 	private Rigidbody2D rb2d;
-	private MoveObject moveObject;
 
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<Player>();
@@ -20,9 +16,6 @@ public class DrippingPipe : MonoBehaviour {
 		resetTimer = maxDelayTimer;
 		isActive = true;
 		Fall();
-		// moveObject = GetComponent<MoveObject>();
-		// moveObject.SetSpeed(moveSpeed);
-		// moveObject.SetDistanceY(moveVertical);
 	}
 
 	void Update() {
@@ -41,25 +34,10 @@ public class DrippingPipe : MonoBehaviour {
 		}
 	}
 
-	// void OnTriggerEnter2D(Collider2D other) {
-	// 	if (other.gameObject.tag == "Player" && !player.isDead && !isActivated) {
-	// 		isActive = true;
-	// 		isActivated = true;
-	// 	}
-	// }
-
-	// void OnTriggerStay2D(Collider2D other){
-	// 	if (other.gameObject.tag == "Player" && !player.isDead && !isActivated) {
-	// 		isActive = true;
-	// 		isActivated = true;
-	// 	}
-	// }
-
 	void Fall() {
 		rb2d.gravityScale = 1f;
 		rb2d.velocity = new Vector3(0, -.25f, 0);
 		isActivated = true;
-		print("falling");
 	}
 
 	public void Reset(){
