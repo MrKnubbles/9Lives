@@ -2699,51 +2699,6 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 224000013161437946, guid: c94765193517ac14abcbbf13343b7fa9,
-        type: 2}
-      propertyPath: m_LocalScale.x
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 224000013161437946, guid: c94765193517ac14abcbbf13343b7fa9,
-        type: 2}
-      propertyPath: m_LocalScale.y
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 224487976177205910, guid: c94765193517ac14abcbbf13343b7fa9,
-        type: 2}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224487976177205910, guid: c94765193517ac14abcbbf13343b7fa9,
-        type: 2}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000013560772184, guid: c94765193517ac14abcbbf13343b7fa9,
-        type: 2}
-      propertyPath: m_BlockingMask.m_Bits
-      value: 4294967295
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000013560772184, guid: c94765193517ac14abcbbf13343b7fa9,
-        type: 2}
-      propertyPath: m_IgnoreReversedGraphics
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114000013560772184, guid: c94765193517ac14abcbbf13343b7fa9,
-        type: 2}
-      propertyPath: m_BlockingObjects
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224487976177205910, guid: c94765193517ac14abcbbf13343b7fa9,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 1920
-      objectReference: {fileID: 0}
-    - target: {fileID: 224487976177205910, guid: c94765193517ac14abcbbf13343b7fa9,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 100
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c94765193517ac14abcbbf13343b7fa9, type: 2}
   m_IsPrefabParent: 0
@@ -6011,6 +5966,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a19643b6d44791e40b879bc9d62520f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMoving: 0
+  doneMoving: 0
 --- !u!1 &1654075756
 GameObject:
   m_ObjectHideFlags: 0
