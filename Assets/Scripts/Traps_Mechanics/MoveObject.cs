@@ -8,7 +8,7 @@ public class MoveObject : MonoBehaviour {
 	private float moveAmountX   	= 0;						
 	private float moveAmountY   	= 0;
 	private float rotationAmount	= 0;		
-	public bool isMoving 		= false; // is this element currently moving? 
+	private bool isMoving 		= false; // is this element currently moving? 
 	private bool isRotating		= false;
 	public bool doneMoving		= false;
 	private bool doneRotating		= false;
