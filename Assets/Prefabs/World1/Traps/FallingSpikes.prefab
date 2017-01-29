@@ -138,10 +138,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4846ff0c94a71c0409207adde63188bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxResetTimer: 2
+  moveSpeed: 0.5
   isActivated: 0
-  moveSpeed: 1
-  moveVertical: -1
 --- !u!114 &114851231675019718
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -153,6 +151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a19643b6d44791e40b879bc9d62520f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doneMoving: 0
 --- !u!212 &212651620371924128
 SpriteRenderer:
   m_ObjectHideFlags: 1

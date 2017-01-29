@@ -10,6 +10,7 @@ public class Spikes : MonoBehaviour {
 	private float resetTimer;
 	private bool isActive;
 	private bool isActivated;
+	private Vector3 startPosition;
 	private Player player;
 	private MoveObject moveObject;
 
@@ -17,6 +18,7 @@ public class Spikes : MonoBehaviour {
 		player = GameObject.Find("Player").GetComponent<Player>();
 		resetTimer = maxResetTimer;
 		if (isHidden){
+			startPosition = transform.localPosition;
 			moveObject = GetComponent<MoveObject>();
 			moveObject.SetSpeed(moveSpeed);
 			moveObject.SetDistanceX(moveHorizontal);
@@ -24,43 +26,71 @@ public class Spikes : MonoBehaviour {
 		}
 	}
 
-	void FixedUpdate() {
+	void Update() {
 		HandleMovement();
 	}
 
 	void HandleMovement() {
-		if (isActivated){
-			resetTimer -= Time.fixedDeltaTime;
-			if (isActive) {
-				GetComponent<Collider2D>().enabled = true;
+		if (isActive){
+			resetTimer -= Time.deltaTime;
+			if (isActivated) {
 				if (isHidden){
 					moveObject.Move();
+				}
+				else{
+					GetComponent<Collider2D>().enabled = true;
 					isActive = false;
 				}
-			}
-			if (resetTimer <= 0) {
 				isActivated = false;
-				if (isHidden){
+			}
+			if (isHidden && resetTimer <= 0){
+				if(!moveObject.isObjectMoving() && (transform.localPosition != startPosition)) {
 					moveObject.SetSpeed(moveSpeed/3);
 					moveObject.SetDistanceX(-moveHorizontal);
 					moveObject.SetDistanceY(-moveVertical);
 					moveObject.Move();
 				}
-				resetTimer = maxResetTimer;
+				else if (isHidden && resetTimer <= 0 && transform.localPosition == startPosition){
+					resetTimer = maxResetTimer;
+					isActive = false;
+				}
 			}
 		}
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		if (other.gameObject.tag == "Player" && !player.isDead && !isActivated){
-			if (isHidden){
+		if (other.gameObject.tag == "Player" && !player.isDead && !isActivated && !isActive){
+			if (isHidden && !moveObject.isObjectMoving()){
 				moveObject.SetSpeed(moveSpeed);
 				moveObject.SetDistanceX(moveHorizontal);
 				moveObject.SetDistanceY(moveVertical);
+				GetComponent<Collider2D>().enabled = true;
+				isActive = true;
+				isActivated = true;
 			}
-			GetComponent<Collider2D>().enabled = true;
-			isActive = true;
-			isActivated = true;
+			else if (!isHidden){
+				GetComponent<Collider2D>().enabled = true;
+				isActive = true;
+				isActivated = true;
+			}
+		}
+	}
+
+	void OnTriggerStay2D(Collider2D other){
+		if (other.gameObject.tag == "Player" && !player.isDead && !isActivated && !isActive){
+			if (isHidden && !moveObject.isObjectMoving() && moveObject.isDoneMoving()){
+				moveObject.SetSpeed(moveSpeed);
+				moveObject.SetDistanceX(moveHorizontal);
+				moveObject.SetDistanceY(moveVertical);
+				GetComponent<Collider2D>().enabled = true;
+				isActive = true;
+				isActivated = true;
+			}
+			else if (!isHidden){
+				GetComponent<Collider2D>().enabled = true;
+				isActive = true;
+				isActivated = true;
+			}
 		}
 	}
 

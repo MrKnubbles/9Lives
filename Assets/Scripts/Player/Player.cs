@@ -38,6 +38,7 @@ public class Player : MonoBehaviour {
 	// Needed for activating a switch.
 	public bool isNearSwitch = false;
 	public bool isActivatingSwitch = false;
+	public GameObject HUD;
 	
     void Start(){
 		masksContainer = GameObject.Find("Masks");
@@ -46,7 +47,7 @@ public class Player : MonoBehaviour {
 		}
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 		rb2d = GetComponent<Rigidbody2D>();
-		// audio = GetComponent<AudioSource>();
+		HUD = GameObject.Find("HUD");
 		audioManager = AudioManager.Instance;
 		gameManager.isGameStarted = true;
 		GetComponent<Animator>().SetBool("isGameStarted", true);
@@ -82,6 +83,12 @@ public class Player : MonoBehaviour {
 					SetFalling();
 				}
 			}
+		}
+		if ((Input.GetKeyUp(KeyCode.L) && gameManager.isLevelComplete)){
+			HUD.GetComponent<LoadLevel>().ReplayLevel();
+		}
+		if ((Input.GetKeyUp(KeyCode.R) && gameManager.isLevelComplete)){
+			HUD.GetComponent<LoadLevel>().LoadNextLevel();
 		}
 	}
 

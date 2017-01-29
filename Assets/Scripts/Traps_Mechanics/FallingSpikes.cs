@@ -3,11 +3,10 @@
 public class FallingSpikes : MonoBehaviour {
 
 	public float moveSpeed;
-	public float moveVertical;
+	private float moveVertical = -1;
 	public bool isActivated;
-	private float maxResetTimer = 2f;
-	private float resetTimer;
 	private bool isActive;
+	private Vector3 startPosition;
 	private Vector3 resetPosition;
 	private Player player;
 	private Rigidbody2D rb2d;
@@ -16,24 +15,20 @@ public class FallingSpikes : MonoBehaviour {
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<Player>();
 		rb2d = GetComponent<Rigidbody2D>();
-		resetPosition = transform.localPosition;
+		startPosition = transform.localPosition;
+		resetPosition = startPosition;
 		resetPosition.y += 1;
-		resetTimer = maxResetTimer;
 		moveObject = GetComponent<MoveObject>();
 		moveObject.SetSpeed(moveSpeed);
 		moveObject.SetDistanceY(moveVertical);
 	}
 
-	void FixedUpdate() {
+	void Update() {
 		if (isActive){
 			Fall();
 		}
 		if (isActivated){
-			if (resetTimer >= 0){
-				resetTimer -= Time.fixedDeltaTime;
-			}
-			else if (resetTimer <= 0){
-				resetTimer = maxResetTimer;
+			if (transform.localPosition == startPosition){
 				isActivated = false;
 			}
 		}
@@ -54,7 +49,7 @@ public class FallingSpikes : MonoBehaviour {
 	}
 
 	void Fall() {
-		rb2d.velocity = new Vector3(0, rb2d.velocity.y - 3.75f, 0);
+		rb2d.velocity = new Vector3(0, rb2d.velocity.y - 2f, 0);
 		rb2d.gravityScale = 2f;
 		isActive = false;
 	}

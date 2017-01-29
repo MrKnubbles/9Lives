@@ -4867,11 +4867,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3
+      value: 2.25
       objectReference: {fileID: 0}
     - target: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
       propertyPath: m_LocalPosition.z
@@ -4913,6 +4913,11 @@ Prefab:
 --- !u!4 &1335545740 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485,
+    type: 2}
+  m_PrefabInternal: {fileID: 1335545739}
+--- !u!1 &1346870975 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1794100488652464, guid: 798342d5d52c45a4fa070200d944c485,
     type: 2}
   m_PrefabInternal: {fileID: 1335545739}
 --- !u!1 &1369890141
@@ -6148,7 +6153,7 @@ Prefab:
     - target: {fileID: 114580957685058104, guid: 0d9b18e31ae09e54fa579c7617beef81,
         type: 2}
       propertyPath: maxDeactivateTimer
-      value: 10
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4223504253941704, guid: 0d9b18e31ae09e54fa579c7617beef81, type: 2}
       propertyPath: m_LocalPosition.x
@@ -7317,7 +7322,6 @@ GameObject:
   - component: {fileID: 1941835540}
   - component: {fileID: 1941835539}
   - component: {fileID: 1941835538}
-  - component: {fileID: 1941835542}
   - component: {fileID: 1941835541}
   m_Layer: 5
   m_Name: MovingMask
@@ -7401,23 +7405,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1941835536}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e994e50366f69c94ab5d66b8d8d32213, type: 3}
+  m_Script: {fileID: 11500000, guid: 64dbfeee89c605f4e99c8e307f26a77c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1.25
-  moveHorizontal: 4
-  moveVertical: 0
---- !u!114 &1941835542
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1941835536}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a19643b6d44791e40b879bc9d62520f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  movingPlatform: {fileID: 1346870975}
 --- !u!1 &1976139858
 GameObject:
   m_ObjectHideFlags: 0

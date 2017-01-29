@@ -2154,7 +2154,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 3, y: 1.5}
+  m_Size: {x: 3, y: 2}
 --- !u!61 &61220441959847384
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -2168,7 +2168,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 3, y: 1.5}
+  m_Size: {x: 3, y: 2}
 --- !u!61 &61404407373044616
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -2182,7 +2182,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 3, y: 1.5}
+  m_Size: {x: 3, y: 2}
 --- !u!61 &61417377889185504
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -2196,7 +2196,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 3, y: 1.5}
+  m_Size: {x: 3, y: 2}
 --- !u!61 &61430240453165106
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -2210,7 +2210,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 3, y: 1.5}
+  m_Size: {x: 3, y: 2}
 --- !u!61 &61605619144578226
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -2224,7 +2224,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 3, y: 1.5}
+  m_Size: {x: 3, y: 2}
 --- !u!61 &61988755067382162
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -2238,7 +2238,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 3, y: 1.5}
+  m_Size: {x: 3, y: 2}
 --- !u!114 &114464483751901422
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2264,6 +2264,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a19643b6d44791e40b879bc9d62520f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMoving: 0
+  doneMoving: 0
 --- !u!212 &212021814086027280
 SpriteRenderer:
   m_ObjectHideFlags: 1

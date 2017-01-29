@@ -10,8 +10,8 @@ public class MoveObject : MonoBehaviour {
 	private float rotationAmount	= 0;		
 	private bool isMoving 		= false; // is this element currently moving? 
 	private bool isRotating		= false;
-	// private bool doneMoving		= false;
-	// private bool doneRotating		= false;
+	public bool doneMoving		= false;
+	private bool doneRotating		= false;
 	private bool startMoving 		= false;
 	private bool startRotating	= false;
 	
@@ -24,8 +24,8 @@ public class MoveObject : MonoBehaviour {
 	public void Rotate() {startRotating = true; }
 	public bool isObjectMoving() { return isMoving; }
 	public bool isObjectRotating() { return isRotating; }
-	// public bool isDoneMoving() { return doneMoving; }
-	// public bool isDoneRotating() { return doneRotating; }
+	public bool isDoneMoving() { return doneMoving; }
+	public bool isDoneRotating() { return doneRotating; }
 		
 	void Update () {	
 		if ((!isMoving && startMoving) && (this)) {
@@ -51,6 +51,7 @@ public class MoveObject : MonoBehaviour {
 	// Co-Routines to do the work
 	public IEnumerator MoveHorizontal(float moveAmountX) { // Moves the object horizontally.
 		startMoving = false;
+		doneMoving = false;
 		isMoving = true;
 		Vector3 currentPosition = transform.localPosition;
 		Vector3 targetPosition = currentPosition;
@@ -62,13 +63,14 @@ public class MoveObject : MonoBehaviour {
 		
 			yield return null;
 		}
-		// doneMoving = true;
+		doneMoving = true;
 		isMoving = false;
 		yield return 0;
 	}
 
 	public IEnumerator MoveVertical(float moveAmountY) { // Moves the object vertically.
 		startMoving = false;
+		doneMoving = false;
 		isMoving = true;
 		Vector3 currentPosition = transform.localPosition;
 		Vector3 targetPosition = currentPosition;
@@ -80,7 +82,7 @@ public class MoveObject : MonoBehaviour {
 			
 			yield return null;
 		}
-		// doneMoving = true;
+		doneMoving = true;
 		isMoving = false;
 		yield return 0;
 	}
