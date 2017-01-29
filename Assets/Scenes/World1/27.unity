@@ -236,7 +236,6 @@ GameObject:
   - component: {fileID: 46330339}
   - component: {fileID: 46330338}
   - component: {fileID: 46330337}
-  - component: {fileID: 46330336}
   - component: {fileID: 46330335}
   m_Layer: 5
   m_Name: MovingMask
@@ -272,23 +271,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 46330333}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e994e50366f69c94ab5d66b8d8d32213, type: 3}
+  m_Script: {fileID: 11500000, guid: 64dbfeee89c605f4e99c8e307f26a77c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
-  moveHorizontal: -3
-  moveVertical: 0
---- !u!114 &46330336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 46330333}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a19643b6d44791e40b879bc9d62520f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  movingPlatform: {fileID: 250818801}
 --- !u!114 &46330337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,7 +335,6 @@ GameObject:
   - component: {fileID: 50877654}
   - component: {fileID: 50877653}
   - component: {fileID: 50877652}
-  - component: {fileID: 50877651}
   - component: {fileID: 50877650}
   m_Layer: 5
   m_Name: MovingMask (3)
@@ -385,23 +370,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 50877648}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e994e50366f69c94ab5d66b8d8d32213, type: 3}
+  m_Script: {fileID: 11500000, guid: 64dbfeee89c605f4e99c8e307f26a77c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
-  moveHorizontal: 3
-  moveVertical: 0
---- !u!114 &50877651
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 50877648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a19643b6d44791e40b879bc9d62520f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  movingPlatform: {fileID: 804557984}
 --- !u!114 &50877652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -593,11 +565,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2
+      value: -2.75
       objectReference: {fileID: 0}
     - target: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
       propertyPath: m_LocalPosition.z
@@ -636,6 +608,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &250818801 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1794100488652464, guid: 798342d5d52c45a4fa070200d944c485,
+    type: 2}
+  m_PrefabInternal: {fileID: 250818800}
 --- !u!1001 &355972627
 Prefab:
   m_ObjectHideFlags: 0
@@ -831,11 +808,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -2
+      value: -2.75
       objectReference: {fileID: 0}
     - target: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
       propertyPath: m_LocalPosition.z
@@ -891,6 +868,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &483156913 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1794100488652464, guid: 798342d5d52c45a4fa070200d944c485,
+    type: 2}
+  m_PrefabInternal: {fileID: 483156912}
 --- !u!1 &483744410
 GameObject:
   m_ObjectHideFlags: 0
@@ -903,7 +885,6 @@ GameObject:
   - component: {fileID: 483744416}
   - component: {fileID: 483744415}
   - component: {fileID: 483744414}
-  - component: {fileID: 483744413}
   - component: {fileID: 483744412}
   m_Layer: 5
   m_Name: MovingMask (2)
@@ -939,23 +920,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 483744410}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e994e50366f69c94ab5d66b8d8d32213, type: 3}
+  m_Script: {fileID: 11500000, guid: 64dbfeee89c605f4e99c8e307f26a77c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
-  moveHorizontal: -3
-  moveVertical: 0
---- !u!114 &483744413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 483744410}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a19643b6d44791e40b879bc9d62520f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  movingPlatform: {fileID: 1789152064}
 --- !u!114 &483744414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1705,11 +1673,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -2
+      value: -5
       objectReference: {fileID: 0}
     - target: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3.5
+      value: 2.75
       objectReference: {fileID: 0}
     - target: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
       propertyPath: m_LocalPosition.z
@@ -1765,6 +1733,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &804557984 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1794100488652464, guid: 798342d5d52c45a4fa070200d944c485,
+    type: 2}
+  m_PrefabInternal: {fileID: 804557983}
 --- !u!1 &823743793
 GameObject:
   m_ObjectHideFlags: 0
@@ -3416,7 +3389,6 @@ GameObject:
   - component: {fileID: 1677209749}
   - component: {fileID: 1677209748}
   - component: {fileID: 1677209747}
-  - component: {fileID: 1677209746}
   - component: {fileID: 1677209745}
   m_Layer: 5
   m_Name: MovingMask (1)
@@ -3452,23 +3424,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1677209743}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e994e50366f69c94ab5d66b8d8d32213, type: 3}
+  m_Script: {fileID: 11500000, guid: 64dbfeee89c605f4e99c8e307f26a77c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1
-  moveHorizontal: 3
-  moveVertical: 0
---- !u!114 &1677209746
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1677209743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a19643b6d44791e40b879bc9d62520f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  movingPlatform: {fileID: 483156913}
 --- !u!114 &1677209747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3713,11 +3672,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 8
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 3.5
+      value: 2.75
       objectReference: {fileID: 0}
     - target: {fileID: 4500409215260528, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
       propertyPath: m_LocalPosition.z
@@ -3773,6 +3732,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 798342d5d52c45a4fa070200d944c485, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1789152064 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1794100488652464, guid: 798342d5d52c45a4fa070200d944c485,
+    type: 2}
+  m_PrefabInternal: {fileID: 1789152063}
 --- !u!1 &1796030819
 GameObject:
   m_ObjectHideFlags: 0

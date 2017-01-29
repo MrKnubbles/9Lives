@@ -42,6 +42,7 @@ public class ScoreTracker : MonoBehaviour {
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 		player = GameObject.Find("Player").GetComponent<Player>();
 		levelNumber = Convert.ToInt32(SceneManager.GetActiveScene().name);
+		//TODO: Create actual world numbers to track.
 		if (levelNumber >= 1 && levelNumber <= 45){
 			worldNumber = 1;
 		}
@@ -100,7 +101,7 @@ public class ScoreTracker : MonoBehaviour {
 		if (score >= 350){
 			star2.SetActive(true);
 		}
-		if (score >= 650){
+		if (score >= 700){
 			star3.SetActive(true);
 		}
 		CalculateScore();
