@@ -2,23 +2,23 @@
 
 public class Door : MonoBehaviour {
 
-	private GameObject openDoor;
-	private GameObject closedDoor;
 	public DoorSwitch doorSwitch;
 	private Player player;
 	public bool isActive = true;
+	private Animator animator;
+	public AnimationState state;
 
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<Player>();
-		openDoor = this.transform.GetChild(0).gameObject;
-		closedDoor = this.transform.GetChild(1).gameObject;
+		animator = GetComponent<Animator>();
+		animator.SetBool("isDoorOpening", false);
+		animator.SetBool("isDoorClosing", false);
 		if (GameObject.Find("DoorSwitch") != null){
 			doorSwitch = GameObject.Find("DoorSwitch/Switches").GetComponent<DoorSwitch>();
-			CloseDoor();
-			isActive = false;
+			StartDoorClosed();
 		}
 		else{
-			isActive = true;
+			StartDoorOpen();
 		}
 	}
 
@@ -29,13 +29,23 @@ public class Door : MonoBehaviour {
 	}
 
 	void OpenDoor(){
-		openDoor.SetActive(true);
-		closedDoor.SetActive(false);
+		animator.SetBool("isDoorOpening", true);
+		animator.SetBool("isDoorClosing", false);
 	}
 
 	void CloseDoor(){
-		closedDoor.SetActive(true);
-		openDoor.SetActive(false);
+		animator.SetBool("isDoorOpening", false);
+		animator.SetBool("isDoorClosing", true);
+	}
+
+	void StartDoorClosed(){
+		isActive = false;
+		animator.Play("door_close", 0, 1f);
+	}
+
+	void StartDoorOpen(){
+		isActive = true;
+		animator.Play("door_open", 0, 1f);
 	}
 
 	void HandleDoor() {
