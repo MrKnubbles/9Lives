@@ -6,6 +6,7 @@ using System;
 public class ScoreTracker : MonoBehaviour {
 	public int levelScore;
 	public float time;
+	public float maxTime = 120f;
 	public float score;
 	private int worldNumber;
 	private int levelNumber;
@@ -51,6 +52,7 @@ public class ScoreTracker : MonoBehaviour {
 		}
 		levelNumberText.text = worldNumber + "-" + levelNumber;
 		audioManager = AudioManager.Instance;
+		time = maxTime;
 	}
 
 	// Update is called once per frame
