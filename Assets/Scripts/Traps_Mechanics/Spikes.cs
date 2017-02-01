@@ -13,9 +13,13 @@ public class Spikes : MonoBehaviour {
 	private Vector3 startPosition;
 	private Player player;
 	private MoveObject moveObject;
+	public AudioClip sfxSpikesTrigger;
+	public AudioClip sfxSpikesMoving;
+	private AudioManager audioManager;
 
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<Player>();
+		audioManager = AudioManager.Instance;
 		resetTimer = maxResetTimer;
 		if (isHidden){
 			startPosition = transform.localPosition;
@@ -49,6 +53,7 @@ public class Spikes : MonoBehaviour {
 					moveObject.SetDistanceX(-moveHorizontal);
 					moveObject.SetDistanceY(-moveVertical);
 					moveObject.Move();
+					audioManager.PlayOnce(sfxSpikesMoving);
 				}
 				else if (isHidden && resetTimer <= 0 && transform.localPosition == startPosition){
 					resetTimer = maxResetTimer;
@@ -58,15 +63,20 @@ public class Spikes : MonoBehaviour {
 		}
 	}
 
+	void ActivateHiddenSpikes(){
+		moveObject.SetSpeed(moveSpeed);
+		moveObject.SetDistanceX(moveHorizontal);
+		moveObject.SetDistanceY(moveVertical);
+		GetComponent<Collider2D>().enabled = true;
+		isActive = true;
+		isActivated = true;
+		audioManager.PlayOnce(sfxSpikesTrigger);
+	}
+
 	void OnTriggerEnter2D(Collider2D other) {
 		if (other.gameObject.tag == "Player" && !player.isDead && !isActivated && !isActive){
 			if (isHidden && !moveObject.isObjectMoving()){
-				moveObject.SetSpeed(moveSpeed);
-				moveObject.SetDistanceX(moveHorizontal);
-				moveObject.SetDistanceY(moveVertical);
-				GetComponent<Collider2D>().enabled = true;
-				isActive = true;
-				isActivated = true;
+				ActivateHiddenSpikes();
 			}
 			else if (!isHidden){
 				GetComponent<Collider2D>().enabled = true;
@@ -79,12 +89,7 @@ public class Spikes : MonoBehaviour {
 	void OnTriggerStay2D(Collider2D other){
 		if (other.gameObject.tag == "Player" && !player.isDead && !isActivated && !isActive){
 			if (isHidden && !moveObject.isObjectMoving() && moveObject.isDoneMoving()){
-				moveObject.SetSpeed(moveSpeed);
-				moveObject.SetDistanceX(moveHorizontal);
-				moveObject.SetDistanceY(moveVertical);
-				GetComponent<Collider2D>().enabled = true;
-				isActive = true;
-				isActivated = true;
+				ActivateHiddenSpikes();
 			}
 			else if (!isHidden){
 				GetComponent<Collider2D>().enabled = true;
