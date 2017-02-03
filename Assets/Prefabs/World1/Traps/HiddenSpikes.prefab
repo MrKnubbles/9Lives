@@ -109,6 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a19643b6d44791e40b879bc9d62520f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doneMoving: 0
 --- !u!114 &114548584855416138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -120,12 +121,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 117f2d186391ebc4c9848d8fef6dbfa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  maxResetTimer: 1.25
   isHidden: 1
   moveSpeed: 3
   moveHorizontal: 0
   moveVertical: 1
+  sfxSpikesTrigger: {fileID: 8300000, guid: cdf8b4096275e7b4a97e6d78c6f3c558, type: 3}
+  sfxSpikesMoving: {fileID: 8300000, guid: 60b3c752569b9864d89df4391cfedde9, type: 3}
+  sfxSpikesLocked: {fileID: 8300000, guid: 76a71178c851b71499ee2f91121e6432, type: 3}
 --- !u!212 &212723862054251224
 SpriteRenderer:
   m_ObjectHideFlags: 1

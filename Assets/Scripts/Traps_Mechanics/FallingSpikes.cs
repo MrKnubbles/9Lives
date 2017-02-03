@@ -11,9 +11,13 @@ public class FallingSpikes : MonoBehaviour {
 	private Player player;
 	private Rigidbody2D rb2d;
 	private MoveObject moveObject;
+	private AudioManager audioManager;
+	public AudioClip sfxSpikesFalling;
+	public AudioClip sfxSpikesMoving;
 
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<Player>();
+		audioManager = AudioManager.Instance;
 		rb2d = GetComponent<Rigidbody2D>();
 		startPosition = transform.localPosition;
 		resetPosition = startPosition;
@@ -52,6 +56,7 @@ public class FallingSpikes : MonoBehaviour {
 		rb2d.velocity = new Vector3(0, rb2d.velocity.y - 2f, 0);
 		rb2d.gravityScale = 2f;
 		isActive = false;
+		audioManager.PlayOnce(sfxSpikesFalling);
 	}
 
 	public void Reset(){
@@ -59,5 +64,6 @@ public class FallingSpikes : MonoBehaviour {
 		rb2d.velocity = new Vector3(0, 0, 0);
 		rb2d.gravityScale = 0;
 		moveObject.Move();
+		audioManager.PlayOnce(sfxSpikesMoving);
 	}
 }
