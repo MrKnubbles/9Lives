@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour {
 					player.audioManager.PlayOnce(player.sfxDoubleJump);
 					// player.audio.Play();
 					player.rb2d.velocity = new Vector2(0, 0);
-					player.rb2d.AddForce(transform.up * player.jumpSpeed / 1.25f);
+					player.rb2d.AddForce(transform.up * player.jumpSpeed / 1.1f);
 					player.hasDoubleJumped = true;
 					player.isFalling = false;
 				}
@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour {
 	public void Special(){
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
 			if (!player.isDead){
-				if (player.isNearSwitch){
+				if (player.isNearSwitch && !player.isActivatingSwitch){
 					ActivateSwitch();
 				}
 				else if (player.isGrounded){
