@@ -98,16 +98,39 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	public void LoadNextLevel(){
+		levelManager.levelCounter++;
+		if (levelManager.levelCounter >= 5){
+			unityAds.ShowAd("next");
+			levelManager.levelCounter = 0;
+		}
+		else{
+			Time.timeScale = 1;
+			gameManager.isPaused = false;
+			SceneManager.LoadScene(nextLevelName);
+		}
+	}
+
+	public void LoadLevelAfterAd(){
 		Time.timeScale = 1;
 		gameManager.isPaused = false;
 		SceneManager.LoadScene(nextLevelName);
-		//levelManager.(levelName).SetActive(false);
-		//gameManager.UnlockLevel(levelName);
-		// levelManager.UnlockLevel("" + levelName);
 	}
 
 	public void ReplayLevel(){
-		//unityAds.ShowAd();
+		levelManager.replayCounter++;
+		if (levelManager.replayCounter >= 3){
+			unityAds.ShowAd("restart");
+			levelManager.replayCounter = 0;
+		}
+		else{
+			Time.timeScale = 1;
+			gameManager.isPaused = false;
+			SceneManager.LoadScene(currentLevelName);
+		}
+	}
+
+	// Only use this within UnityAds to resume gameplay after ad finishes.
+	public void RestartLevelAfterAd(){
 		Time.timeScale = 1;
 		gameManager.isPaused = false;
 		SceneManager.LoadScene(currentLevelName);
@@ -185,42 +208,52 @@ public class LoadLevel : MonoBehaviour {
 		creditsScreen.SetActive(true);
 	}
 
-	public void ShowNextPage(){
-		if (page1.activeSelf){
-			page1.SetActive(false);
-			page2.SetActive(true);
-			levelManager.pageTracker.transform.GetChild(0).gameObject.SetActive(false);
-			levelManager.pageTracker.transform.GetChild(1).gameObject.SetActive(true);
+	public void ShowPage(int pageNumber){
+		if (levelManager.worlds[0].activeSelf){
+			levelManager.levelPages[pageNumber-1].SetActive(true);
 		}
-		else if (page2.activeSelf){
-			page2.SetActive(false);
-			page3.SetActive(true);
-			levelManager.pageTracker.transform.GetChild(1).gameObject.SetActive(false);
-			levelManager.pageTracker.transform.GetChild(2).gameObject.SetActive(true);
+		else if (levelManager.worlds[1].activeSelf){
+			levelManager.levelPages[pageNumber+2].SetActive(true);
 		}
+		
+		levelManager.pageTracker.transform.GetChild(pageNumber-1).gameObject.SetActive(true);
 	}
-	public void ShowPreviousPage(){
-		if (page2.activeSelf){
-			page2.SetActive(false);
-			page1.SetActive(true);
-			levelManager.pageTracker.transform.GetChild(1).gameObject.SetActive(false);
-			levelManager.pageTracker.transform.GetChild(0).gameObject.SetActive(true);
-		}
-		else if (page3.activeSelf){
-			page3.SetActive(false);
-			page2.SetActive(true);
-			levelManager.pageTracker.transform.GetChild(2).gameObject.SetActive(false);
-			levelManager.pageTracker.transform.GetChild(1).gameObject.SetActive(true);
+
+	public void ShowNextPage(int pageNumber){
+		HidePages();
+		ShowPage(pageNumber);
+	}
+
+	void HidePages(){
+		for (int i = 0; i < levelManager.levelPages.Length; i++){
+			levelManager.levelPages[i].SetActive(false);
+			if (i < 3){
+				levelManager.pageTracker.transform.GetChild(i).gameObject.SetActive(false);
+			}
 		}
 	}
 
-
-	public void ShowNextWorld(){
-		// TODO: Fill out with next world code.
-		print("TODO: Show World 2 Level Select Screen.");
+	public void ShowNextWorld(int worldNumber){
+		HideWorlds();
+		ShowWorld(worldNumber);
+		HidePages();
+		ShowPage(1);
 	}
 
-	public void ShowPreviousWorld(){
-		// TODO: Fill out with previous world code.
+	void ShowWorld(int worldNumber){
+		levelManager.worlds[worldNumber-1].SetActive(true);
+		SetDefaultPage();
+	}
+
+	void HideWorlds(){
+		for (int i = 0; i < levelManager.worlds.Length; i++){
+			levelManager.worlds[i].SetActive(false);
+		}
+	}
+
+	void SetDefaultPage(){
+		levelManager.levelPages[0].SetActive(true);
+		levelManager.levelPages[1].SetActive(false);
+		levelManager.levelPages[2].SetActive(false);
 	}
 }
