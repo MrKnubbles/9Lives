@@ -9,6 +9,8 @@ public class LevelManager : MonoBehaviour {
 	public ScoreTracker scoreTracker;
 	public bool playOnceMain = false;
 	public bool playOnceLevel = false;
+	public int replayCounter = 0;
+	public int levelCounter = 0;
 	// To control which levels the player has unlocked.
 	public int maxLevels;
 	public LockedLevels lockedLevelScript;

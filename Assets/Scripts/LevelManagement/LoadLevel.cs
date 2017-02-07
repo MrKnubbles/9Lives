@@ -98,16 +98,39 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	public void LoadNextLevel(){
+		levelManager.levelCounter++;
+		if (levelManager.levelCounter >= 5){
+			unityAds.ShowAd("next");
+			levelManager.levelCounter = 0;
+		}
+		else{
+			Time.timeScale = 1;
+			gameManager.isPaused = false;
+			SceneManager.LoadScene(nextLevelName);
+		}
+	}
+
+	public void LoadLevelAfterAd(){
 		Time.timeScale = 1;
 		gameManager.isPaused = false;
 		SceneManager.LoadScene(nextLevelName);
-		//levelManager.(levelName).SetActive(false);
-		//gameManager.UnlockLevel(levelName);
-		// levelManager.UnlockLevel("" + levelName);
 	}
 
 	public void ReplayLevel(){
-		//unityAds.ShowAd();
+		levelManager.replayCounter++;
+		if (levelManager.replayCounter >= 3){
+			unityAds.ShowAd("restart");
+			levelManager.replayCounter = 0;
+		}
+		else{
+			Time.timeScale = 1;
+			gameManager.isPaused = false;
+			SceneManager.LoadScene(currentLevelName);
+		}
+	}
+
+	// Only use this within UnityAds to resume gameplay after ad finishes.
+	public void RestartLevelAfterAd(){
 		Time.timeScale = 1;
 		gameManager.isPaused = false;
 		SceneManager.LoadScene(currentLevelName);
