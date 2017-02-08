@@ -201,7 +201,7 @@ public class LoadLevel : MonoBehaviour {
 	public void ShowStore(){
 		shopScreen.SetActive(true);
 		mainMenuScreen.SetActive(false);
-		shopScreen.GetComponent<Shop>().CharactersButton();
+		shopScreen.GetComponent<Shop>().SetDefaultShopState();
 	}
 
 	public void ShowCredits(){

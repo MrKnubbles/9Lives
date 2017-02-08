@@ -18,6 +18,17 @@ public class Shop : MonoBehaviour {
 	public GameObject otherPressed;
 	// Window that contains the buttons for different themes.
 	public GameObject themesWindow;
+	// Default positions for each category set.
+	private Vector3 charPos;
+	private Vector3 accPos;
+	private Vector3 othPos;
+
+	public void SetDefaultShopState(){
+		charPos = charactersSet.transform.GetChild(0).transform.GetChild(0).transform.position;
+		accPos = accessoriesSet.transform.GetChild(0).transform.GetChild(0).transform.position;
+		othPos = otherSet.transform.GetChild(0).transform.GetChild(0).transform.position;
+		CharactersButton();
+	}
 
 	public void CharactersButton(){
 		DisableAllCategories();
@@ -26,6 +37,7 @@ public class Shop : MonoBehaviour {
 		charactersButton.SetActive(false);
 		DisableAllPressedButtons();
 		charactersPressed.SetActive(true);
+		charactersSet.transform.GetChild(0).transform.GetChild(0).transform.position = charPos;
 	}
 
 	public void AccessoriesButton(){
@@ -35,6 +47,7 @@ public class Shop : MonoBehaviour {
 		accessoriesButton.SetActive(false);
 		DisableAllPressedButtons();
 		accessoriesPressed.SetActive(true);
+		accessoriesSet.transform.GetChild(0).transform.GetChild(0).transform.position = accPos;
 	}
 
 	public void OtherButton(){
@@ -44,6 +57,7 @@ public class Shop : MonoBehaviour {
 		otherButton.SetActive(false);
 		DisableAllPressedButtons();
 		otherPressed.SetActive(true);
+		otherSet.transform.GetChild(0).transform.GetChild(0).transform.position = othPos;
 	}
 
 	public void SelectTheme(){
