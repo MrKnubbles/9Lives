@@ -199,8 +199,9 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	public void ShowStore(){
-		//TODO: Make a shop screen.
 		shopScreen.SetActive(true);
+		mainMenuScreen.SetActive(false);
+		shopScreen.GetComponent<Shop>().CharactersButton();
 	}
 
 	public void ShowCredits(){
