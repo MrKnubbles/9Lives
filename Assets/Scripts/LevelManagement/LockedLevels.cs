@@ -13,15 +13,15 @@ public class LockedLevels : MonoBehaviour {
 		for (int i = 0; i < levelManager.levelsPerPage * levelManager.levelPages.Length; i++){
 			// Sets what the locked level game objects are for Levels 1-15;
 			if (i < levelManager.levelsPerPage){
-				levelManager.levelButtons[i] = levelManager.levelPages[0].transform.GetChild(i).gameObject;
+				levelManager.levelButtons[i] = levelManager.levelPages[0].transform.GetChild(0).transform.GetChild(i).gameObject;
 			}
 			// Sets what the locked level game objects are for Levels 16-30;
 			else if (i >= levelManager.levelsPerPage && i < levelManager.levelsPerPage * 2){
-				levelManager.levelButtons[i] = levelManager.levelPages[1].transform.GetChild(i-levelManager.levelsPerPage).gameObject;
+				levelManager.levelButtons[i] = levelManager.levelPages[1].transform.GetChild(0).transform.GetChild(i-levelManager.levelsPerPage).gameObject;
 			}
 			// Sets what the locked level game objects are for Levels 31-45;
 			else if (i >= (levelManager.levelsPerPage * 2) && i < levelManager.levelsPerPage * 3){
-				levelManager.levelButtons[i] = levelManager.levelPages[2].transform.GetChild(i-levelManager.levelsPerPage*2).gameObject;
+				levelManager.levelButtons[i] = levelManager.levelPages[2].transform.GetChild(0).transform.GetChild(i-levelManager.levelsPerPage*2).gameObject;
 			}
 		}
 	}
