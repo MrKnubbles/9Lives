@@ -15,6 +15,7 @@ public class LevelManager : MonoBehaviour {
 	public int maxLevels;
 	public LockedLevels lockedLevelScript;
 	public StarManager starManager;
+	public GameManager gameManager;
 	private int playerLevel = 0;
 	public GameObject HUD;
 	public int levelsPerPage = 15;
@@ -55,6 +56,7 @@ public class LevelManager : MonoBehaviour {
 				GameBegin = true;
 			}
 		}
+		gameManager = GameManager.Instance;
 	}
 	
 	void Update(){
@@ -82,6 +84,7 @@ public class LevelManager : MonoBehaviour {
 				PlayerPrefs.SetInt("MusicMuted", 1);
 				PlayerPrefs.SetInt("SFXMuted", 1);
 				PlayerPrefs.SetInt("StarsCollected", 0);
+				PlayerPrefs.SetInt("Coins", 0);
 				worldNumber = 1;
 			}
 			else{
@@ -89,6 +92,7 @@ public class LevelManager : MonoBehaviour {
 				PlayerPrefs.GetInt("MusicMuted");
 				PlayerPrefs.GetInt("SFXMuted");
 				PlayerPrefs.GetInt("StarsCollected");
+				PlayerPrefs.GetInt("Coins");
 			}
 
 			starManager = HUD.transform.Find("LevelSelectScreen").gameObject.GetComponent<StarManager>();
@@ -117,6 +121,9 @@ public class LevelManager : MonoBehaviour {
 			playerLevel++;
 			PlayerPrefs.SetInt("PlayerLevel", playerLevel);
 		}
+		gameManager.coinCounter += gameManager.tempCoinCounter;
+		gameManager.tempCoinCounter = 0;
+		PlayerPrefs.SetInt("Coins", gameManager.coinCounter);
 		playOnceMain = false;
 		playOnceLevel = false;
 	}
