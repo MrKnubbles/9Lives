@@ -32,7 +32,6 @@ public class Coin : MonoBehaviour {
 					print("Invalid coin type");
 				break;
 			}
-			print("coins = " + gameManager.tempCoinCounter);
 			audioManager.PlayOnce(sfxCoin);
 			gameObject.SetActive(false);
 		}
