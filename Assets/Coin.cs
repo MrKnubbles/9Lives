@@ -7,14 +7,16 @@ public class Coin : MonoBehaviour {
 	private AudioManager audioManager;
 	public AudioClip sfxCoin;
 	public string coinType;
+	private Player player;
 
 	void Start(){
 		gameManager = GameManager.Instance;
 		audioManager = AudioManager.Instance;
+		player = GameObject.Find("Player").GetComponent<Player>();
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.gameObject.tag == "Player"){
+		if (other.gameObject.tag == "Player" && !player.isDead){
 			switch(coinType) {
 				case "bronze":
 					gameManager.tempCoinCounter += 1;
