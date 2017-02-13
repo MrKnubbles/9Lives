@@ -4,7 +4,9 @@ using System.Collections;
 
 public class LoadLevel : MonoBehaviour {
 	public Player player;
+	public GameObject worldSelectScreen;
 	public GameObject levelSelectScreen;
+	public GameObject[] levelScreens;
 	public GameObject controlsScreen;
 	public GameObject mainMenuScreen;
 	public GameObject pauseMenuScreen;
@@ -136,8 +138,15 @@ public class LoadLevel : MonoBehaviour {
 		SceneManager.LoadScene(currentLevelName);
 	}
 
-	public void ShowLevelSelect(){
+	public void ShowLevelSelect(int worldNumber){
 		levelSelectScreen.SetActive(true);
+		levelScreens[worldNumber - 1].SetActive(true);
+		mainMenuScreen.SetActive(false);
+	}
+
+	public void ShowWorldSelect(){
+		worldSelectScreen.SetActive(true);
+		levelSelectScreen.SetActive(false);
 		mainMenuScreen.SetActive(false);
 	}
 
@@ -148,6 +157,7 @@ public class LoadLevel : MonoBehaviour {
 
 	public void BackButton(){
 		levelSelectScreen.SetActive(false);
+		worldSelectScreen.SetActive(false);
 		controlsScreen.SetActive(false);
 		optionsMenuScreen.SetActive(false);
 		creditsScreen.SetActive(false);

@@ -22,6 +22,12 @@ public class Shop : MonoBehaviour {
 	private Vector3 charPos;
 	private Vector3 accPos;
 	private Vector3 othPos;
+	// Player's money
+	public Text goldText;
+
+	void Start(){
+		goldText.text = PlayerPrefs.GetInt("Coins").ToString();
+	}
 
 	public void SetDefaultShopState(){
 		charPos = charactersSet.transform.GetChild(0).transform.GetChild(0).transform.position;
