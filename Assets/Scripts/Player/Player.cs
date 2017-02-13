@@ -50,6 +50,8 @@ public class Player : MonoBehaviour {
 		HUD = GameObject.Find("HUD");
 		audioManager = AudioManager.Instance;
 		gameManager.isGameStarted = true;
+		gameManager.isLevelComplete = false;
+		gameManager.isGameOver = false;
 		GetComponent<Animator>().SetBool("isGameStarted", true);
 		gameManager.isLevelComplete = false;
 		exitDoor = GameObject.Find("ExitDoor/Door").GetComponent<Door>();

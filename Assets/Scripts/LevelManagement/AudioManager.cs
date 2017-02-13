@@ -17,7 +17,6 @@ public class AudioManager : MonoBehaviour {
 	private const int MAX_FXSOURCES = 10;
 
 	void Awake(){
-		//TODO: Make audio sources for music and sounds separate.
 		if (m_instance != null && m_instance != this) {
 			Destroy(this.gameObject);
 			return;
@@ -25,10 +24,6 @@ public class AudioManager : MonoBehaviour {
 		else {
 			m_instance = this;
 			m_instance.name = "AudioManager";
-
-			// audio = gameObject.AddComponent<AudioSource>();
-			// sfx = gameObject.AddComponent<AudioSource>();
-			// sfx.playOnAwake = false;
 			sfx = new AudioSource[MAX_FXSOURCES];
 			InitAudioSources();
 			playOnce = false;
@@ -39,6 +34,7 @@ public class AudioManager : MonoBehaviour {
 			}
 		}
 	}
+	
 	void Update () {
 		if (!AudioBegin){
 			music.Play();
