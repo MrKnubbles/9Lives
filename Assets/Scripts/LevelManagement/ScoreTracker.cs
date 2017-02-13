@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using System;
 
 public class ScoreTracker : MonoBehaviour {
+	//TODO: Use less variables to display score information.
 	public int levelScore;
 	public float time;
 	public float maxTime = 120f;
@@ -18,6 +19,7 @@ public class ScoreTracker : MonoBehaviour {
 	public Text levelScoreText;
 	public Text loseLivesText;
 	public Text loseTimeText;
+	public Text loseScoreText;
 	public GameObject star1;
 	public GameObject star2;
 	public GameObject star3;
@@ -29,6 +31,8 @@ public class ScoreTracker : MonoBehaviour {
 	private LevelManager levelManager;
 	private Scene scene;
 	private AudioManager audioManager;
+	private bool triggerOnce = false;
+	private int coinScoreValue = 25;
 	
 	void Awake(){
 		levelManager = LevelManager.Instance;
@@ -53,9 +57,9 @@ public class ScoreTracker : MonoBehaviour {
 		levelNumberText.text = worldNumber + "-" + levelNumber;
 		audioManager = AudioManager.Instance;
 		time = maxTime;
+		triggerOnce = false;
 	}
 
-	// Update is called once per frame
 	void Update () {
 		if (gameManager.isGameStarted && !gameManager.isGameOver && !gameManager.isLevelComplete){
 			if (time <= 0){
@@ -68,17 +72,26 @@ public class ScoreTracker : MonoBehaviour {
 			livesText.text = "x " + player.lives;
 			if (time >= 0){
 				timeText.text = "" + GetTime();
+				//TODO: Update score in live time to display on the score bar.
+				// scoreText.text = "" + GetScore();
 			}
 		}
-		else if (gameManager.isLevelComplete){
+		else if (gameManager.isLevelComplete && !triggerOnce){
+			int coinScore = gameManager.tempCoinCounter * coinScoreValue;
+			gameManager.coinCounter += (gameManager.tempCoinCounter * Int32.Parse(scene.name));
+			gameManager.tempCoinCounter = 0;
+			PlayerPrefs.SetInt("Coins", gameManager.coinCounter);
 			timeText.text = "" + GetTime();
 			livesText.text = "" + player.lives;
-			score = GetTime() * player.lives;
+			score = (GetTime() * player.lives) + coinScore;
 			LevelComplete();
 		}
-		else if (gameManager.isGameOver){
-			loseTimeText.text = "" + GetTime();
-			loseLivesText.text = "" + player.lives;
+		else if (gameManager.isGameOver && !triggerOnce){
+			int coinScore = gameManager.tempCoinCounter * coinScoreValue;
+			gameManager.tempCoinCounter = 0;
+			timeText.text = "" + GetTime();
+			livesText.text = "" + player.lives;
+			score = coinScore;
 			GameOver();
 		}
 	}
@@ -100,15 +113,16 @@ public class ScoreTracker : MonoBehaviour {
 		if (score > 0){
 			star1.SetActive(true);
 		}
-		if (score >= 350){
+		if (score >= 400){
 			star2.SetActive(true);
 		}
-		if (score >= 700){
+		if (score >= 800){
 			star3.SetActive(true);
 		}
 		CalculateScore();
 		levelManager.UnlockLevel(levelNumber);
 		Screen.sleepTimeout = SleepTimeout.SystemSetting;
+		triggerOnce = true;
 	}
 
 	void GameOver(){
@@ -118,11 +132,15 @@ public class ScoreTracker : MonoBehaviour {
 		pauseButton.SetActive(false);
 		CalculateScore();
 		Screen.sleepTimeout = SleepTimeout.SystemSetting;
+		triggerOnce = true;
 	}
 
 	void CalculateScore(){
 		levelLivesText.text = "" + livesText.text;
 		levelTimeText.text = "" + timeText.text;
 		levelScoreText.text = "" + score;
+		loseLivesText.text = "" + livesText.text;
+		loseTimeText.text = "" + timeText.text;
+		loseScoreText.text = "" + score;
 	}
 }
