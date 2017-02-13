@@ -121,9 +121,6 @@ public class LevelManager : MonoBehaviour {
 			playerLevel++;
 			PlayerPrefs.SetInt("PlayerLevel", playerLevel);
 		}
-		gameManager.coinCounter += gameManager.tempCoinCounter;
-		gameManager.tempCoinCounter = 0;
-		PlayerPrefs.SetInt("Coins", gameManager.coinCounter);
 		playOnceMain = false;
 		playOnceLevel = false;
 	}
