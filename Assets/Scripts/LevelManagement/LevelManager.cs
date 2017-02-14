@@ -77,6 +77,7 @@ public class LevelManager : MonoBehaviour {
 			levelPages[4] = HUD.transform.Find("LevelSelectScreen/World2/Page2").gameObject;
 			levelPages[5] = HUD.transform.Find("LevelSelectScreen/World2/Page3").gameObject;
 			GameObject.Find("LevelSelectScreen").gameObject.SetActive(false);
+			GameObject.Find("WorldSelectScreen").gameObject.SetActive(false);
 
 			// Sets the player to level 1 the first time they play.
 			if (PlayerPrefs.GetInt("PlayerLevel") <= 0){
@@ -100,9 +101,11 @@ public class LevelManager : MonoBehaviour {
 			lockedLevelScript.FindLevels();
 			lockedLevelScript.CheckUnlockedLevels();
 			starManager.SetStarsForCompletedLevels();
+			starManager.SetWorldStars();
 
 			if (starManager.starCounter >= 100 && playerLevel >= 46){
 				nextWorldButtons[0].SetActive(true);
+				//TODO: Remove lock on World 2 button.
 			}
 
 			playOnceMain = true;

@@ -78,9 +78,11 @@ public class ScoreTracker : MonoBehaviour {
 		}
 		else if (gameManager.isLevelComplete && !triggerOnce){
 			int coinScore = gameManager.tempCoinCounter * coinScoreValue;
-			gameManager.coinCounter += (gameManager.tempCoinCounter * Int32.Parse(scene.name));
+			//gameManager.coinCounter += (gameManager.tempCoinCounter * Int32.Parse(scene.name));
+			gameManager.coinCounter += (gameManager.tempCoinCounter);
 			gameManager.tempCoinCounter = 0;
-			PlayerPrefs.SetInt("Coins", gameManager.coinCounter);
+			int tempPlayerCoins = PlayerPrefs.GetInt("Coins");
+			PlayerPrefs.SetInt("Coins", tempPlayerCoins += gameManager.coinCounter);
 			timeText.text = "" + GetTime();
 			livesText.text = "" + player.lives;
 			score = (GetTime() * player.lives) + coinScore;
