@@ -139,9 +139,12 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	public void ShowLevelSelect(int worldNumber){
+		HideWorlds();
 		levelSelectScreen.SetActive(true);
 		levelScreens[worldNumber - 1].SetActive(true);
 		mainMenuScreen.SetActive(false);
+		HidePages();
+		ShowPage(1);
 	}
 
 	public void ShowWorldSelect(){
