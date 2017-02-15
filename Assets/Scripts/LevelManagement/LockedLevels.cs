@@ -41,19 +41,19 @@ public class LockedLevels : MonoBehaviour {
 	public void CheckUnlockedLevels(){
 		// Checks the scores for each level then unlocks whichever levels the player has already unlocked.
 		if (PlayerPrefs.GetInt("World1PlayerLevel") >= 1){
-			for (int i = 0; i < levelManager.world1MaxLevels; i++){
+			for (int i = 0; i < PlayerPrefs.GetInt("World1PlayerLevel"); i++){
 				levelManager.levelButtons[i].transform.GetChild(1).gameObject.SetActive(false);
 				levelManager.levelButtons[i].transform.GetChild(2).gameObject.SetActive(true);
 			}
 		}
 		if (PlayerPrefs.GetInt("World2PlayerLevel") >= 1){
-			for (int i = 0; i < levelManager.world2MaxLevels; i++){
+			for (int i = 0; i < levelManager.world2PlayerLevel; i++){
 				levelManager.levelButtons[i+45].transform.GetChild(1).gameObject.SetActive(false);
 				levelManager.levelButtons[i+45].transform.GetChild(2).gameObject.SetActive(true);
 			}
 		}
 		if (PlayerPrefs.GetInt("World3PlayerLevel") >= 1){
-			for (int i = 0; i < levelManager.world3MaxLevels; i++){
+			for (int i = 0; i < levelManager.world3PlayerLevel; i++){
 				levelManager.levelButtons[i+90].transform.GetChild(1).gameObject.SetActive(false);
 				levelManager.levelButtons[i+90].transform.GetChild(2).gameObject.SetActive(true);
 			}
