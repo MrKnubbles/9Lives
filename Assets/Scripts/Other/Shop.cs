@@ -24,8 +24,34 @@ public class Shop : MonoBehaviour {
 	private Vector3 othPos;
 	// Player's money
 	public Text goldText;
+	// Confirmation window.
+	public GameObject confirmationWindow;
 
 	void Start(){
+		goldText.text = PlayerPrefs.GetInt("Coins").ToString();
+	}
+
+	public void PurchaseItem(string itemName){
+		string itemCost = GameObject.Find(""+itemName).transform.GetChild(3).GetComponent<Text>().text;
+		confirmationWindow.SetActive(true);
+		confirmationWindow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure you want to purchase " + itemName + " for " + itemCost + "?";
+	}
+
+	public void AcceptPurchase(){
+		int itemCost = 0;
+		string itemName = "";
+		//TODO: Purchase specific item for specific amount.
+		PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") - itemCost);
+		PlayerPrefs.SetInt("" + itemName, 1);
+		confirmationWindow.SetActive(false);
+		UpdateItemAvailability();
+	}
+
+	public void CancelPurchase(){
+		confirmationWindow.SetActive(false);
+	}
+
+	private void UpdateItemAvailability(){
 		goldText.text = PlayerPrefs.GetInt("Coins").ToString();
 	}
 
