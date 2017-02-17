@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class Shop : MonoBehaviour {
 	// GameObjects that contains all the items for each category.
@@ -26,25 +27,36 @@ public class Shop : MonoBehaviour {
 	public Text goldText;
 	// Confirmation window.
 	public GameObject confirmationWindow;
+	// Item being bought with cost.
+	private string selectedItem;
+	private int selectedCost;
 
 	void Start(){
 		goldText.text = PlayerPrefs.GetInt("Coins").ToString();
 	}
 
 	public void PurchaseItem(string itemName){
-		string itemCost = GameObject.Find(""+itemName).transform.GetChild(3).GetComponent<Text>().text;
+		//string itemCost = GameObject.Find(""+itemName).transform.GetChild(3).GetComponent<Text>().text;
+		selectedItem = itemName;
+		print("item = " + selectedItem);
+		selectedCost = Int32.Parse(GameObject.Find("" + selectedItem).transform.GetChild(3).GetComponent<Text>().text);
 		confirmationWindow.SetActive(true);
-		confirmationWindow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure you want to purchase " + itemName + " for " + itemCost + "?";
+		confirmationWindow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure you want to purchase " + selectedItem + " for " + selectedCost + "?";
 	}
 
 	public void AcceptPurchase(){
-		int itemCost = 0;
-		string itemName = "";
+		// int itemCost = 0;
+		//string itemName = "";
 		//TODO: Purchase specific item for specific amount.
-		PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") - itemCost);
-		PlayerPrefs.SetInt("" + itemName, 1);
+		PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") - selectedCost);
+		PlayerPrefs.SetInt("" + selectedItem, 1);
+		PlayerPrefs.SetString("ActiveChar", "" + selectedItem);
 		confirmationWindow.SetActive(false);
 		UpdateItemAvailability();
+	}
+
+	public void SelectChar(string itemName){
+		PlayerPrefs.SetString("ActiveChar", "" + itemName);
 	}
 
 	public void CancelPurchase(){

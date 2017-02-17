@@ -12,6 +12,7 @@ public class LoadLevel : MonoBehaviour {
 	public GameObject pauseMenuScreen;
 	public GameObject optionsMenuScreen;
 	public GameObject creditsScreen;
+	public GameObject devOptionsScreen;
 	public GameObject shopScreen;
 	public GameObject musicMuted;
 	public GameObject soundMuted;
@@ -147,25 +148,35 @@ public class LoadLevel : MonoBehaviour {
 		ShowPage(1);
 	}
 
+	public void ShowDevOptions(){
+		DisableAllScreens();
+		devOptionsScreen.SetActive(true);
+	}
+
 	public void ShowWorldSelect(){
+		DisableAllScreens();
 		worldSelectScreen.SetActive(true);
-		levelSelectScreen.SetActive(false);
-		mainMenuScreen.SetActive(false);
 	}
 
 	public void ShowControls(){
+		DisableAllScreens();
 		controlsScreen.SetActive(true);
-		mainMenuScreen.SetActive(false);
 	}
 
 	public void BackButton(){
+		DisableAllScreens();
+		mainMenuScreen.SetActive(true);
+	}
+
+	private void DisableAllScreens(){
 		levelSelectScreen.SetActive(false);
 		worldSelectScreen.SetActive(false);
 		controlsScreen.SetActive(false);
 		optionsMenuScreen.SetActive(false);
 		creditsScreen.SetActive(false);
 		shopScreen.SetActive(false);
-		mainMenuScreen.SetActive(true);
+		devOptionsScreen.SetActive(false);
+		mainMenuScreen.SetActive(false);
 	}
 
 	public void QuitGame(){
@@ -207,18 +218,18 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	public void ShowOptions(){
+		DisableAllScreens();
 		optionsMenuScreen.SetActive(true);
-		mainMenuScreen.SetActive(false);
 	}
 
 	public void ShowStore(){
+		DisableAllScreens();
 		shopScreen.SetActive(true);
-		mainMenuScreen.SetActive(false);
 		shopScreen.GetComponent<Shop>().SetDefaultShopState();
 	}
 
 	public void ShowCredits(){
-		optionsMenuScreen.SetActive(false);
+		DisableAllScreens();
 		creditsScreen.SetActive(true);
 	}
 
