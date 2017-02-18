@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
-public class Item : MonoBehaviour {
+public class ItemCharacter : MonoBehaviour {
 	private int goldCost;
 	private int playerGold;
 	private string activeChar;

@@ -31,4 +31,9 @@ public class DeveloperOptions : MonoBehaviour {
 		PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") + 500);
 		print("Coins = " + PlayerPrefs.GetInt("Coins"));
 	}
+
+	public void AddGems(){
+		PlayerPrefs.SetInt("Gems", PlayerPrefs.GetInt("Gems") + 5);
+		print("Gems = " + PlayerPrefs.GetInt("Gems"));
+	}
 }

@@ -25,34 +25,58 @@ public class Shop : MonoBehaviour {
 	private Vector3 othPos;
 	// Player's money
 	public Text goldText;
+	public Text gemsText;
 	// Confirmation window.
 	public GameObject confirmationWindow;
-	// Item being bought with cost.
+	// Info of item being purchased.
 	private string selectedItem;
 	private int selectedCost;
+	private int selectedValue;
 
 	void Start(){
 		goldText.text = PlayerPrefs.GetInt("Coins").ToString();
+		gemsText.text = PlayerPrefs.GetInt("Gems").ToString();
 	}
 
 	public void PurchaseItem(string itemName){
-		//string itemCost = GameObject.Find(""+itemName).transform.GetChild(3).GetComponent<Text>().text;
 		selectedItem = itemName;
-		print("item = " + selectedItem);
-		selectedCost = Int32.Parse(GameObject.Find("" + selectedItem).transform.GetChild(3).GetComponent<Text>().text);
+		if (selectedItem == "Gems"){
+			string selectedCashCost = GameObject.Find("" + selectedItem).transform.GetChild(3).GetComponent<Text>().text;
+			selectedValue = Int32.Parse(GameObject.Find("" + selectedItem).transform.GetChild(6).GetComponent<Text>().text);
+			confirmationWindow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure you want to purchase " + selectedValue + " " + selectedItem + " for " + selectedCashCost + "?";
+		}
+		else if (selectedItem == "Gold"){
+			selectedCost = Int32.Parse(GameObject.Find("" + selectedItem).transform.GetChild(3).GetComponent<Text>().text);
+			selectedValue = Int32.Parse(GameObject.Find("" + selectedItem).transform.GetChild(6).GetComponent<Text>().text);
+			confirmationWindow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure you want to purchase " + selectedValue + " " + selectedItem + " for " + selectedCost + " Gems?";
+		}
+		else{
+			selectedCost = Int32.Parse(GameObject.Find("" + selectedItem).transform.GetChild(3).GetComponent<Text>().text);
+			confirmationWindow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure you want to purchase " + selectedItem + " for " + selectedCost + " Gold?";
+		}
 		confirmationWindow.SetActive(true);
-		confirmationWindow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure you want to purchase " + selectedItem + " for " + selectedCost + "?";
 	}
 
 	public void AcceptPurchase(){
-		// int itemCost = 0;
-		//string itemName = "";
-		//TODO: Purchase specific item for specific amount.
-		PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") - selectedCost);
-		PlayerPrefs.SetInt("" + selectedItem, 1);
-		PlayerPrefs.SetString("ActiveChar", "" + selectedItem);
+		if (selectedItem == "Gems"){
+			//TODO: Set up cash purchase here.
+		}
+		else if (selectedItem == "Gold"){
+			PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") + selectedValue);
+			PlayerPrefs.SetInt("Gems", PlayerPrefs.GetInt("Gems") - selectedCost);
+		}
+		else {
+			PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") - selectedCost);
+			PlayerPrefs.SetInt("" + selectedItem, 1);
+			SelectChar(selectedItem);
+		}
 		confirmationWindow.SetActive(false);
 		UpdateItemAvailability();
+	}
+
+	public void JumpToGemPurchase(){
+		OtherButton();
+		PurchaseItem("Gems");
 	}
 
 	public void SelectChar(string itemName){
