@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System;
+using UnityEngine.UI;
 
 public class LoadLevel : MonoBehaviour {
 	public Player player;
@@ -17,13 +19,7 @@ public class LoadLevel : MonoBehaviour {
 	public GameObject musicMuted;
 	public GameObject soundMuted;
 	public GameObject pauseButton;
-	public GameObject page1;
-	public GameObject page2;
-	public GameObject page3;
-	// public AudioSource music;
-	// public AudioSource sound;
 	public GameManager gameManager;
-	public GameObject gameMan;
 	public LevelManager levelManager;
 	public GameObject HUD;
 	public float currentLevel;
@@ -31,6 +27,7 @@ public class LoadLevel : MonoBehaviour {
 	public string nextLevelName;
 	public UnityAds unityAds;
 	private AudioManager audioManager;
+	public ScoreTracker scoreTracker;
 
 	void Start(){
 		Time.timeScale = 1;
@@ -45,8 +42,9 @@ public class LoadLevel : MonoBehaviour {
 			soundMuted = HUD.transform.Find("Pause Menu/MuteSoundButton/SoundMuted").gameObject;
 			pauseButton = HUD.transform.Find("ControllerBar/PauseButton").gameObject;
 			pauseMenuScreen = HUD.transform.Find("Pause Menu").gameObject;
-			gameMan = GameObject.Find("GameManager");
-			gameManager = gameMan.GetComponent<GameManager>();
+			gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+			scoreTracker = HUD.GetComponent<ScoreTracker>();
+			//gameManager = gameMan.GetComponent<GameManager>();
 			currentLevel = float.Parse(SceneManager.GetActiveScene().name);
 			currentLevelName = "" + currentLevel;
 			nextLevelName = "" + (currentLevel + 1);
@@ -197,24 +195,10 @@ public class LoadLevel : MonoBehaviour {
 
 	public void MuteMusic(){
 		audioManager.MuteMusic();
-
-		// if (musicMuted.activeSelf){
-		// 	musicMuted.SetActive(false);
-		// }
-		// else{
-		// 	musicMuted.SetActive(true);
-		// }
 	}
 
 	public void MuteSound(){
 		audioManager.MuteSFX();
-
-		// if (soundMuted.activeSelf){
-		// 	soundMuted.SetActive(false);
-		// }
-		// else{
-		// 	soundMuted.SetActive(true);
-		// }
 	}
 
 	public void ShowOptions(){
@@ -226,6 +210,35 @@ public class LoadLevel : MonoBehaviour {
 		DisableAllScreens();
 		shopScreen.SetActive(true);
 		shopScreen.GetComponent<Shop>().SetDefaultShopState();
+	}
+
+	public void ShowSkipLevel(){
+		scoreTracker.skipLevelConfirmation.SetActive(true);
+		scoreTracker.levelOverScreen.SetActive(false);
+		scoreTracker.skipLevelText.GetComponent<Text>().text = "Are you sure you want to use (1) Skip to skip this level?\n\nYou will have (" + (PlayerPrefs.GetInt("Skip") - 1) + ") Skips remaining.";
+	}
+
+	public void ConfirmSkipLevel(){
+		SkipLevel();
+	}
+
+	public void CloseSkipLevel(){
+		scoreTracker.levelOverScreen.SetActive(true);
+		scoreTracker.skipLevelConfirmation.SetActive(false);
+	}
+
+	private void SkipLevel(){
+		if (Int32.Parse(SceneManager.GetActiveScene().name) <= 44){
+			PlayerPrefs.SetInt("World1PlayerLevel", PlayerPrefs.GetInt("World1PlayerLevel") + 1);
+		}
+		else if (Int32.Parse(SceneManager.GetActiveScene().name) >= 46 && Int32.Parse(SceneManager.GetActiveScene().name) <= 89){
+			PlayerPrefs.SetInt("World2PlayerLevel", PlayerPrefs.GetInt("World2PlayerLevel") + 1);
+		}
+		else if (Int32.Parse(SceneManager.GetActiveScene().name) >= 91 && Int32.Parse(SceneManager.GetActiveScene().name) <= 134){
+			PlayerPrefs.SetInt("World3PlayerLevel", PlayerPrefs.GetInt("World3PlayerLevel") + 1);
+		}
+		PlayerPrefs.SetInt("Skip", PlayerPrefs.GetInt("Skip") - 1);
+		LoadNextLevel();
 	}
 
 	public void ShowCredits(){

@@ -67,7 +67,7 @@ public class Shop : MonoBehaviour {
 		}
 		else {
 			PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") - selectedCost);
-			PlayerPrefs.SetInt("" + selectedItem, 1);
+			PlayerPrefs.SetInt("" + selectedItem, PlayerPrefs.GetInt("" + selectedItem) + 1);
 			SelectChar(selectedItem);
 		}
 		confirmationWindow.SetActive(false);
