@@ -20,9 +20,9 @@ public class LevelManager : MonoBehaviour {
 	public GameManager gameManager;
 	// Used to track what levels the player has unlocked in each world.
 	//private int playerLevel = 0;
-	private int world1PlayerLevel = 0;
-	private int world2PlayerLevel = 0;
-	private int world3PlayerLevel = 0;
+	public int world1PlayerLevel = 0;
+	public int world2PlayerLevel = 0;
+	public int world3PlayerLevel = 0;
 	public GameObject HUD;
 	public int levelsPerPage = 15;
 	public GameObject pageTracker;
@@ -104,9 +104,9 @@ public class LevelManager : MonoBehaviour {
 			}
 
 			starManager = HUD.transform.Find("LevelSelectScreen").gameObject.GetComponent<StarManager>();
-			world1MaxLevels = PlayerPrefs.GetInt("World1PlayerLevel");
-			world2MaxLevels = PlayerPrefs.GetInt("World2PlayerLevel");
-			world3MaxLevels = PlayerPrefs.GetInt("World3PlayerLevel");
+			// world1MaxLevels = PlayerPrefs.GetInt("World1PlayerLevel");
+			// world2MaxLevels = PlayerPrefs.GetInt("World2PlayerLevel");
+			// world3MaxLevels = PlayerPrefs.GetInt("World3PlayerLevel");
 			lockedLevelScript.FindLevels();
 			lockedLevelScript.CheckUnlockedLevels();
 			starManager.SetStarsForCompletedLevels();

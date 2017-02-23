@@ -4,35 +4,37 @@ using UnityEngine.SceneManagement;
 using System;
 
 public class ScoreTracker : MonoBehaviour {
-	//TODO: Use less variables to display score information.
-	public int levelScore;
+	// Managers
+	private GameManager gameManager;
+	private LevelManager levelManager;
+	private AudioManager audioManager;
+	// HUD info
 	public float time;
 	public float maxTime = 120f;
 	public float score;
+	private int coinScoreValue = 25;
 	private int worldNumber;
 	private int levelNumber;
+	public Text levelNumberText;
+	public GameObject pauseButton;
+	// Level Over info
 	public Text livesText;
 	public Text timeText;
-	public Text levelNumberText;
 	public Text levelLivesText;
 	public Text levelTimeText;
 	public Text levelScoreText;
-	public Text loseLivesText;
-	public Text loseTimeText;
-	public Text loseScoreText;
-	public GameObject star1;
-	public GameObject star2;
-	public GameObject star3;
+	public GameObject levelOverScreen;
 	public GameObject levelCompleteScreen;
 	public GameObject gameOverScreen;
-	public GameObject pauseButton;
-	private GameManager gameManager;
-	private Player player;
-	private LevelManager levelManager;
+	public GameObject skipLevelButton;
+	public GameObject skipLevelConfirmation;
+	public GameObject skipLevelText;
+	public GameObject nextLevelButton;
+	public GameObject[] stars = new GameObject[3];
+	// Other
 	private Scene scene;
-	private AudioManager audioManager;
+	private Player player;
 	private bool triggerOnce = false;
-	private int coinScoreValue = 25;
 	
 	void Awake(){
 		levelManager = LevelManager.Instance;
@@ -53,6 +55,9 @@ public class ScoreTracker : MonoBehaviour {
 		}
 		else if (levelNumber >= 46 && levelNumber <= 90){
 			worldNumber = 2;
+		}
+		else if (levelNumber >= 91 && levelNumber <= 135){
+			worldNumber = 3;
 		}
 		levelNumberText.text = worldNumber + "-" + levelNumber;
 		audioManager = AudioManager.Instance;
@@ -107,20 +112,22 @@ public class ScoreTracker : MonoBehaviour {
 	}
 
 	void LevelComplete(){
+		levelOverScreen.SetActive(true);
 		levelCompleteScreen.SetActive(true);
 		pauseButton.SetActive(false);
 		Time.timeScale = 0;
 		audioManager.StopSFX();
 
 		if (score > 0){
-			star1.SetActive(true);
+			stars[0].SetActive(true);
 		}
-		if (score >= 400){
-			star2.SetActive(true);
+		if (score >= 450){
+			stars[1].SetActive(true);
 		}
-		if (score >= 800){
-			star3.SetActive(true);
+		if (score >= 900){
+			stars[2].SetActive(true);
 		}
+		nextLevelButton.SetActive(true);
 		CalculateScore();
 		levelManager.UnlockLevel(levelNumber);
 		Screen.sleepTimeout = SleepTimeout.SystemSetting;
@@ -128,8 +135,10 @@ public class ScoreTracker : MonoBehaviour {
 	}
 
 	void GameOver(){
+		CheckIfLevelCanBeSkipped();
 		Time.timeScale = 0;
 		audioManager.StopSFX();
+		levelOverScreen.SetActive(true);
 		gameOverScreen.SetActive(true);
 		pauseButton.SetActive(false);
 		CalculateScore();
@@ -141,8 +150,31 @@ public class ScoreTracker : MonoBehaviour {
 		levelLivesText.text = "" + livesText.text;
 		levelTimeText.text = "" + timeText.text;
 		levelScoreText.text = "" + score;
-		loseLivesText.text = "" + livesText.text;
-		loseTimeText.text = "" + timeText.text;
-		loseScoreText.text = "" + score;
+	}
+
+	private void CheckIfLevelCanBeSkipped(){
+		// If Player has Skips, current level is the latest unlocked level and current level isn't the last level in a world, then show SkipLevelButton.
+		if (PlayerPrefs.GetInt("Skip") > 0){
+			if (PlayerPrefs.GetInt("World1PlayerLevel") <= Int32.Parse(SceneManager.GetActiveScene().name) && Int32.Parse(SceneManager.GetActiveScene().name) != 45){
+				skipLevelButton.SetActive(true);
+			}
+			else if (PlayerPrefs.GetInt("World2PlayerLevel") <= Int32.Parse(SceneManager.GetActiveScene().name) && Int32.Parse(SceneManager.GetActiveScene().name) > 45 && Int32.Parse(SceneManager.GetActiveScene().name) != 90){
+				skipLevelButton.SetActive(true);
+			}
+			else if (PlayerPrefs.GetInt("World3PlayerLevel") <= Int32.Parse(SceneManager.GetActiveScene().name) && Int32.Parse(SceneManager.GetActiveScene().name) > 90 && Int32.Parse(SceneManager.GetActiveScene().name) != 135){
+				skipLevelButton.SetActive(true);
+			}
+		}
+		
+		// If Player has previously beaten the current level, then show NextLevelButton.
+		if (PlayerPrefs.GetInt("World1PlayerLevel") > Int32.Parse(SceneManager.GetActiveScene().name) && Int32.Parse(SceneManager.GetActiveScene().name) <= 45){
+			nextLevelButton.SetActive(true);
+		}
+		else if (PlayerPrefs.GetInt("World2PlayerLevel") > Int32.Parse(SceneManager.GetActiveScene().name) && Int32.Parse(SceneManager.GetActiveScene().name) > 45 && Int32.Parse(SceneManager.GetActiveScene().name) <= 90){
+			nextLevelButton.SetActive(true);
+		}
+		else if (PlayerPrefs.GetInt("World3PlayerLevel") > Int32.Parse(SceneManager.GetActiveScene().name) && Int32.Parse(SceneManager.GetActiveScene().name) > 90 && Int32.Parse(SceneManager.GetActiveScene().name) <= 135){
+			nextLevelButton.SetActive(true);
+		}
 	}
 }
