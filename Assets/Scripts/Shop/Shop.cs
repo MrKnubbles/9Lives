@@ -43,10 +43,14 @@ public class Shop : MonoBehaviour {
 	public void PurchaseItem(string itemName){
 		selectedItem = itemName;
 		// Cash purchases
-		if (selectedItem == "Gems" || selectedItem == "RemoveAds"){
+		if (selectedItem == "Gems"){
 			string selectedCashCost = GameObject.Find("" + selectedItem).transform.GetChild(3).GetComponent<Text>().text;
 			selectedValue = Int32.Parse(GameObject.Find("" + selectedItem).transform.GetChild(6).GetComponent<Text>().text);
 			confirmationWindow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure you want to purchase " + selectedValue + " " + selectedItem + " for " + selectedCashCost + "?";
+		}
+		else if (selectedItem == "RemoveAds"){
+			string selectedCashCost = GameObject.Find("" + selectedItem).transform.GetChild(3).GetComponent<Text>().text;
+			confirmationWindow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure you want to remove Ads for " + selectedCashCost + "?";
 		}
 		// Gem purchases
 		else if (selectedItem == "Gold"){

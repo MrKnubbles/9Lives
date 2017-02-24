@@ -41,6 +41,17 @@ public class ItemOther : MonoBehaviour {
 		else if (!cashOnly){
 			SetAsLocked();
 		}
+
+		CheckNonConsumablePurchases();
+	}
+
+	// Removes all Non-Consumables products from the list of available items.
+	private void CheckNonConsumablePurchases(){
+		if (PlayerPrefs.GetInt("RemoveAds") == 1){
+			if (this.name == "RemoveAds"){
+				this.gameObject.SetActive(false);
+			}
+		}
 	}
 
 	private void CheckForUpdate(){
