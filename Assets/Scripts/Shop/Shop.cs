@@ -32,24 +32,29 @@ public class Shop : MonoBehaviour {
 	private string selectedItem;
 	private int selectedCost;
 	private int selectedValue;
+	private Purchaser purchaser;
 
 	void Start(){
 		goldText.text = PlayerPrefs.GetInt("Coins").ToString();
 		gemsText.text = PlayerPrefs.GetInt("Gems").ToString();
+		purchaser = GetComponent<Purchaser>();
 	}
 
 	public void PurchaseItem(string itemName){
 		selectedItem = itemName;
-		if (selectedItem == "Gems"){
+		// Cash purchases
+		if (selectedItem == "Gems" || selectedItem == "RemoveAds"){
 			string selectedCashCost = GameObject.Find("" + selectedItem).transform.GetChild(3).GetComponent<Text>().text;
 			selectedValue = Int32.Parse(GameObject.Find("" + selectedItem).transform.GetChild(6).GetComponent<Text>().text);
 			confirmationWindow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure you want to purchase " + selectedValue + " " + selectedItem + " for " + selectedCashCost + "?";
 		}
+		// Gem purchases
 		else if (selectedItem == "Gold"){
 			selectedCost = Int32.Parse(GameObject.Find("" + selectedItem).transform.GetChild(3).GetComponent<Text>().text);
 			selectedValue = Int32.Parse(GameObject.Find("" + selectedItem).transform.GetChild(6).GetComponent<Text>().text);
 			confirmationWindow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure you want to purchase " + selectedValue + " " + selectedItem + " for " + selectedCost + " Gems?";
 		}
+		// Gold purchases
 		else{
 			selectedCost = Int32.Parse(GameObject.Find("" + selectedItem).transform.GetChild(3).GetComponent<Text>().text);
 			confirmationWindow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure you want to purchase " + selectedItem + " for " + selectedCost + " Gold?";
@@ -59,7 +64,10 @@ public class Shop : MonoBehaviour {
 
 	public void AcceptPurchase(){
 		if (selectedItem == "Gems"){
-			//TODO: Set up cash purchase here.
+			purchaser.Buy5Gems();
+		}
+		if (selectedItem == "RemoveAds"){
+			purchaser.BuyRemoveAds();
 		}
 		else if (selectedItem == "Gold"){
 			PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") + selectedValue);
@@ -89,6 +97,7 @@ public class Shop : MonoBehaviour {
 
 	private void UpdateItemAvailability(){
 		goldText.text = PlayerPrefs.GetInt("Coins").ToString();
+		gemsText.text = PlayerPrefs.GetInt("Gems").ToString();
 	}
 
 	public void SetDefaultShopState(){
