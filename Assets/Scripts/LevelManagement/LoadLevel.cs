@@ -99,10 +99,12 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	public void LoadNextLevel(){
-		levelManager.levelCounter++;
-		if (levelManager.levelCounter >= 5){
-			unityAds.ShowAd("next");
-			levelManager.levelCounter = 0;
+		if (PlayerPrefs.GetInt("RemoveAds") != 1){
+			PlayerPrefs.SetInt("LevelAdCounter", PlayerPrefs.GetInt("LevelAdCounter") + 1);
+			if (PlayerPrefs.GetInt("LevelAdCounter") >= 5){
+				unityAds.ShowAd("next");
+				PlayerPrefs.SetInt("LevelAdCounter", 0);
+			}
 		}
 		else{
 			Time.timeScale = 1;
@@ -118,10 +120,12 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	public void ReplayLevel(){
-		levelManager.replayCounter++;
-		if (levelManager.replayCounter >= 3){
-			unityAds.ShowAd("restart");
-			levelManager.replayCounter = 0;
+		if (PlayerPrefs.GetInt("RemoveAds") != 1){
+			levelManager.replayCounter++;
+			if (levelManager.replayCounter >= 3){
+				unityAds.ShowAd("restart");
+				levelManager.replayCounter = 0;
+			}
 		}
 		else{
 			Time.timeScale = 1;
