@@ -12,18 +12,23 @@ public class LevelManager : MonoBehaviour {
 	public int replayCounter = 0;
 	public int levelCounter = 0;
 	// To control which levels the player has unlocked.
-	public int maxLevels;
+	public int world1MaxLevels;
+	public int world2MaxLevels;
+	public int world3MaxLevels;
 	public LockedLevels lockedLevelScript;
 	public StarManager starManager;
 	public GameManager gameManager;
-	private int playerLevel = 0;
+	// Used to track what levels the player has unlocked in each world.
+	//private int playerLevel = 0;
+	public int world1PlayerLevel = 0;
+	public int world2PlayerLevel = 0;
+	public int world3PlayerLevel = 0;
 	public GameObject HUD;
 	public int levelsPerPage = 15;
-	public int worldNumber;
 	public GameObject pageTracker;
 	public GameObject[] levelPages = new GameObject[6];
 	public GameObject[] levelButtons;
-	public GameObject[] worlds = new GameObject[2];
+	public GameObject[] worlds = new GameObject[3];
 	public GameObject[] nextWorldButtons = new GameObject[2];
 
 	void Awake(){
@@ -66,8 +71,7 @@ public class LevelManager : MonoBehaviour {
 			HUD = GameObject.Find("HUD");
 			worlds[0] = HUD.transform.Find("LevelSelectScreen/World1").gameObject;
 			worlds[1] = HUD.transform.Find("LevelSelectScreen/World2").gameObject;
-			nextWorldButtons[0] = worlds[0].transform.Find("NextWorldButton").gameObject;
-			nextWorldButtons[1] = worlds[1].transform.Find("NextWorldButton").gameObject;
+			worlds[2] = HUD.transform.Find("LevelSelectScreen/World3").gameObject;
 			pageTracker = HUD.transform.Find("LevelSelectScreen/PageTracker").gameObject;
 			lockedLevelScript = HUD.transform.Find("LevelSelectScreen").gameObject.GetComponent<LockedLevels>();
 			levelPages[0] = HUD.transform.Find("LevelSelectScreen/World1/Page1").gameObject;
@@ -77,18 +81,22 @@ public class LevelManager : MonoBehaviour {
 			levelPages[4] = HUD.transform.Find("LevelSelectScreen/World2/Page2").gameObject;
 			levelPages[5] = HUD.transform.Find("LevelSelectScreen/World2/Page3").gameObject;
 			GameObject.Find("LevelSelectScreen").gameObject.SetActive(false);
+			GameObject.Find("WorldSelectScreen").gameObject.SetActive(false);
 
 			// Sets the player to level 1 the first time they play.
-			if (PlayerPrefs.GetInt("PlayerLevel") <= 0){
-				PlayerPrefs.SetInt("PlayerLevel", 1);
+			if (PlayerPrefs.GetInt("World1PlayerLevel") <= 0){
+				PlayerPrefs.SetInt("World1PlayerLevel", 1);
+				PlayerPrefs.SetInt("World2PlayerLevel", 0);
+				PlayerPrefs.SetInt("World3PlayerLevel", 0);
 				PlayerPrefs.SetInt("MusicMuted", 1);
 				PlayerPrefs.SetInt("SFXMuted", 1);
 				PlayerPrefs.SetInt("StarsCollected", 0);
 				PlayerPrefs.SetInt("Coins", 0);
-				worldNumber = 1;
 			}
 			else{
-				playerLevel = PlayerPrefs.GetInt("PlayerLevel");
+				world1PlayerLevel = PlayerPrefs.GetInt("World1PlayerLevel");
+				world2PlayerLevel = PlayerPrefs.GetInt("World2PlayerLevel");
+				world3PlayerLevel = PlayerPrefs.GetInt("World3PlayerLevel");
 				PlayerPrefs.GetInt("MusicMuted");
 				PlayerPrefs.GetInt("SFXMuted");
 				PlayerPrefs.GetInt("StarsCollected");
@@ -96,14 +104,13 @@ public class LevelManager : MonoBehaviour {
 			}
 
 			starManager = HUD.transform.Find("LevelSelectScreen").gameObject.GetComponent<StarManager>();
-			maxLevels = PlayerPrefs.GetInt("PlayerLevel");
+			// world1MaxLevels = PlayerPrefs.GetInt("World1PlayerLevel");
+			// world2MaxLevels = PlayerPrefs.GetInt("World2PlayerLevel");
+			// world3MaxLevels = PlayerPrefs.GetInt("World3PlayerLevel");
 			lockedLevelScript.FindLevels();
 			lockedLevelScript.CheckUnlockedLevels();
 			starManager.SetStarsForCompletedLevels();
-
-			if (starManager.starCounter >= 100 && playerLevel >= 46){
-				nextWorldButtons[0].SetActive(true);
-			}
+			starManager.SetWorldStars();
 
 			playOnceMain = true;
 		}
@@ -117,10 +124,19 @@ public class LevelManager : MonoBehaviour {
 		if (PlayerPrefs.GetInt("Level" + levelName + "Score") == 0 || PlayerPrefs.GetInt("Level" + levelName + "Score") < scoreTracker.GetScore()){
 			PlayerPrefs.SetInt("Level" + levelName + "Score", scoreTracker.GetScore());
 		}
-		if (playerLevel <= levelName){
-			playerLevel++;
-			PlayerPrefs.SetInt("PlayerLevel", playerLevel);
+		if (world1PlayerLevel <= levelName && levelName <= 45){
+			world1PlayerLevel++;
+			PlayerPrefs.SetInt("World1PlayerLevel", world1PlayerLevel);
 		}
+		else if (world2PlayerLevel <= levelName && levelName > 45 && levelName <= 90){
+			world2PlayerLevel++;
+			PlayerPrefs.SetInt("World2PlayerLevel", world2PlayerLevel);
+		}
+		else if (world3PlayerLevel <= levelName && levelName > 90 && levelName <= 135){
+			world3PlayerLevel++;
+			PlayerPrefs.SetInt("World3PlayerLevel", world3PlayerLevel);
+		}
+
 		playOnceMain = false;
 		playOnceLevel = false;
 	}
