@@ -179,31 +179,9 @@ public class Player : MonoBehaviour {
 			tmpBloodSplat.transform.position = this.transform.position;
 		}
 
-		int random = Random.Range(0, 4);
-		switch(random) {
-			case 0:
-				bloodRot = Quaternion.Euler(0, 0, 0);
-				bloodSplatPrefab.transform.rotation = bloodRot;
-			break;
-
-			case 1:
-				bloodRot = Quaternion.Euler(0, 0, 90);
-				bloodSplatPrefab.transform.rotation = bloodRot;
-			break;
-
-			case 2:
-				bloodRot = Quaternion.Euler(0, 0, 180);
-				bloodSplatPrefab.transform.rotation = bloodRot;
-			break;
-
-			case 3:
-				bloodRot = Quaternion.Euler(0, 0, 270);
-				bloodSplatPrefab.transform.rotation = bloodRot;
-			break;
-
-			default:
-			break;
-		}
+		int random = Random.Range(0, 360);
+		bloodRot = Quaternion.Euler(0, 0, random);
+		bloodSplatPrefab.transform.rotation = bloodRot;
 	}
 
 	public void SetGrounded(){
