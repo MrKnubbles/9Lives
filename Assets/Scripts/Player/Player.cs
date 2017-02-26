@@ -4,6 +4,10 @@ using Random = UnityEngine.Random;
 using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
+
+	public GameObject headIdle;
+	public GameObject headJump;
+	public GameObject headDie;	
 	private GameObject masksContainer;
 	[SerializeField]
 	private List<GameObject> masks;
@@ -41,6 +45,9 @@ public class Player : MonoBehaviour {
 	public GameObject HUD;
 	
     void Start(){
+		headIdle.SetActive(true);
+		headDie.SetActive(false);
+		headJump.SetActive(false);		
 		masksContainer = GameObject.Find("Masks");
 		foreach(RectTransform g in masksContainer.transform) {
 			masks.Add(g.gameObject);
@@ -59,6 +66,7 @@ public class Player : MonoBehaviour {
 	} 
 	void Update(){
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
+			HandleHeads();
 			if (!isDead){
 				if (isSliding){
 					slideTimer += Time.deltaTime;
@@ -200,5 +208,21 @@ public class Player : MonoBehaviour {
 		isGrounded = false;
 		isJumping = false;
 		isFalling = true;
+	}
+
+	private void HandleHeads() {
+		if(isJumping || isFalling || isSliding) {
+			headJump.SetActive(true);			
+			headDie.SetActive(false);
+			headIdle.SetActive(false);	
+		} else if(isDead) {		
+			headDie.SetActive(true);
+			headJump.SetActive(false);	
+			headIdle.SetActive(false);	
+		} else {
+			headIdle.SetActive(true);
+			headJump.SetActive(false);	
+			headDie.SetActive(false);			
+		}
 	}
 }
