@@ -22,7 +22,7 @@ public class Player : MonoBehaviour {
 	public bool isFalling = false;
 	public bool isSliding = false;
 	public bool isFacingRight = true;
-	private bool isStartFacingRight;
+	private Vector2 startFacingRightValue;
 	public bool hasDoubleJumped = false;
     public float jumpSpeed = 15.0f;
 	public float moveSpeed = 1.5f;
@@ -48,8 +48,7 @@ public class Player : MonoBehaviour {
 	
     void Start(){
 		animator = GetComponent<Animator>();
-		isStartFacingRight = GetComponent<SpriteRenderer>().flipY;
-		isFacingRight = isStartFacingRight;
+		startFacingRightValue = transform.localScale;
 		headIdle.SetActive(true);
 		headDie.SetActive(false);
 		headJump.SetActive(false);		
@@ -143,11 +142,8 @@ public class Player : MonoBehaviour {
 			animator.SetBool("isSliding", false);
 			animator.SetBool("isRunning", false);
 			animator.SetBool("isDead", false);
-			
-			GetComponent<SpriteRenderer>().flipY = isStartFacingRight;
-			isFacingRight = isStartFacingRight;
 			transform.position = respawnPos.transform.position;
-			//transform.localScale = respawnPos.transform.localScale;
+			transform.localScale = startFacingRightValue;
 		}
 	}
 
