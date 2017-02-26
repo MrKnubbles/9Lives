@@ -212,7 +212,7 @@ public class Player : MonoBehaviour {
 	}
 
 	private void HandleHeads() {
-		if(isJumping || isFalling || isSliding) {
+		if(isJumping && !isDead || isFalling && !isDead || isSliding && !isDead) {
 			headJump.SetActive(true);			
 			headDie.SetActive(false);
 			headIdle.SetActive(false);	
