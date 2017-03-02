@@ -4,6 +4,11 @@ using Random = UnityEngine.Random;
 using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
+
+	private Animator animator;
+	public GameObject headIdle;
+	public GameObject headJump;
+	public GameObject headDie;	
 	private GameObject masksContainer;
 	[SerializeField]
 	private List<GameObject> masks;
@@ -17,6 +22,7 @@ public class Player : MonoBehaviour {
 	public bool isFalling = false;
 	public bool isSliding = false;
 	public bool isFacingRight = true;
+	private Vector2 startFacingRightValue;
 	public bool hasDoubleJumped = false;
     public float jumpSpeed = 15.0f;
 	public float moveSpeed = 1.5f;
@@ -41,6 +47,11 @@ public class Player : MonoBehaviour {
 	public GameObject HUD;
 	
     void Start(){
+		animator = GetComponent<Animator>();
+		startFacingRightValue = transform.localScale;
+		headIdle.SetActive(true);
+		headDie.SetActive(false);
+		headJump.SetActive(false);		
 		masksContainer = GameObject.Find("Masks");
 		foreach(RectTransform g in masksContainer.transform) {
 			masks.Add(g.gameObject);
@@ -52,13 +63,14 @@ public class Player : MonoBehaviour {
 		gameManager.isGameStarted = true;
 		gameManager.isLevelComplete = false;
 		gameManager.isGameOver = false;
-		GetComponent<Animator>().SetBool("isGameStarted", true);
+		animator.SetBool("isGameStarted", true);
 		gameManager.isLevelComplete = false;
 		exitDoor = GameObject.Find("ExitDoor/Door").GetComponent<Door>();
 		respawnPos = GameObject.Find("Respawn");
 	} 
 	void Update(){
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
+			HandleHeads();
 			if (!isDead){
 				if (isSliding){
 					slideTimer += Time.deltaTime;
@@ -79,7 +91,7 @@ public class Player : MonoBehaviour {
 					action.Special();
 				}
 				if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow)){
-					GetComponent<Animator>().SetBool("isRunning", false);
+					animator.SetBool("isRunning", false);
 				}
 				if (rb2d.velocity.y < 0 && !isFalling){
 					SetFalling();
@@ -95,7 +107,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public void ResetSlide(){
-		GetComponent<Animator>().SetBool("isSliding", false);
+		animator.SetBool("isSliding", false);
 		GetComponent<CircleCollider2D>().enabled = true;
 		slideTimer = 0;
 		rb2d.velocity = new Vector2(0, rb2d.velocity.y);
@@ -106,7 +118,7 @@ public class Player : MonoBehaviour {
 		SpawnBlood();
 		isDead = true;
 		audioManager.PlayOnce(sfxDie);
-		GetComponent<Animator>().SetBool("isDead", true);
+		animator.SetBool("isDead", true);
 		isActivatingSwitch = false;
 		if (lives == 1){
 			lives = 0;
@@ -125,13 +137,13 @@ public class Player : MonoBehaviour {
 			isFalling = false;
 			isSliding = false;
 			isGrounded = true;
-			GetComponent<Animator>().SetBool("isJumping", false);
-			GetComponent<Animator>().SetBool("isFalling", false);
-			GetComponent<Animator>().SetBool("isSliding", false);
-			GetComponent<Animator>().SetBool("isRunning", false);
-			GetComponent<Animator>().SetBool("isDead", false);
+			animator.SetBool("isJumping", false);
+			animator.SetBool("isFalling", false);
+			animator.SetBool("isSliding", false);
+			animator.SetBool("isRunning", false);
+			animator.SetBool("isDead", false);
 			transform.position = respawnPos.transform.position;
-			transform.localScale = respawnPos.transform.localScale;
+			transform.localScale = startFacingRightValue;
 		}
 	}
 
@@ -179,36 +191,14 @@ public class Player : MonoBehaviour {
 			tmpBloodSplat.transform.position = this.transform.position;
 		}
 
-		int random = Random.Range(0, 4);
-		switch(random) {
-			case 0:
-				bloodRot = Quaternion.Euler(0, 0, 0);
-				bloodSplatPrefab.transform.rotation = bloodRot;
-			break;
-
-			case 1:
-				bloodRot = Quaternion.Euler(0, 0, 90);
-				bloodSplatPrefab.transform.rotation = bloodRot;
-			break;
-
-			case 2:
-				bloodRot = Quaternion.Euler(0, 0, 180);
-				bloodSplatPrefab.transform.rotation = bloodRot;
-			break;
-
-			case 3:
-				bloodRot = Quaternion.Euler(0, 0, 270);
-				bloodSplatPrefab.transform.rotation = bloodRot;
-			break;
-
-			default:
-			break;
-		}
+		int random = Random.Range(0, 360);
+		bloodRot = Quaternion.Euler(0, 0, random);
+		bloodSplatPrefab.transform.rotation = bloodRot;
 	}
 
 	public void SetGrounded(){
-		GetComponent<Animator>().SetBool("isJumping", false);
-		GetComponent<Animator>().SetBool("isFalling", false);
+		animator.SetBool("isJumping", false);
+		animator.SetBool("isFalling", false);
 		isGrounded = true;
 		isJumping = false;
 		isFalling = false;
@@ -216,11 +206,27 @@ public class Player : MonoBehaviour {
 	}
 
 	public void SetFalling(){
-		GetComponent<Animator>().SetBool("isJumping", false);
-		GetComponent<Animator>().SetBool("isSliding", false);
-		GetComponent<Animator>().SetBool("isFalling", true);
+		animator.SetBool("isJumping", false);
+		animator.SetBool("isSliding", false);
+		animator.SetBool("isFalling", true);
 		isGrounded = false;
 		isJumping = false;
 		isFalling = true;
+	}
+
+	private void HandleHeads() {
+		if(isJumping && !isDead || isFalling && !isDead || isSliding && !isDead || hasDoubleJumped && !isDead) {
+			headJump.SetActive(true);			
+			headDie.SetActive(false);
+			headIdle.SetActive(false);	
+		} else if(isDead) {		
+			headDie.SetActive(true);
+			headJump.SetActive(false);	
+			headIdle.SetActive(false);	
+		} else {
+			headIdle.SetActive(true);
+			headJump.SetActive(false);	
+			headDie.SetActive(false);			
+		}
 	}
 }
