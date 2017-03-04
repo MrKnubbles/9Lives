@@ -5,10 +5,20 @@ using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
 
-	private Animator animator;
+	public Animator animator;
+	// Player Body Parts
 	public GameObject headIdle;
 	public GameObject headJump;
-	public GameObject headDie;	
+	public GameObject headDie;
+	public GameObject earLeft;
+	public GameObject earRight;
+	public GameObject armLeft;
+	public GameObject armRight;
+	public GameObject legLeft;
+	public GameObject legRight;
+	public GameObject body;
+	public GameObject tail;
+	//
 	private GameObject masksContainer;
 	[SerializeField]
 	private List<GameObject> masks;
@@ -22,7 +32,6 @@ public class Player : MonoBehaviour {
 	public bool isFalling = false;
 	public bool isSliding = false;
 	public bool isFacingRight = true;
-	private Vector2 startFacingRightValue;
 	public bool hasDoubleJumped = false;
     public float jumpSpeed = 15.0f;
 	public float moveSpeed = 1.5f;
@@ -34,7 +43,6 @@ public class Player : MonoBehaviour {
 	public AudioClip sfxHit;
 	public AudioClip sfxJump;
 	public AudioClip sfxSlam;
-	// public AudioSource audio;
 	public AudioManager audioManager;
 	public Rigidbody2D rb2d;
 	public PlayerMovement action;
@@ -48,10 +56,8 @@ public class Player : MonoBehaviour {
 	
     void Start(){
 		animator = GetComponent<Animator>();
-		startFacingRightValue = transform.localScale;
-		headIdle.SetActive(true);
-		headDie.SetActive(false);
-		headJump.SetActive(false);		
+		SetCharacter();
+		SetHeads();	
 		masksContainer = GameObject.Find("Masks");
 		foreach(RectTransform g in masksContainer.transform) {
 			masks.Add(g.gameObject);
@@ -143,7 +149,7 @@ public class Player : MonoBehaviour {
 			animator.SetBool("isRunning", false);
 			animator.SetBool("isDead", false);
 			transform.position = respawnPos.transform.position;
-			transform.localScale = startFacingRightValue;
+			transform.localScale = respawnPos.transform.localScale;
 		}
 	}
 
@@ -194,6 +200,38 @@ public class Player : MonoBehaviour {
 		int random = Random.Range(0, 360);
 		bloodRot = Quaternion.Euler(0, 0, random);
 		bloodSplatPrefab.transform.rotation = bloodRot;
+	}
+
+	// Sets the Player's character to the active character selected by swapping the sprites of each body part.
+	void SetCharacter(){
+		string activeChar = PlayerPrefs.GetString("ActiveChar");
+		if (PlayerPrefs.GetString("ActiveChar") == activeChar){
+			GameObject.Find("Player/Skins/Monty").SetActive(false);	// turns off Default character
+			GameObject activeCat = GameObject.Find("Player/Skins/"+activeChar);
+			activeCat.SetActive(true);
+			headIdle.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Head").GetComponent<SpriteRenderer>().sprite;
+			headDie.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("HeadDead").GetComponent<SpriteRenderer>().sprite;
+			headJump.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("HeadJump").GetComponent<SpriteRenderer>().sprite;
+			earLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftEar").GetComponent<SpriteRenderer>().sprite;
+			earRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightEar").GetComponent<SpriteRenderer>().sprite;
+			armLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftArm").GetComponent<SpriteRenderer>().sprite;
+			armRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightArm").GetComponent<SpriteRenderer>().sprite;
+			legLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftLeg").GetComponent<SpriteRenderer>().sprite;
+			legRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightLeg").GetComponent<SpriteRenderer>().sprite;
+			body.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Body").GetComponent<SpriteRenderer>().sprite;
+			tail.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Tail").GetComponent<SpriteRenderer>().sprite;
+			activeCat.SetActive(false);
+		}
+	}
+
+	void SetHeads(){
+		headIdle.SetActive(true);
+		headDie.SetActive(false);
+		headJump.SetActive(false);	
+	}
+
+	void SetBodyParts(){
+
 	}
 
 	public void SetGrounded(){
