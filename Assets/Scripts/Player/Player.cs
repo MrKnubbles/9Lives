@@ -219,7 +219,6 @@ public class Player : MonoBehaviour {
 	// Sets the Player's character to the active character selected by swapping the sprites of each body part.
 	void SetCharacter(){
 		string activeChar = PlayerPrefs.GetString("ActiveChar");
-		print(""+activeChar);
 		if (PlayerPrefs.GetString("ActiveChar") == activeChar){
 			GameObject activeCat = GameObject.Find("Player/Skins/"+activeChar);
 			activeCat.SetActive(true);
