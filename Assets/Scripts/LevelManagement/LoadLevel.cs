@@ -106,11 +106,9 @@ public class LoadLevel : MonoBehaviour {
 				PlayerPrefs.SetInt("LevelAdCounter", 0);
 			}
 		}
-		else{
-			Time.timeScale = 1;
-			gameManager.isPaused = false;
-			SceneManager.LoadScene(nextLevelName);
-		}
+		Time.timeScale = 1;
+		gameManager.isPaused = false;
+		SceneManager.LoadScene(nextLevelName);
 	}
 
 	public void LoadLevelAfterAd(){
@@ -127,11 +125,9 @@ public class LoadLevel : MonoBehaviour {
 				levelManager.replayCounter = 0;
 			}
 		}
-		else{
-			Time.timeScale = 1;
-			gameManager.isPaused = false;
-			SceneManager.LoadScene(currentLevelName);
-		}
+		Time.timeScale = 1;
+		gameManager.isPaused = false;
+		SceneManager.LoadScene(currentLevelName);
 	}
 
 	// Only use this within UnityAds to resume gameplay after ad finishes.
