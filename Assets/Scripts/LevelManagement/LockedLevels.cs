@@ -35,6 +35,18 @@ public class LockedLevels : MonoBehaviour {
 			else if (i >= (levelManager.levelsPerPage * 5) && i < levelManager.levelsPerPage * 6){
 				levelManager.levelButtons[i] = levelManager.levelPages[5].transform.GetChild(0).transform.GetChild(i-levelManager.levelsPerPage*5).gameObject;
 			}
+			// Sets what the locked level game objects are for World 3 Levels 1-15;
+			else if (i >= (levelManager.levelsPerPage * 6) && i < levelManager.levelsPerPage * 7){
+				levelManager.levelButtons[i] = levelManager.levelPages[6].transform.GetChild(0).transform.GetChild(i-levelManager.levelsPerPage*6).gameObject;
+			}
+			// Sets what the locked level game objects are for World 3 Levels 16-30;
+			else if (i >= (levelManager.levelsPerPage * 7) && i < levelManager.levelsPerPage * 8){
+				levelManager.levelButtons[i] = levelManager.levelPages[7].transform.GetChild(0).transform.GetChild(i-levelManager.levelsPerPage*7).gameObject;
+			}
+			// Sets what the locked level game objects are for World 3 Levels 31-45;
+			else if (i >= (levelManager.levelsPerPage * 8) && i < levelManager.levelsPerPage * 9){
+				levelManager.levelButtons[i] = levelManager.levelPages[8].transform.GetChild(0).transform.GetChild(i-levelManager.levelsPerPage*8).gameObject;
+			}
 		}
 	}
 
@@ -47,13 +59,13 @@ public class LockedLevels : MonoBehaviour {
 			}
 		}
 		if (PlayerPrefs.GetInt("World2PlayerLevel") >= 1){
-			for (int i = 0; i < levelManager.world2PlayerLevel; i++){
+			for (int i = 0; i < PlayerPrefs.GetInt("World2PlayerLevel"); i++){
 				levelManager.levelButtons[i+45].transform.GetChild(1).gameObject.SetActive(false);
 				levelManager.levelButtons[i+45].transform.GetChild(2).gameObject.SetActive(true);
 			}
 		}
 		if (PlayerPrefs.GetInt("World3PlayerLevel") >= 1){
-			for (int i = 0; i < levelManager.world3PlayerLevel; i++){
+			for (int i = 0; i < PlayerPrefs.GetInt("World3PlayerLevel"); i++){
 				levelManager.levelButtons[i+90].transform.GetChild(1).gameObject.SetActive(false);
 				levelManager.levelButtons[i+90].transform.GetChild(2).gameObject.SetActive(true);
 			}

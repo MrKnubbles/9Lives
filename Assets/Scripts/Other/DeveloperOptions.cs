@@ -36,4 +36,9 @@ public class DeveloperOptions : MonoBehaviour {
 		PlayerPrefs.SetInt("Gems", PlayerPrefs.GetInt("Gems") + 5);
 		print("Gems = " + PlayerPrefs.GetInt("Gems"));
 	}
+
+	public void RemoveAds(){
+		PlayerPrefs.SetInt("RemoveAds", 1);
+		print("RemoveAds = " + PlayerPrefs.GetInt("RemoveAds") + (". 1 means true"));
+	}
 }
