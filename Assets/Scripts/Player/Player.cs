@@ -153,6 +153,20 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	void HidePlayer(){
+		headIdle.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		headDie.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		headJump.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		earLeft.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		earRight.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		armLeft.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		armRight.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		legLeft.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		legRight.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		body.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		tail.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+	}
+
 	void OnCollisionEnter2D(Collision2D other){
 		if (other.gameObject.tag == "Trap" && !isDead){
 			Die();
@@ -179,7 +193,7 @@ public class Player : MonoBehaviour {
 		}
 		if (other.gameObject.tag == "Exit" && !isDead && exitDoor.isActive){
 			// Hides player behind the exit door and stops time.
-			GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+			HidePlayer();
 			Time.timeScale = 0;
 			gameManager.isLevelComplete = true;
 		}
@@ -205,8 +219,8 @@ public class Player : MonoBehaviour {
 	// Sets the Player's character to the active character selected by swapping the sprites of each body part.
 	void SetCharacter(){
 		string activeChar = PlayerPrefs.GetString("ActiveChar");
+		print(""+activeChar);
 		if (PlayerPrefs.GetString("ActiveChar") == activeChar){
-			GameObject.Find("Player/Skins/Monty").SetActive(false);	// turns off Default character
 			GameObject activeCat = GameObject.Find("Player/Skins/"+activeChar);
 			activeCat.SetActive(true);
 			headIdle.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Head").GetComponent<SpriteRenderer>().sprite;
