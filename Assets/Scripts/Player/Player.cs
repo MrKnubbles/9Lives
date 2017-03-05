@@ -99,7 +99,7 @@ public class Player : MonoBehaviour {
 				if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow)){
 					animator.SetBool("isRunning", false);
 				}
-				if (rb2d.velocity.y < 0 && !isFalling){
+				if (rb2d.velocity.y < -0.1f && !isFalling){
 					SetFalling();
 				}
 			}
