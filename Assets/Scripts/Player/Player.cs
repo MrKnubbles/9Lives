@@ -5,10 +5,20 @@ using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
 
-	private Animator animator;
+	public Animator animator;
+	// Player Body Parts
 	public GameObject headIdle;
 	public GameObject headJump;
-	public GameObject headDie;	
+	public GameObject headDie;
+	public GameObject earLeft;
+	public GameObject earRight;
+	public GameObject armLeft;
+	public GameObject armRight;
+	public GameObject legLeft;
+	public GameObject legRight;
+	public GameObject body;
+	public GameObject tail;
+	//
 	private GameObject masksContainer;
 	[SerializeField]
 	private List<GameObject> masks;
@@ -22,7 +32,6 @@ public class Player : MonoBehaviour {
 	public bool isFalling = false;
 	public bool isSliding = false;
 	public bool isFacingRight = true;
-	private Vector2 startFacingRightValue;
 	public bool hasDoubleJumped = false;
     public float jumpSpeed = 15.0f;
 	public float moveSpeed = 1.5f;
@@ -34,7 +43,6 @@ public class Player : MonoBehaviour {
 	public AudioClip sfxHit;
 	public AudioClip sfxJump;
 	public AudioClip sfxSlam;
-	// public AudioSource audio;
 	public AudioManager audioManager;
 	public Rigidbody2D rb2d;
 	public PlayerMovement action;
@@ -48,10 +56,8 @@ public class Player : MonoBehaviour {
 	
     void Start(){
 		animator = GetComponent<Animator>();
-		startFacingRightValue = transform.localScale;
-		headIdle.SetActive(true);
-		headDie.SetActive(false);
-		headJump.SetActive(false);		
+		SetCharacter();
+		SetHeads();	
 		masksContainer = GameObject.Find("Masks");
 		foreach(RectTransform g in masksContainer.transform) {
 			masks.Add(g.gameObject);
@@ -93,7 +99,7 @@ public class Player : MonoBehaviour {
 				if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow)){
 					animator.SetBool("isRunning", false);
 				}
-				if (rb2d.velocity.y < 0 && !isFalling){
+				if (rb2d.velocity.y < -0.1f && !isFalling){
 					SetFalling();
 				}
 			}
@@ -142,9 +148,24 @@ public class Player : MonoBehaviour {
 			animator.SetBool("isSliding", false);
 			animator.SetBool("isRunning", false);
 			animator.SetBool("isDead", false);
+			rb2d.velocity = new Vector2(0, 0);
 			transform.position = respawnPos.transform.position;
-			transform.localScale = startFacingRightValue;
+			transform.localScale = respawnPos.transform.localScale;
 		}
+	}
+
+	void HidePlayer(){
+		headIdle.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		headDie.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		headJump.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		earLeft.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		earRight.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		armLeft.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		armRight.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		legLeft.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		legRight.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		body.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		tail.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
 	}
 
 	void OnCollisionEnter2D(Collision2D other){
@@ -168,12 +189,12 @@ public class Player : MonoBehaviour {
 		}
 	}
 	void OnTriggerEnter2D(Collider2D other){
-		if ((other.gameObject.tag == "FallingSpikes" || other.gameObject.tag == "DrippingPipe") && !isDead){
+		if (other.gameObject.tag == "TriggerKill" && !isDead){
 			Die();
 		}
 		if (other.gameObject.tag == "Exit" && !isDead && exitDoor.isActive){
 			// Hides player behind the exit door and stops time.
-			GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+			HidePlayer();
 			Time.timeScale = 0;
 			gameManager.isLevelComplete = true;
 		}
@@ -194,6 +215,37 @@ public class Player : MonoBehaviour {
 		int random = Random.Range(0, 360);
 		bloodRot = Quaternion.Euler(0, 0, random);
 		bloodSplatPrefab.transform.rotation = bloodRot;
+	}
+
+	// Sets the Player's character to the active character selected by swapping the sprites of each body part.
+	void SetCharacter(){
+		string activeChar = PlayerPrefs.GetString("ActiveChar");
+		if (PlayerPrefs.GetString("ActiveChar") == activeChar){
+			GameObject activeCat = GameObject.Find("Player/Skins/"+activeChar);
+			activeCat.SetActive(true);
+			headIdle.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Head").GetComponent<SpriteRenderer>().sprite;
+			headDie.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("HeadDead").GetComponent<SpriteRenderer>().sprite;
+			headJump.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("HeadJump").GetComponent<SpriteRenderer>().sprite;
+			earLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftEar").GetComponent<SpriteRenderer>().sprite;
+			earRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightEar").GetComponent<SpriteRenderer>().sprite;
+			armLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftArm").GetComponent<SpriteRenderer>().sprite;
+			armRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightArm").GetComponent<SpriteRenderer>().sprite;
+			legLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftLeg").GetComponent<SpriteRenderer>().sprite;
+			legRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightLeg").GetComponent<SpriteRenderer>().sprite;
+			body.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Body").GetComponent<SpriteRenderer>().sprite;
+			tail.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Tail").GetComponent<SpriteRenderer>().sprite;
+			activeCat.SetActive(false);
+		}
+	}
+
+	void SetHeads(){
+		headIdle.SetActive(true);
+		headDie.SetActive(false);
+		headJump.SetActive(false);	
+	}
+
+	void SetBodyParts(){
+
 	}
 
 	public void SetGrounded(){

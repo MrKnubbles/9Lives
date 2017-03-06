@@ -26,7 +26,7 @@ public class LevelManager : MonoBehaviour {
 	public GameObject HUD;
 	public int levelsPerPage = 15;
 	public GameObject pageTracker;
-	public GameObject[] levelPages = new GameObject[6];
+	public GameObject[] levelPages = new GameObject[9];
 	public GameObject[] levelButtons;
 	public GameObject[] worlds = new GameObject[3];
 	public GameObject[] nextWorldButtons = new GameObject[2];
@@ -80,6 +80,9 @@ public class LevelManager : MonoBehaviour {
 			levelPages[3] = HUD.transform.Find("LevelSelectScreen/World2/Page1").gameObject;
 			levelPages[4] = HUD.transform.Find("LevelSelectScreen/World2/Page2").gameObject;
 			levelPages[5] = HUD.transform.Find("LevelSelectScreen/World2/Page3").gameObject;
+			levelPages[6] = HUD.transform.Find("LevelSelectScreen/World3/Page1").gameObject;
+			levelPages[7] = HUD.transform.Find("LevelSelectScreen/World3/Page2").gameObject;
+			levelPages[8] = HUD.transform.Find("LevelSelectScreen/World3/Page3").gameObject;
 			GameObject.Find("LevelSelectScreen").gameObject.SetActive(false);
 			GameObject.Find("WorldSelectScreen").gameObject.SetActive(false);
 
@@ -92,6 +95,8 @@ public class LevelManager : MonoBehaviour {
 				PlayerPrefs.SetInt("SFXMuted", 1);
 				PlayerPrefs.SetInt("StarsCollected", 0);
 				PlayerPrefs.SetInt("Coins", 0);
+				// Unlocks Beta skin!
+				PlayerPrefs.SetInt("Beta", 1);
 			}
 			else{
 				world1PlayerLevel = PlayerPrefs.GetInt("World1PlayerLevel");

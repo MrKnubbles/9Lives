@@ -15,7 +15,7 @@ public class LeftFootCollision : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "MovingPlatform"){
+		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "MovingPlatform" || other.gameObject.tag == "Ramp"){
 			isGrounded = true;
 		}
 	}
@@ -29,10 +29,13 @@ public class LeftFootCollision : MonoBehaviour {
 				player.SetGrounded();
 			}
 		}
+		if (other.gameObject.tag == "Ramp"){
+			player.SetGrounded();
+		}
 	}
 
 	void OnTriggerExit2D(Collider2D other){
-		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "MovingPlatform"){
+		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "MovingPlatform"  || other.gameObject.tag == "Ramp"){
 			isGrounded = false;
 		}
 	}
