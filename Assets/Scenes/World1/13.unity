@@ -2539,6 +2539,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 1890317137701018, guid: 762b398022cfb344c97bddc2f840618c, type: 2}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 762b398022cfb344c97bddc2f840618c, type: 2}
   m_IsPrefabParent: 0
@@ -5328,6 +5332,25 @@ SpriteRenderer:
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
+--- !u!1 &1672497500 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1890317137701018, guid: 762b398022cfb344c97bddc2f840618c,
+    type: 2}
+  m_PrefabInternal: {fileID: 815871078}
+--- !u!61 &1672497509
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1672497500}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Size: {x: 5, y: 5}
 --- !u!1001 &1680197815
 Prefab:
   m_ObjectHideFlags: 0
