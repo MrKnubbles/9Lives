@@ -148,6 +148,7 @@ public class Player : MonoBehaviour {
 			animator.SetBool("isSliding", false);
 			animator.SetBool("isRunning", false);
 			animator.SetBool("isDead", false);
+			rb2d.velocity = new Vector2(0, 0);
 			transform.position = respawnPos.transform.position;
 			transform.localScale = respawnPos.transform.localScale;
 		}
@@ -188,7 +189,7 @@ public class Player : MonoBehaviour {
 		}
 	}
 	void OnTriggerEnter2D(Collider2D other){
-		if ((other.gameObject.tag == "FallingSpikes" || other.gameObject.tag == "DrippingPipe") && !isDead){
+		if (other.gameObject.tag == "TriggerKill" && !isDead){
 			Die();
 		}
 		if (other.gameObject.tag == "Exit" && !isDead && exitDoor.isActive){

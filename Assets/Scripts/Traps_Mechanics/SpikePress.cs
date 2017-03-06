@@ -10,8 +10,8 @@ public class SpikePress : MonoBehaviour {
 	private Vector2 m_rightSpikeStartLocation;
 	private Vector2 m_middlePosition;
 	public bool m_insideTrap;
-	private float m_closeSpeed = 0.02f;
-	private float m_openSpeed = 0.1f;
+	private float m_closeSpeed = 0.075f;
+	private float m_openSpeed = 0.025f;
 
 	void Start() {
 		m_leftSpikeStartLocation = m_leftSpike.transform.position;
