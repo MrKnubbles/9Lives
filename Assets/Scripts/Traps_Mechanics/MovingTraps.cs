@@ -8,9 +8,18 @@ public class MovingTraps : MonoBehaviour {
 	public float moveVertical;
 	private MoveObject moveObject;
 	private Player player;
+	private bool spikePress;
+	private Vector3 startPosition;
+	private Vector3 endPosition;
 
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<Player>();
+		if (gameObject.name == "SpikePress"){
+			spikePress = true;
+			startPosition = transform.localPosition;
+			endPosition.y = startPosition.y + moveVertical;
+			endPosition.x = startPosition.x + moveHorizontal;
+		}
 		moveObject = GetComponent<MoveObject>();
 		moveObject.SetSpeed(moveSpeed);
 		moveObject.SetDistanceX(moveHorizontal);
@@ -18,14 +27,20 @@ public class MovingTraps : MonoBehaviour {
 		moveObject.Move();
 	}
 	
-	void Update () {
+	// LateUpdate keeps multiple SpikePresses in sync.
+	void LateUpdate () {
 		// If object reaches it's destination...
 		if (moveObject.isDoneMoving()){
 			if (moveHorizontal != 0){
 				HorizontalMovement();
 			}
 			if (moveVertical != 0){
-				VerticalMovement();
+				if (spikePress){
+					SpikePressVertical();
+				}
+				else{
+					VerticalMovement();
+				}
 			}
 		}
 	}
@@ -41,6 +56,18 @@ public class MovingTraps : MonoBehaviour {
 		moveVertical = -moveVertical;
 		moveObject.SetDistanceY(moveVertical);
 		moveObject.Move();
+	}
+
+	void SpikePressVertical(){
+		if (transform.localPosition == startPosition){
+			moveObject.SetSpeed(moveSpeed);
+		}
+		moveVertical = -moveVertical;
+		moveObject.SetDistanceY(moveVertical);
+		moveObject.Move();
+		if (transform.localPosition.y == endPosition.y){
+			moveObject.SetSpeed(moveSpeed / 5);
+		}
 	}
 
 	void OnCollisionEnter2D(Collision2D other){

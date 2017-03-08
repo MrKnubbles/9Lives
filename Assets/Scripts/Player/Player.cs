@@ -169,7 +169,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D other){
-		if (other.gameObject.tag == "Trap" && !isDead){
+		if ((other.gameObject.tag == "Trap" || other.gameObject.tag == "TriggerKill") && !isDead){
 			Die();
 		}
 		if (other.gameObject.tag == "MovingPlatform"){
