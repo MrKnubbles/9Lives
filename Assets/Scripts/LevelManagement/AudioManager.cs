@@ -45,6 +45,7 @@ public class AudioManager : MonoBehaviour {
 			music.Stop();
 			AudioBegin = false;
 			music.clip = musicLevels;
+			music.loop = true;
 			playOnce = false;
 			if (GameObject.Find("DoorSwitch") != null){
 				doorSwitch = GameObject.Find("DoorSwitch").transform.GetChild(0).GetComponent<DoorSwitch>();
@@ -55,6 +56,7 @@ public class AudioManager : MonoBehaviour {
 			music.Stop();
 			AudioBegin = false;
 			music.clip = musicMain;
+			music.loop = true;
 			playOnce = true;
 		}
 	}

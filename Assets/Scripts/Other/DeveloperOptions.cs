@@ -3,7 +3,13 @@ using System.Collections;
 
 public class DeveloperOptions : MonoBehaviour {
 
+	// Erases all data saved to PlayerPrefs.
 	public void ClearAllData(){
+		PlayerPrefs.DeleteAll();
+	}
+
+	// Locks all levels and sets their scores to 0.
+	public void LockAllLevels(){
 		for (int i = 1; i <= 3; i++){
 			PlayerPrefs.SetInt("World" + i + "PlayerLevel", 0);
 			print("World" + i + "PlayerLevel == " + PlayerPrefs.GetInt("World" + i + "PlayerLevel"));

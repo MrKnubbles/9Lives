@@ -58,6 +58,11 @@ public class Shop : MonoBehaviour {
 			selectedValue = Int32.Parse(GameObject.Find("" + selectedItem).transform.GetChild(6).GetComponent<Text>().text);
 			confirmationWindow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure you want to purchase " + selectedValue + " " + selectedItem + " for " + selectedCost + " Gems?";
 		}
+		// Premium character purchases
+		else if (selectedItem == "Venom"){
+			selectedCost = Int32.Parse(GameObject.Find("" + selectedItem).transform.GetChild(3).GetComponent<Text>().text);
+			confirmationWindow.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure you want to purchase " + selectedItem + " for " + selectedCost + " Gems?";
+		}
 		// Gold purchases
 		else{
 			selectedCost = Int32.Parse(GameObject.Find("" + selectedItem).transform.GetChild(3).GetComponent<Text>().text);
@@ -76,6 +81,11 @@ public class Shop : MonoBehaviour {
 		else if (selectedItem == "Gold"){
 			PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") + selectedValue);
 			PlayerPrefs.SetInt("Gems", PlayerPrefs.GetInt("Gems") - selectedCost);
+		}
+		else if (selectedItem == "Venom"){
+			PlayerPrefs.SetInt("Gems", PlayerPrefs.GetInt("Gems") - selectedCost);
+			PlayerPrefs.SetInt("" + selectedItem, PlayerPrefs.GetInt("" + selectedItem) + 1);
+			SelectChar(selectedItem);
 		}
 		else {
 			PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") - selectedCost);

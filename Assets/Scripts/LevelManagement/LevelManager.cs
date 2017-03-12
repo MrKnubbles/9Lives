@@ -96,7 +96,9 @@ public class LevelManager : MonoBehaviour {
 				PlayerPrefs.SetInt("StarsCollected", 0);
 				PlayerPrefs.SetInt("Coins", 0);
 				// Unlocks Beta skin!
+				// TODO: Remove this when game goes live.
 				PlayerPrefs.SetInt("Beta", 1);
+				PlayerPrefs.SetString("ActiveChar", "Beta");
 			}
 			else{
 				world1PlayerLevel = PlayerPrefs.GetInt("World1PlayerLevel");

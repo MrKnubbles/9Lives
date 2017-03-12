@@ -166,6 +166,7 @@ public class LoadLevel : MonoBehaviour {
 		mainMenuScreen.SetActive(true);
 	}
 
+	// Use this before activating any screen.
 	private void DisableAllScreens(){
 		levelSelectScreen.SetActive(false);
 		worldSelectScreen.SetActive(false);
