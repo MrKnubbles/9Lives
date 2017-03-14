@@ -97,7 +97,7 @@ public class Player : MonoBehaviour {
 					action.Special();
 				}
 				if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow)){
-					animator.SetBool("isRunning", false);
+					action.StopRunning();
 				}
 				if (rb2d.velocity.y < -0.1f && !isFalling){
 					SetFalling();
