@@ -22,7 +22,6 @@ public class PlayerMovement : MonoBehaviour {
 				}
 				if (!player.isJumping && !player.isFalling && player.isGrounded){
 					player.audioManager.PlayOnce(player.sfxJump);
-					// player.audio.Play();
 					player.rb2d.AddForce(transform.up * player.jumpSpeed);
 					player.isFalling = false;
 					player.isJumping = true;
@@ -31,9 +30,8 @@ public class PlayerMovement : MonoBehaviour {
 				// Double jump
 				else if ((player.isJumping || player.isFalling) && !player.isGrounded){
 					player.audioManager.PlayOnce(player.sfxDoubleJump);
-					// player.audio.Play();
 					player.rb2d.velocity = new Vector2(0, 0);
-					player.rb2d.AddForce(transform.up * player.jumpSpeed / 1.1f);
+					player.rb2d.AddForce(transform.up * player.jumpSpeed / 1.15f);
 					player.hasDoubleJumped = true;
 					player.isFalling = false;
 				}

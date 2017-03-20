@@ -149,6 +149,7 @@ public class Player : MonoBehaviour {
 			animator.SetBool("isRunning", false);
 			animator.SetBool("isDead", false);
 			rb2d.velocity = new Vector2(0, 0);
+			GetComponent<CircleCollider2D>().enabled = true;
 			transform.position = respawnPos.transform.position;
 			transform.localScale = respawnPos.transform.localScale;
 		}
