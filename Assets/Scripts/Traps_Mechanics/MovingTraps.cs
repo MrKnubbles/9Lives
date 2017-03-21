@@ -32,7 +32,12 @@ public class MovingTraps : MonoBehaviour {
 		// If object reaches it's destination...
 		if (moveObject.isDoneMoving()){
 			if (moveHorizontal != 0){
-				HorizontalMovement();
+				if (spikePress){
+					SpikePressHorizontal();
+				}
+				else{
+					HorizontalMovement();
+				}
 			}
 			if (moveVertical != 0){
 				if (spikePress){
@@ -66,6 +71,18 @@ public class MovingTraps : MonoBehaviour {
 		moveObject.SetDistanceY(moveVertical);
 		moveObject.Move();
 		if (transform.localPosition.y == endPosition.y){
+			moveObject.SetSpeed(moveSpeed / 5);
+		}
+	}
+
+	void SpikePressHorizontal(){
+		if (transform.localPosition == startPosition){
+			moveObject.SetSpeed(moveSpeed);
+		}
+		moveHorizontal = -moveHorizontal;
+		moveObject.SetDistanceX(moveHorizontal);
+		moveObject.Move();
+		if (transform.localPosition.x == endPosition.x){
 			moveObject.SetSpeed(moveSpeed / 5);
 		}
 	}
