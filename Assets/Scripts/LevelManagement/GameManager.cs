@@ -42,9 +42,9 @@ public class GameManager : MonoBehaviour {
 
 	// If the game is minimized while in a level, the game will bring up the PauseMenu.
 	void OnApplicationPause(){
-		if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main")){
-			loadLevel.PauseGame();
-		}
+		// if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main")){
+		// 	loadLevel.PauseGame();
+		// }
 	}
 	public void PauseGame(){
 		isPaused = true;

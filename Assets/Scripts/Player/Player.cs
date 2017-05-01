@@ -97,7 +97,7 @@ public class Player : MonoBehaviour {
 					action.Special();
 				}
 				if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow)){
-					animator.SetBool("isRunning", false);
+					action.StopRunning();
 				}
 				if (rb2d.velocity.y < -0.1f && !isFalling){
 					SetFalling();
@@ -149,6 +149,7 @@ public class Player : MonoBehaviour {
 			animator.SetBool("isRunning", false);
 			animator.SetBool("isDead", false);
 			rb2d.velocity = new Vector2(0, 0);
+			GetComponent<CircleCollider2D>().enabled = true;
 			transform.position = respawnPos.transform.position;
 			transform.localScale = respawnPos.transform.localScale;
 		}
@@ -169,7 +170,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D other){
-		if (other.gameObject.tag == "Trap" && !isDead){
+		if ((other.gameObject.tag == "Trap" || other.gameObject.tag == "TriggerKill") && !isDead){
 			Die();
 		}
 		if (other.gameObject.tag == "MovingPlatform"){

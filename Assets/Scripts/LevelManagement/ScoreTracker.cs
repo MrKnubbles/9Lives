@@ -55,9 +55,11 @@ public class ScoreTracker : MonoBehaviour {
 		}
 		else if (levelNumber >= 46 && levelNumber <= 90){
 			worldNumber = 2;
+			levelNumber -= 45;
 		}
 		else if (levelNumber >= 91 && levelNumber <= 135){
 			worldNumber = 3;
+			levelNumber -= 90;
 		}
 		levelNumberText.text = worldNumber + "-" + levelNumber;
 		audioManager = AudioManager.Instance;

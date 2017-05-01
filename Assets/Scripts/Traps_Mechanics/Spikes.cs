@@ -49,7 +49,7 @@ public class Spikes : MonoBehaviour {
 			}
 			if (isHidden && resetTimer <= 0){
 				if(!moveObject.isObjectMoving() && (transform.localPosition != startPosition)) {
-					moveObject.SetSpeed(moveSpeed/3);
+					moveObject.SetSpeed(moveSpeed/6);
 					moveObject.SetDistanceX(-moveHorizontal);
 					moveObject.SetDistanceY(-moveVertical);
 					moveObject.Move();

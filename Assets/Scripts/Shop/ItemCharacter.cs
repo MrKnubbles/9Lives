@@ -6,12 +6,18 @@ using UnityEngine.UI;
 
 public class ItemCharacter : MonoBehaviour {
 	private int goldCost;
+	private int gemCost;
 	private int playerGold;
 	private string activeChar;
 
 
 	void Start () {
-		goldCost = Int32.Parse(this.transform.GetChild(3).GetComponent<Text>().text);
+		if (this.transform.GetChild(6).GetComponent<Text>().text == "Venom"){
+			gemCost = Int32.Parse(this.transform.GetChild(3).GetComponent<Text>().text);
+		}
+		else{
+			goldCost = Int32.Parse(this.transform.GetChild(3).GetComponent<Text>().text);
+		}
 		UpdateAccessibility();
 		playerGold = PlayerPrefs.GetInt("Coins");
 		activeChar = PlayerPrefs.GetString("ActiveChar");
@@ -29,6 +35,10 @@ public class ItemCharacter : MonoBehaviour {
 		// If the item has been purchased.
 		else if (PlayerPrefs.GetInt("" + this.transform.GetChild(6).GetComponent<Text>().text) == 1){
 			SetAsSelectable();
+		}
+		// If the item is a premium skin, has not been purchased but player has enough gems to purchase it.
+		else if (PlayerPrefs.GetInt("Gems") >= gemCost && this.transform.GetChild(6).GetComponent<Text>().text == "Venom"){
+			SetAsPurchasable();
 		}
 		// If the item has not been purchased but player has enough gold to purchase it.
 		else if (PlayerPrefs.GetInt("Coins") >= goldCost){
