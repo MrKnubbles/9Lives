@@ -123798,8 +123798,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac96b2f9402248b4ab4d64995323eb6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicMain: {fileID: 8300000, guid: 14b7de2f00bb5ad41a1d9119cb453a49, type: 3}
-  musicLevels: {fileID: 8300000, guid: 9859e64368fc3b44db222090671c2d93, type: 3}
+  musicLevels:
+  - {fileID: 8300000, guid: 14b7de2f00bb5ad41a1d9119cb453a49, type: 3}
+  - {fileID: 8300000, guid: 9859e64368fc3b44db222090671c2d93, type: 3}
+  - {fileID: 8300000, guid: 61d9f9442be1702438b8281fac23e732, type: 3}
   music: {fileID: 0}
   sfx:
   - {fileID: 0}
@@ -124132,7 +124134,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 100
+  m_Text: 1
 --- !u!114 &6721
 MonoBehaviour:
   m_ObjectHideFlags: 0

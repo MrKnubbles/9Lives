@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System;
 
 public class AudioManager : MonoBehaviour {
 	private static AudioManager m_instance = null;
 	public static AudioManager Instance { get { return m_instance; } }
-
-	public AudioClip musicMain;
-	public AudioClip musicLevels;
+	public AudioClip[] musicLevels;
 	public AudioSource music;
 	public AudioSource[] sfx;
 	private bool playOnce = false;
@@ -44,7 +43,14 @@ public class AudioManager : MonoBehaviour {
 			mainMenu = GameObject.Find("HUD").GetComponent<LoadLevel>();
 			music.Stop();
 			AudioBegin = false;
-			music.clip = musicLevels;
+			// Choose which song to play based on which World the player is in.
+			if (Int32.Parse(SceneManager.GetActiveScene().name) <= 45){
+				music.clip = musicLevels[1];
+			}
+			else if (Int32.Parse(SceneManager.GetActiveScene().name) > 45 && Int32.Parse(SceneManager.GetActiveScene().name) <= 90){
+				music.clip = musicLevels[2];
+				music.volume = .5f;
+			}
 			music.loop = true;
 			playOnce = false;
 			if (GameObject.Find("DoorSwitch") != null){
@@ -55,7 +61,7 @@ public class AudioManager : MonoBehaviour {
 			mainMenu = GameObject.Find("HUD").GetComponent<LoadLevel>();
 			music.Stop();
 			AudioBegin = false;
-			music.clip = musicMain;
+			music.clip = musicLevels[0];
 			music.loop = true;
 			playOnce = true;
 		}
