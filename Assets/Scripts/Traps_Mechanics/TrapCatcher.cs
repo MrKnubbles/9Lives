@@ -10,6 +10,7 @@ public class TrapCatcher : MonoBehaviour {
 				FallingSpikes script = other.transform.parent.GetComponent<FallingSpikes>();
 				script.isActivated = true;
 				script.Reset();
+				print("triggered");
 			}
 			else if (other.gameObject.name == "Drip"){
 				DrippingPipe script = other.transform.GetComponent<DrippingPipe>();

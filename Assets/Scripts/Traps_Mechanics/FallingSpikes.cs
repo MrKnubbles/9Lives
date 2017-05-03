@@ -14,6 +14,7 @@ public class FallingSpikes : MonoBehaviour {
 	private AudioManager audioManager;
 	public AudioClip sfxSpikesFalling;
 	public AudioClip sfxSpikesMoving;
+	public float damage;
 
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<Player>();

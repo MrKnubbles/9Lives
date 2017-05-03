@@ -11,6 +11,7 @@ public class MovingTraps : MonoBehaviour {
 	private bool spikePress;
 	private Vector3 startPosition;
 	private Vector3 endPosition;
+	public float damage;
 
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<Player>();
