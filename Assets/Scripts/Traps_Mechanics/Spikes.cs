@@ -15,6 +15,7 @@ public class Spikes : MonoBehaviour {
 	private MoveObject moveObject;
 	public AudioClip sfxSpikesTrigger;
 	public AudioClip sfxSpikesMoving;
+	public float damage;
 	private AudioManager audioManager;
 
 	void Start() {
