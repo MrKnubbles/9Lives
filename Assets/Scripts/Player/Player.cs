@@ -36,6 +36,12 @@ public class Player : MonoBehaviour {
     public float jumpSpeed = 15.0f;
 	public float moveSpeed = 1.5f;
 	public float lives = 9;
+	[SerializeField] float health = 20;
+	[SerializeField] float maxHealth = 20;
+	[SerializeField] Image healthBar;
+	float invulnerableTimer = 2.0f;
+	float maxInvulnerableTimer = 2.0f;
+	bool isInvulnerable = false;
 	public GameManager gameManager;
 	public bool isGrounded = true;
 	public AudioClip sfxDie;
@@ -55,6 +61,7 @@ public class Player : MonoBehaviour {
 	public GameObject HUD;
 	
     void Start(){
+		healthBar = GameObject.Find("HealthPanel/HealthBarBackground/HealthBarForeground").GetComponent<Image>();
 		animator = GetComponent<Animator>();
 		SetCharacter();
 		SetHeads();	
@@ -78,6 +85,7 @@ public class Player : MonoBehaviour {
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
 			HandleHeads();
 			if (!isDead){
+				UpdateInvulnerability();
 				if (isSliding){
 					slideTimer += Time.deltaTime;
 					if (slideTimer >= .75f){
@@ -120,6 +128,48 @@ public class Player : MonoBehaviour {
 		isSliding = false;
 	}
 
+	void TakeDamage(float damage) {
+		// call this to activate invulnerability for a duration
+		// to prevent spamming of damage and FX
+		isInvulnerable = true;
+
+		// This is to check if the player is already dead
+		// If they are then call die and return because we don't 
+		// care about the rest
+		if(health <= 0) {
+			Die();
+			return;
+		} else {		
+			health -= damage;
+			UpdateHealthBar();
+			// check if that last hit killed the player and if 
+			// so then call Die
+			if(health <= 0) {
+				Die();
+			// if you're not dead from the last hit then play some FX	
+			} else {	
+				SpawnBlood();
+				audioManager.PlayOnce(sfxDie);
+			}
+		}
+	}
+
+	void UpdateInvulnerability() {
+		if(isInvulnerable) {
+			if(invulnerableTimer >= 0) {
+				invulnerableTimer -= Time.deltaTime;
+			} else {
+				invulnerableTimer = maxInvulnerableTimer;
+				isInvulnerable = false;
+			}
+		}
+	}
+
+	void UpdateHealthBar() {
+		float currentFillAmount =  health / maxHealth;
+		healthBar.GetComponent<Image>().fillAmount = currentFillAmount;
+	}
+
 	public void Die(){
 		SpawnBlood();
 		isDead = true;
@@ -132,6 +182,8 @@ public class Player : MonoBehaviour {
 		}
 		else{
 			lives--;
+			health = maxHealth;
+			UpdateHealthBar();
 		}
 	}
 
@@ -171,7 +223,10 @@ public class Player : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D other){
 		if ((other.gameObject.tag == "Trap" || other.gameObject.tag == "TriggerKill") && !isDead){
-			Die();
+			if(!isInvulnerable) {
+				float damage = other.gameObject.GetComponent<TrapsStats>().damage;
+				TakeDamage(damage);
+			}
 		}
 		if (other.gameObject.tag == "MovingPlatform"){
 			transform.parent = other.transform;
