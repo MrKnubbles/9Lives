@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 61926770801248492}
   - component: {fileID: 212393190219905856}
   - component: {fileID: 114535532545766184}
+  - component: {fileID: 114427353364867516}
   m_Layer: 0
   m_Name: HiddenSpikes1
   m_TagString: Trap
@@ -97,6 +98,18 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 1}
   serializedVersion: 2
   m_Size: {x: 1.5, y: 3}
+--- !u!114 &114427353364867516
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1131663646518144}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90158b93fb146df4f936ad4c824d1301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 1
 --- !u!114 &114453070743919770
 MonoBehaviour:
   m_ObjectHideFlags: 1

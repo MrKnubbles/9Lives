@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TrapsStats : MonoBehaviour {
+public class TrapStats : MonoBehaviour {
 
 	public float damage;
 	

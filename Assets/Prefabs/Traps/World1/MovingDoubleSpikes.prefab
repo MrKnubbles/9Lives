@@ -181,6 +181,7 @@ GameObject:
   - component: {fileID: 4150469051162568}
   - component: {fileID: 114251714318641892}
   - component: {fileID: 114612068054916110}
+  - component: {fileID: 114788654017698112}
   m_Layer: 0
   m_Name: MovingDoubleSpikes
   m_TagString: Trap
@@ -890,6 +891,18 @@ MonoBehaviour:
   sfxSpikesTrigger: {fileID: 0}
   sfxSpikesMoving: {fileID: 0}
   damage: 5
+--- !u!114 &114788654017698112
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1858141115640152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90158b93fb146df4f936ad4c824d1301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
 --- !u!114 &114952442935095190
 MonoBehaviour:
   m_ObjectHideFlags: 1

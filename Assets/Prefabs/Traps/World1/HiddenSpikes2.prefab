@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 61724029898515334}
   - component: {fileID: 212464982524322722}
   - component: {fileID: 114344591344469324}
+  - component: {fileID: 114947821848250336}
   m_Layer: 0
   m_Name: HiddenSpikes2
   m_TagString: Trap
@@ -127,6 +128,18 @@ MonoBehaviour:
   moveVertical: 1
   sfxSpikesTrigger: {fileID: 8300000, guid: cdf8b4096275e7b4a97e6d78c6f3c558, type: 3}
   sfxSpikesMoving: {fileID: 8300000, guid: 60b3c752569b9864d89df4391cfedde9, type: 3}
+  damage: 2
+--- !u!114 &114947821848250336
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1499683941941880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90158b93fb146df4f936ad4c824d1301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   damage: 2
 --- !u!212 &212464982524322722
 SpriteRenderer:

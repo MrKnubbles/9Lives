@@ -58,6 +58,7 @@ GameObject:
   - component: {fileID: 58708217079121936}
   - component: {fileID: 114634553678158644}
   - component: {fileID: 58772939323461750}
+  - component: {fileID: 114605568788538602}
   m_Layer: 0
   m_Name: Saw3
   m_TagString: Trap
@@ -199,6 +200,18 @@ MonoBehaviour:
   moveSpeed: 2
   moveHorizontal: 0
   moveVertical: 0
+  damage: 9
+--- !u!114 &114605568788538602
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1436872627482398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90158b93fb146df4f936ad4c824d1301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   damage: 9
 --- !u!114 &114634553678158644
 MonoBehaviour:

@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 58000010276134834}
   - component: {fileID: 114954049067609608}
   - component: {fileID: 58527191239716474}
+  - component: {fileID: 114851712422448218}
   m_Layer: 0
   m_Name: Saw
   m_TagString: Trap
@@ -211,6 +212,19 @@ MonoBehaviour:
   moveSpeed: 2
   moveHorizontal: 0
   moveVertical: 0
+  damage: 0
+--- !u!114 &114851712422448218
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011946446812}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90158b93fb146df4f936ad4c824d1301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
 --- !u!114 &114954049067609608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -231,7 +245,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1000011677446036}
   serializedVersion: 5
   lengthInSec: 3
-  speed: 1
+  simulationSpeed: 1
   looping: 1
   prewarm: 0
   playOnAwake: 1
@@ -2796,7 +2810,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1000010678580116}
   serializedVersion: 5
   lengthInSec: 3
-  speed: 1
+  simulationSpeed: 1
   looping: 1
   prewarm: 0
   playOnAwake: 1

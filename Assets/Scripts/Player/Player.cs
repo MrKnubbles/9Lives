@@ -224,8 +224,12 @@ public class Player : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D other){
 		if ((other.gameObject.tag == "Trap" || other.gameObject.tag == "TriggerKill") && !isDead){
 			if(!isInvulnerable) {
-				float damage = other.gameObject.GetComponent<TrapsStats>().damage;
-				TakeDamage(damage);
+				float damage = other.gameObject.GetComponent<TrapStats>().damage;
+				if(damage > 0) {
+					TakeDamage(damage);
+				} else {
+					Die();
+				}
 			}
 		}
 		if (other.gameObject.tag == "MovingPlatform"){
