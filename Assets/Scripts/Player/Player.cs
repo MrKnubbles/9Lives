@@ -268,6 +268,19 @@ public class Player : MonoBehaviour {
 		}
 	}
 	void OnTriggerEnter2D(Collider2D other){
+		if (other.gameObject.tag == "TriggerTrap") {
+			if(!isInvulnerable) {
+				TrapStats stats = other.gameObject.GetComponent<TrapStats>();
+				if(stats != null) {
+					float damage = stats.damage;
+					if(damage > 0) {
+						TakeDamage(damage);
+					} else {
+						Die();
+					}
+				}
+			}
+		}
 		if (other.gameObject.tag == "TriggerKill" && !isDead){
 			Die();
 		}
