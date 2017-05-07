@@ -223,19 +223,21 @@ public class Player : MonoBehaviour {
 		string activeChar = PlayerPrefs.GetString("ActiveChar");
 		if (PlayerPrefs.GetString("ActiveChar") == activeChar){
 			GameObject activeCat = GameObject.Find("Player/Skins/"+activeChar);
-			activeCat.SetActive(true);
-			headIdle.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Head").GetComponent<SpriteRenderer>().sprite;
-			headDie.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("HeadDead").GetComponent<SpriteRenderer>().sprite;
-			headJump.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("HeadJump").GetComponent<SpriteRenderer>().sprite;
-			earLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftEar").GetComponent<SpriteRenderer>().sprite;
-			earRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightEar").GetComponent<SpriteRenderer>().sprite;
-			armLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftArm").GetComponent<SpriteRenderer>().sprite;
-			armRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightArm").GetComponent<SpriteRenderer>().sprite;
-			legLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftLeg").GetComponent<SpriteRenderer>().sprite;
-			legRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightLeg").GetComponent<SpriteRenderer>().sprite;
-			body.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Body").GetComponent<SpriteRenderer>().sprite;
-			tail.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Tail").GetComponent<SpriteRenderer>().sprite;
-			activeCat.SetActive(false);
+			if(activeCat != null) {
+				activeCat.SetActive(true);
+				headIdle.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Head").GetComponent<SpriteRenderer>().sprite;
+				headDie.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("HeadDead").GetComponent<SpriteRenderer>().sprite;
+				headJump.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("HeadJump").GetComponent<SpriteRenderer>().sprite;
+				earLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftEar").GetComponent<SpriteRenderer>().sprite;
+				earRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightEar").GetComponent<SpriteRenderer>().sprite;
+				armLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftArm").GetComponent<SpriteRenderer>().sprite;
+				armRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightArm").GetComponent<SpriteRenderer>().sprite;
+				legLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftLeg").GetComponent<SpriteRenderer>().sprite;
+				legRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightLeg").GetComponent<SpriteRenderer>().sprite;
+				body.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Body").GetComponent<SpriteRenderer>().sprite;
+				tail.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Tail").GetComponent<SpriteRenderer>().sprite;
+				activeCat.SetActive(false);
+			}
 		}
 	}
 
