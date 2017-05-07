@@ -92,6 +92,7 @@ GameObject:
   - component: {fileID: 4511091717817726}
   - component: {fileID: 114507057889580448}
   - component: {fileID: 114180014847790256}
+  - component: {fileID: 114227107642023910}
   m_Layer: 0
   m_Name: DiagonalSaw
   m_TagString: Untagged
@@ -275,6 +276,7 @@ MonoBehaviour:
   moveSpeed: 2
   moveHorizontal: 0
   moveVertical: -2
+  damage: 0
 --- !u!114 &114180014847790256
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -287,6 +289,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doneMoving: 0
+--- !u!114 &114227107642023910
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1508501508782724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90158b93fb146df4f936ad4c824d1301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
 --- !u!114 &114507057889580448
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -301,6 +315,7 @@ MonoBehaviour:
   moveSpeed: 2
   moveHorizontal: -2
   moveVertical: 0
+  damage: 0
 --- !u!114 &114646384282779146
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -333,7 +348,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1353730330183190}
   serializedVersion: 5
   lengthInSec: 3
-  speed: 1
+  simulationSpeed: 1
   looping: 1
   prewarm: 0
   playOnAwake: 1
@@ -2898,7 +2913,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1231885945756064}
   serializedVersion: 5
   lengthInSec: 3
-  speed: 1
+  simulationSpeed: 1
   looping: 1
   prewarm: 0
   playOnAwake: 1
