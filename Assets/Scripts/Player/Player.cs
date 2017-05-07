@@ -120,6 +120,8 @@ public class Player : MonoBehaviour {
 		if ((Input.GetKeyUp(KeyCode.R) && gameManager.isLevelComplete)){
 			HUD.GetComponent<LoadLevel>().LoadNextLevel();
 		}
+
+		// TODO: Remove. Testing only
 		if(Input.GetKeyDown(KeyCode.M)) {
 			AttachHeadAccessory(testAcc);
 		}
@@ -139,10 +141,9 @@ public class Player : MonoBehaviour {
 		isInvulnerable = true;
 
 		// This is to check if the player is already dead
-		// If they are then call die and return because we don't 
+		// If they are then return because we don't 
 		// care about the rest
 		if(health <= 0) {
-			Die();
 			return;
 		} else {		
 			health -= damage;
