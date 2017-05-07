@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
 
+	public GameObject testAcc;
+
 	public Animator animator;
 	// Player Body Parts
 	public GameObject headIdle;
@@ -118,6 +120,9 @@ public class Player : MonoBehaviour {
 		if ((Input.GetKeyUp(KeyCode.R) && gameManager.isLevelComplete)){
 			HUD.GetComponent<LoadLevel>().LoadNextLevel();
 		}
+		if(Input.GetKeyDown(KeyCode.M)) {
+			AttachHeadAccessory(testAcc);
+		}
 	}
 
 	public void ResetSlide(){
@@ -159,8 +164,8 @@ public class Player : MonoBehaviour {
 			if(invulnerableTimer >= 0) {
 				invulnerableTimer -= Time.deltaTime;
 			} else {
-				invulnerableTimer = maxInvulnerableTimer;
 				isInvulnerable = false;
+				invulnerableTimer = maxInvulnerableTimer;
 			}
 		}
 	}
@@ -185,6 +190,15 @@ public class Player : MonoBehaviour {
 		else{
 			lives--;
 		}
+	}
+
+	public void AttachHeadAccessory(GameObject accessory) {
+		GameObject acc1 = Instantiate(accessory, headIdle.transform);
+		GameObject acc2 = Instantiate(accessory, headDie.transform);
+		GameObject acc3 = Instantiate(accessory, headJump.transform);
+		acc1.transform.localPosition = new Vector3(0,0,0);
+		acc2.transform.localPosition = new Vector3(0,0,0);
+		acc3.transform.localPosition = new Vector3(0,0,0);
 	}
 
 	void Respawn(){
