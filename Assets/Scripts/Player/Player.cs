@@ -38,9 +38,13 @@ public class Player : MonoBehaviour {
     public float jumpSpeed = 15.0f;
 	public float moveSpeed = 1.5f;
 	public float lives = 9;
-	[SerializeField] float health = 5;
-	[SerializeField] float maxHealth = 5;
-	[SerializeField] Image healthBar;
+	[SerializeField] HealthBarCanvas healthBarCanvas;
+	//[SerializeField] float health = 5;
+	//[SerializeField] float maxHealth = 5;
+	//[SerializeField] Image healthBar;
+	//float healthRegenInterval = 5f;
+	//System.DateTime lastHealthRegenTime;
+	//float currentHealthRegenTime = 5f;
 	float invulnerableTimer = 2.0f;
 	float maxInvulnerableTimer = 2.0f;
 	bool isInvulnerable = false;
@@ -63,7 +67,7 @@ public class Player : MonoBehaviour {
 	public GameObject HUD;
 	
     void Start(){
-		healthBar = GameObject.Find("HealthPanel/HealthBarBackground/HealthBarForeground").GetComponent<Image>();
+		healthBarCanvas = GameObject.Find("HealthBarCanvas").GetComponent<HealthBarCanvas>();
 		animator = GetComponent<Animator>();
 		SetCharacter();
 		SetHeads();	
@@ -86,6 +90,7 @@ public class Player : MonoBehaviour {
 	void Update(){
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
 			HandleHeads();
+			//UpdateHealthRegeneration();
 			if (!isDead){
 				UpdateInvulnerability();
 				if (isSliding){
@@ -125,7 +130,20 @@ public class Player : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.M)) {
 			AttachHeadAccessory(testAcc);
 		}
+
+		
 	}
+
+	// void UpdateHealthRegeneration() {
+	// 	if(currentHealthRegenTime > 0) {
+	// 		currentHealthRegenTime -= Time.deltaTime;
+	// 	} else {
+	// 		health += 1;
+	// 		UpdateHealthBar();
+	// 		currentHealthRegenTime = healthRegenInterval;
+	// 		lastHealthRegenTime = System.DateTime.Now;
+	// 	}
+	// }
 
 	public void ResetSlide(){
 		animator.SetBool("isSliding", false);
@@ -143,11 +161,12 @@ public class Player : MonoBehaviour {
 		// This is to check if the player is already dead
 		// If they are then return because we don't 
 		// care about the rest
+		float health = healthBarCanvas.GetHealth();
 		if(health <= 0) {
 			return;
-		} else {		
-			health -= damage;
-			UpdateHealthBar();
+		} else {	
+			healthBarCanvas.TakeDamage(damage);
+			health = healthBarCanvas.GetHealth();
 			// check if that last hit killed the player and if 
 			// so then call Die
 			if(health <= 0) {
@@ -171,14 +190,8 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	void UpdateHealthBar() {
-		float currentFillAmount =  health / maxHealth;
-		healthBar.GetComponent<Image>().fillAmount = currentFillAmount;
-	}
-
 	public void Die(){
-		health = 0;
-		UpdateHealthBar();
+		healthBarCanvas.Die();
 		SpawnBlood();
 		isDead = true;
 		audioManager.PlayOnce(sfxDie);
@@ -204,8 +217,7 @@ public class Player : MonoBehaviour {
 
 	void Respawn(){
 		if (lives != 0){
-			health = maxHealth;
-			UpdateHealthBar();
+			healthBarCanvas.Respawn();
 			isDead = false;
 			isJumping = false;
 			hasDoubleJumped = false;
