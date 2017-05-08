@@ -2764,7 +2764,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1890317137701018}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.6, y: 0.9807497, z: 0}
+  m_LocalPosition: {x: -8.6, y: -0.9767501, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children:
   - {fileID: 4596929593787882}
@@ -4495,9 +4495,10 @@ MonoBehaviour:
   jumpSpeed: 45
   moveSpeed: 3.3
   lives: 9
-  health: 20
-  maxHealth: 20
-  healthBar: {fileID: 0}
+  healthBarCanvas: {fileID: 114138882061116464, guid: ea441d7b509f3b94c9c64dfff46aa04c,
+    type: 2}
+  healthBarCanvasPrefab: {fileID: 1988681518113026, guid: ea441d7b509f3b94c9c64dfff46aa04c,
+    type: 2}
   gameManager: {fileID: 0}
   isGrounded: 1
   sfxDie: {fileID: 8300000, guid: e036d450a5f6ceb428612ceee20b2de6, type: 3}

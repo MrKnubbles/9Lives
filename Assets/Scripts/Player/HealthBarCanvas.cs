@@ -19,13 +19,14 @@ public class HealthBarCanvas : MonoBehaviour {
     public void SetHealth(float value) { health = value; }
 
     void Awake() {
-        DontDestroyOnLoad(this); 
+        DontDestroyOnLoad(this);
 
 
         timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
         timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
         if(timeSinceLastOpenedGame > healthRegenInterval * maxHealth) {
             health = maxHealth;
+            UpdateHealthBar();
         } else {
             // TODO: Calculate health
             health = maxHealth;

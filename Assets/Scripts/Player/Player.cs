@@ -39,12 +39,8 @@ public class Player : MonoBehaviour {
 	public float moveSpeed = 1.5f;
 	public float lives = 9;
 	[SerializeField] HealthBarCanvas healthBarCanvas;
-	//[SerializeField] float health = 5;
-	//[SerializeField] float maxHealth = 5;
-	//[SerializeField] Image healthBar;
-	//float healthRegenInterval = 5f;
-	//System.DateTime lastHealthRegenTime;
-	//float currentHealthRegenTime = 5f;
+	[SerializeField] GameObject healthBarCanvasGO;
+	[SerializeField] GameObject healthBarCanvasPrefab;
 	float invulnerableTimer = 2.0f;
 	float maxInvulnerableTimer = 2.0f;
 	bool isInvulnerable = false;
@@ -67,7 +63,14 @@ public class Player : MonoBehaviour {
 	public GameObject HUD;
 	
     void Start(){
-		healthBarCanvas = GameObject.Find("HealthBarCanvas").GetComponent<HealthBarCanvas>();
+		healthBarCanvasGO = GameObject.Find("HealthBarCanvas");
+		if(healthBarCanvasGO == null) {
+			GameObject tmp = GameObject.Instantiate(healthBarCanvasPrefab);
+			tmp.name = "HealthBarCanvas";
+			healthBarCanvas = tmp.GetComponent<HealthBarCanvas>();
+		} else {
+			healthBarCanvas = healthBarCanvasGO.GetComponent<HealthBarCanvas>();
+		}
 		animator = GetComponent<Animator>();
 		SetCharacter();
 		SetHeads();	
