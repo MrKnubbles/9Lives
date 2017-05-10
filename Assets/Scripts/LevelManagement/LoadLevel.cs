@@ -138,12 +138,20 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	public void ShowLevelSelect(int worldNumber){
+		int subtractValue = RoundDown(worldNumber);
+		int multiplier = subtractValue/10;
+		int pageNumber = worldNumber - subtractValue;
 		HideWorlds();
 		levelSelectScreen.SetActive(true);
-		levelScreens[worldNumber - 1].SetActive(true);
+		levelScreens[worldNumber - (subtractValue + pageNumber) - 1 + (1 * multiplier)].SetActive(true);
 		mainMenuScreen.SetActive(false);
 		HidePages();
-		ShowPage(1);
+		ShowPage(pageNumber);
+	}
+
+	int RoundDown(int toRound)
+	{
+		return toRound - toRound % 10;
 	}
 
 	public void ShowDevOptions(){
@@ -154,6 +162,8 @@ public class LoadLevel : MonoBehaviour {
 	public void ShowWorldSelect(){
 		DisableAllScreens();
 		worldSelectScreen.SetActive(true);
+		//TODO: Change from a hard number to a variable that checks what your max level unlocked is.
+		ShowLevelSelect(11);
 	}
 
 	public void ShowControls(){
@@ -255,29 +265,29 @@ public class LoadLevel : MonoBehaviour {
 			levelManager.levelPages[pageNumber+2].SetActive(true);
 		}
 		
-		levelManager.pageTracker.transform.GetChild(pageNumber-1).gameObject.SetActive(true);
+		//levelManager.pageTracker.transform.GetChild(pageNumber-1).gameObject.SetActive(true);
 	}
 
-	public void ShowNextPage(int pageNumber){
-		HidePages();
-		ShowPage(pageNumber);
-	}
+	// public void ShowNextPage(int pageNumber){
+	// 	HidePages();
+	// 	ShowPage(pageNumber);
+	// }
 
 	void HidePages(){
 		for (int i = 0; i < levelManager.levelPages.Length; i++){
 			levelManager.levelPages[i].SetActive(false);
-			if (i < 3){
-				levelManager.pageTracker.transform.GetChild(i).gameObject.SetActive(false);
-			}
+			// if (i < 3){
+			// 	levelManager.pageTracker.transform.GetChild(i).gameObject.SetActive(false);
+			// }
 		}
 	}
 
-	public void ShowNextWorld(int worldNumber){
-		HideWorlds();
-		ShowWorld(worldNumber);
-		HidePages();
-		ShowPage(1);
-	}
+	// public void ShowNextWorld(int worldNumber){
+	// 	HideWorlds();
+	// 	ShowWorld(worldNumber);
+	// 	// HidePages();
+	// 	ShowPage(1);
+	// }
 
 	void ShowWorld(int worldNumber){
 		levelManager.worlds[worldNumber-1].SetActive(true);
