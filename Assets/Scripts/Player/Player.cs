@@ -20,6 +20,13 @@ public class Player : MonoBehaviour {
 	public GameObject legRight;
 	public GameObject body;
 	public GameObject tail;
+	// Sprite of each body part
+	private SpriteRenderer[] headSprites = new SpriteRenderer[3];
+	private SpriteRenderer[] earSprites = new SpriteRenderer[2];
+	private SpriteRenderer[] armSprites = new SpriteRenderer[2];
+	private SpriteRenderer[] legSprites = new SpriteRenderer[2];
+	private SpriteRenderer bodySprite;
+	private SpriteRenderer tailSprite;
 	//
 	private GameObject masksContainer;
 	[SerializeField]
@@ -41,9 +48,9 @@ public class Player : MonoBehaviour {
 	[SerializeField] HealthBarCanvas healthBarCanvas;
 	[SerializeField] GameObject healthBarCanvasGO;
 	[SerializeField] GameObject healthBarCanvasPrefab;
-	float invulnerableTimer = 2.0f;
-	float maxInvulnerableTimer = 2.0f;
-	bool isInvulnerable = false;
+	private float invulnerableTimer;
+	private float maxInvulnerableTimer = .5f;
+	public bool isInvulnerable = false;
 	public GameManager gameManager;
 	public bool isGrounded = true;
 	public AudioClip sfxDie;
@@ -72,6 +79,7 @@ public class Player : MonoBehaviour {
 			healthBarCanvas = healthBarCanvasGO.GetComponent<HealthBarCanvas>();
 		}
 		animator = GetComponent<Animator>();
+		GetSpriteRenderers();
 		SetCharacter();
 		SetHeads();	
 		masksContainer = GameObject.Find("Masks");
@@ -89,6 +97,7 @@ public class Player : MonoBehaviour {
 		gameManager.isLevelComplete = false;
 		exitDoor = GameObject.Find("ExitDoor/Door").GetComponent<Door>();
 		respawnPos = GameObject.Find("Respawn");
+		invulnerableTimer = maxInvulnerableTimer;
 	} 
 	void Update(){
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
@@ -102,19 +111,24 @@ public class Player : MonoBehaviour {
 						ResetSlide();
 					}
 				}
-				if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)){
-					action.MoveRight();
+				if (!isInvulnerable){
+					if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)){
+						action.MoveRight();
+					}
+					if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)){
+						action.MoveLeft();
+					}
+					if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))){
+						action.Jump();
+					}
+					if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && !isSliding){
+						action.Special();
+					}
+					if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow)){
+						action.StopRunning();
+					}
 				}
-				if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow)){
-					action.MoveLeft();
-				}
-				if ((Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))){
-					action.Jump();
-				}
-				if ((Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) && !isSliding){
-					action.Special();
-				}
-				if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.LeftArrow) || Input.GetKeyUp(KeyCode.RightArrow)){
+				else{
 					action.StopRunning();
 				}
 				if (rb2d.velocity.y < -0.1f && !isFalling){
@@ -186,10 +200,61 @@ public class Player : MonoBehaviour {
 		if(isInvulnerable) {
 			if(invulnerableTimer >= 0) {
 				invulnerableTimer -= Time.deltaTime;
+				DamageFlash();
 			} else {
 				isInvulnerable = false;
 				invulnerableTimer = maxInvulnerableTimer;
 			}
+		}
+	}
+
+	void DamageFlash(){
+		if (invulnerableTimer > maxInvulnerableTimer * .8f){
+			MakeInvisible(true);
+		}
+		else if(invulnerableTimer > maxInvulnerableTimer * .6f){
+			MakeInvisible(false);
+		}
+		else if(invulnerableTimer > maxInvulnerableTimer * .4f){
+			MakeInvisible(true);
+		}
+		else if (invulnerableTimer > maxInvulnerableTimer * .2f){
+			MakeInvisible(false);
+		}
+		else if (invulnerableTimer > 0){
+			MakeInvisible(true);
+		}
+		else{
+			MakeInvisible(false);
+		}
+	}
+
+	void MakeInvisible(bool isInvisible){
+		if (isInvisible){
+			headSprites[0].color = new Color(1f, 0f, 0f, .25f);
+			headSprites[1].color = new Color(1f, 0f, 0f, .25f);
+			headSprites[2].color = new Color(1f, 0f, 0f, .25f);
+			earSprites[0].color = new Color(1f, 0f, 0f, .25f);
+			earSprites[1].color = new Color(1f, 0f, 0f, .25f);
+			armSprites[0].color = new Color(1f, 0f, 0f, .25f);
+			armSprites[1].color = new Color(1f, 0f, 0f, .25f);
+			legSprites[0].color = new Color(1f, 0f, 0f, .25f);
+			legSprites[1].color = new Color(1f, 0f, 0f, .25f);
+			bodySprite.color = new Color(1f, 0f, 0f, .25f);
+			tailSprite.color = new Color(1f, 0f, 0f, .25f);
+		}
+		else{
+			headSprites[0].color = new Color(1f, 1f, 1f, 1f);
+			headSprites[1].color = new Color(1f, 1f, 1f, 1f);
+			headSprites[2].color = new Color(1f, 1f, 1f, 1f);
+			earSprites[0].color = new Color(1f, 1f, 1f, 1f);
+			earSprites[1].color = new Color(1f, 1f, 1f, 1f);
+			armSprites[0].color = new Color(1f, 1f, 1f, 1f);
+			armSprites[1].color = new Color(1f, 1f, 1f, 1f);
+			legSprites[0].color = new Color(1f, 1f, 1f, 1f);
+			legSprites[1].color = new Color(1f, 1f, 1f, 1f);
+			bodySprite.color = new Color(1f, 1f, 1f, 1f);
+			tailSprite.color = new Color(1f, 1f, 1f, 1f);
 		}
 	}
 
@@ -200,6 +265,8 @@ public class Player : MonoBehaviour {
 		audioManager.PlayOnce(sfxDie);
 		animator.SetBool("isDead", true);
 		isActivatingSwitch = false;
+		isInvulnerable = false;
+		invulnerableTimer = maxInvulnerableTimer;
 		if (lives == 1){
 			lives = 0;
 			gameManager.isGameOver = true;
@@ -240,17 +307,31 @@ public class Player : MonoBehaviour {
 	}
 
 	void HidePlayer(){
-		headIdle.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
-		headDie.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
-		headJump.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
-		earLeft.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
-		earRight.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
-		armLeft.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
-		armRight.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
-		legLeft.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
-		legRight.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
-		body.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
-		tail.GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
+		headSprites[0].sortingLayerName = "Hidden";
+		headSprites[1].sortingLayerName = "Hidden";
+		headSprites[2].sortingLayerName = "Hidden";
+		earSprites[0].sortingLayerName = "Hidden";
+		earSprites[1].sortingLayerName = "Hidden";
+		armSprites[0].sortingLayerName = "Hidden";
+		armSprites[1].sortingLayerName = "Hidden";
+		legSprites[0].sortingLayerName = "Hidden";
+		legSprites[1].sortingLayerName = "Hidden";
+		bodySprite.sortingLayerName = "Hidden";
+		tailSprite.sortingLayerName = "Hidden";
+	}
+
+	void GetSpriteRenderers(){
+		headSprites[0] = headIdle.GetComponent<SpriteRenderer>();
+		headSprites[1] = headDie.GetComponent<SpriteRenderer>();
+		headSprites[2] = headJump.GetComponent<SpriteRenderer>();
+		earSprites[0] = earLeft.GetComponent<SpriteRenderer>();
+		earSprites[1] = earRight.GetComponent<SpriteRenderer>();
+		armSprites[0] =	armLeft.GetComponent<SpriteRenderer>();
+		armSprites[1] = armRight.GetComponent<SpriteRenderer>();
+		legSprites[0] = legLeft.GetComponent<SpriteRenderer>();
+		legSprites[1] = legRight.GetComponent<SpriteRenderer>();
+		bodySprite = body.GetComponent<SpriteRenderer>();
+		tailSprite = tail.GetComponent<SpriteRenderer>();
 	}
 
 	void OnCollisionEnter2D(Collision2D other){
@@ -332,17 +413,17 @@ public class Player : MonoBehaviour {
 			GameObject activeCat = GameObject.Find("Player/Skins/"+activeChar);
 			if(activeCat != null) {
 				activeCat.SetActive(true);
-				headIdle.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Head").GetComponent<SpriteRenderer>().sprite;
-				headDie.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("HeadDead").GetComponent<SpriteRenderer>().sprite;
-				headJump.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("HeadJump").GetComponent<SpriteRenderer>().sprite;
-				earLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftEar").GetComponent<SpriteRenderer>().sprite;
-				earRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightEar").GetComponent<SpriteRenderer>().sprite;
-				armLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftArm").GetComponent<SpriteRenderer>().sprite;
-				armRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightArm").GetComponent<SpriteRenderer>().sprite;
-				legLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftLeg").GetComponent<SpriteRenderer>().sprite;
-				legRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightLeg").GetComponent<SpriteRenderer>().sprite;
-				body.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Body").GetComponent<SpriteRenderer>().sprite;
-				tail.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Tail").GetComponent<SpriteRenderer>().sprite;
+				headSprites[0].sprite = activeCat.transform.Find("Head").GetComponent<SpriteRenderer>().sprite;
+				headSprites[1].sprite = activeCat.transform.Find("HeadDead").GetComponent<SpriteRenderer>().sprite;
+				headSprites[2].sprite = activeCat.transform.Find("HeadJump").GetComponent<SpriteRenderer>().sprite;
+				earSprites[0].sprite = activeCat.transform.Find("LeftEar").GetComponent<SpriteRenderer>().sprite;
+				earSprites[1].sprite = activeCat.transform.Find("RightEar").GetComponent<SpriteRenderer>().sprite;
+				armSprites[0].sprite = activeCat.transform.Find("LeftArm").GetComponent<SpriteRenderer>().sprite;
+				armSprites[1].sprite = activeCat.transform.Find("RightArm").GetComponent<SpriteRenderer>().sprite;
+				legSprites[0].sprite = activeCat.transform.Find("LeftLeg").GetComponent<SpriteRenderer>().sprite;
+				legSprites[1].sprite = activeCat.transform.Find("RightLeg").GetComponent<SpriteRenderer>().sprite;
+				bodySprite.sprite = activeCat.transform.Find("Body").GetComponent<SpriteRenderer>().sprite;
+				tailSprite.sprite = activeCat.transform.Find("Tail").GetComponent<SpriteRenderer>().sprite;
 				activeCat.SetActive(false);
 			}
 		}
@@ -352,10 +433,6 @@ public class Player : MonoBehaviour {
 		headIdle.SetActive(true);
 		headDie.SetActive(false);
 		headJump.SetActive(false);	
-	}
-
-	void SetBodyParts(){
-
 	}
 
 	public void SetGrounded(){
