@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
 
+	public GameObject testAcc;
+
 	public Animator animator;
 	// Player Body Parts
 	public GameObject headIdle;
@@ -36,6 +38,12 @@ public class Player : MonoBehaviour {
     public float jumpSpeed = 15.0f;
 	public float moveSpeed = 1.5f;
 	public float lives = 9;
+	[SerializeField] HealthBarCanvas healthBarCanvas;
+	[SerializeField] GameObject healthBarCanvasGO;
+	[SerializeField] GameObject healthBarCanvasPrefab;
+	float invulnerableTimer = 2.0f;
+	float maxInvulnerableTimer = 2.0f;
+	bool isInvulnerable = false;
 	public GameManager gameManager;
 	public bool isGrounded = true;
 	public AudioClip sfxDie;
@@ -55,6 +63,14 @@ public class Player : MonoBehaviour {
 	public GameObject HUD;
 	
     void Start(){
+		healthBarCanvasGO = GameObject.Find("HealthBarCanvas");
+		if(healthBarCanvasGO == null) {
+			GameObject tmp = GameObject.Instantiate(healthBarCanvasPrefab);
+			tmp.name = "HealthBarCanvas";
+			healthBarCanvas = tmp.GetComponent<HealthBarCanvas>();
+		} else {
+			healthBarCanvas = healthBarCanvasGO.GetComponent<HealthBarCanvas>();
+		}
 		animator = GetComponent<Animator>();
 		SetCharacter();
 		SetHeads();	
@@ -77,7 +93,9 @@ public class Player : MonoBehaviour {
 	void Update(){
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
 			HandleHeads();
+			//UpdateHealthRegeneration();
 			if (!isDead){
+				UpdateInvulnerability();
 				if (isSliding){
 					slideTimer += Time.deltaTime;
 					if (slideTimer >= .75f){
@@ -110,7 +128,25 @@ public class Player : MonoBehaviour {
 		if ((Input.GetKeyUp(KeyCode.R) && gameManager.isLevelComplete)){
 			HUD.GetComponent<LoadLevel>().LoadNextLevel();
 		}
+
+		// TODO: Remove. Testing only
+		if(Input.GetKeyDown(KeyCode.M)) {
+			AttachHeadAccessory(testAcc);
+		}
+
+		
 	}
+
+	// void UpdateHealthRegeneration() {
+	// 	if(currentHealthRegenTime > 0) {
+	// 		currentHealthRegenTime -= Time.deltaTime;
+	// 	} else {
+	// 		health += 1;
+	// 		UpdateHealthBar();
+	// 		currentHealthRegenTime = healthRegenInterval;
+	// 		lastHealthRegenTime = System.DateTime.Now;
+	// 	}
+	// }
 
 	public void ResetSlide(){
 		animator.SetBool("isSliding", false);
@@ -120,7 +156,45 @@ public class Player : MonoBehaviour {
 		isSliding = false;
 	}
 
+	void TakeDamage(float damage) {
+		// call this to activate invulnerability for a duration
+		// to prevent spamming of damage and FX
+		isInvulnerable = true;
+
+		// This is to check if the player is already dead
+		// If they are then return because we don't 
+		// care about the rest
+		float health = healthBarCanvas.GetHealth();
+		if(health <= 0) {
+			return;
+		} else {	
+			healthBarCanvas.TakeDamage(damage);
+			health = healthBarCanvas.GetHealth();
+			// check if that last hit killed the player and if 
+			// so then call Die
+			if(health <= 0) {
+				Die();
+			// if you're not dead from the last hit then play some FX	
+			} else {	
+				SpawnBlood();
+				audioManager.PlayOnce(sfxDie);
+			}
+		}
+	}
+
+	void UpdateInvulnerability() {
+		if(isInvulnerable) {
+			if(invulnerableTimer >= 0) {
+				invulnerableTimer -= Time.deltaTime;
+			} else {
+				isInvulnerable = false;
+				invulnerableTimer = maxInvulnerableTimer;
+			}
+		}
+	}
+
 	public void Die(){
+		healthBarCanvas.Die();
 		SpawnBlood();
 		isDead = true;
 		audioManager.PlayOnce(sfxDie);
@@ -135,8 +209,18 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	public void AttachHeadAccessory(GameObject accessory) {
+		GameObject acc1 = Instantiate(accessory, headIdle.transform);
+		GameObject acc2 = Instantiate(accessory, headDie.transform);
+		GameObject acc3 = Instantiate(accessory, headJump.transform);
+		acc1.transform.localPosition = new Vector3(0,0,0);
+		acc2.transform.localPosition = new Vector3(0,0,0);
+		acc3.transform.localPosition = new Vector3(0,0,0);
+	}
+
 	void Respawn(){
 		if (lives != 0){
+			healthBarCanvas.Respawn();
 			isDead = false;
 			isJumping = false;
 			hasDoubleJumped = false;
@@ -171,7 +255,17 @@ public class Player : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D other){
 		if ((other.gameObject.tag == "Trap" || other.gameObject.tag == "TriggerKill") && !isDead){
-			Die();
+			if(!isInvulnerable) {
+				TrapStats stats = other.gameObject.GetComponent<TrapStats>();
+				if(stats != null) {
+					float damage = stats.damage;
+					if(damage > 0) {
+						TakeDamage(damage);
+					} else {
+						Die();
+					}
+				}
+			}
 		}
 		if (other.gameObject.tag == "MovingPlatform"){
 			transform.parent = other.transform;
@@ -190,6 +284,19 @@ public class Player : MonoBehaviour {
 		}
 	}
 	void OnTriggerEnter2D(Collider2D other){
+		if (other.gameObject.tag == "TriggerTrap") {
+			if(!isInvulnerable) {
+				TrapStats stats = other.gameObject.GetComponent<TrapStats>();
+				if(stats != null) {
+					float damage = stats.damage;
+					if(damage > 0) {
+						TakeDamage(damage);
+					} else {
+						Die();
+					}
+				}
+			}
+		}
 		if (other.gameObject.tag == "TriggerKill" && !isDead){
 			Die();
 		}
@@ -223,19 +330,21 @@ public class Player : MonoBehaviour {
 		string activeChar = PlayerPrefs.GetString("ActiveChar");
 		if (PlayerPrefs.GetString("ActiveChar") == activeChar){
 			GameObject activeCat = GameObject.Find("Player/Skins/"+activeChar);
-			activeCat.SetActive(true);
-			headIdle.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Head").GetComponent<SpriteRenderer>().sprite;
-			headDie.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("HeadDead").GetComponent<SpriteRenderer>().sprite;
-			headJump.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("HeadJump").GetComponent<SpriteRenderer>().sprite;
-			earLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftEar").GetComponent<SpriteRenderer>().sprite;
-			earRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightEar").GetComponent<SpriteRenderer>().sprite;
-			armLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftArm").GetComponent<SpriteRenderer>().sprite;
-			armRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightArm").GetComponent<SpriteRenderer>().sprite;
-			legLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftLeg").GetComponent<SpriteRenderer>().sprite;
-			legRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightLeg").GetComponent<SpriteRenderer>().sprite;
-			body.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Body").GetComponent<SpriteRenderer>().sprite;
-			tail.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Tail").GetComponent<SpriteRenderer>().sprite;
-			activeCat.SetActive(false);
+			if(activeCat != null) {
+				activeCat.SetActive(true);
+				headIdle.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Head").GetComponent<SpriteRenderer>().sprite;
+				headDie.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("HeadDead").GetComponent<SpriteRenderer>().sprite;
+				headJump.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("HeadJump").GetComponent<SpriteRenderer>().sprite;
+				earLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftEar").GetComponent<SpriteRenderer>().sprite;
+				earRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightEar").GetComponent<SpriteRenderer>().sprite;
+				armLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftArm").GetComponent<SpriteRenderer>().sprite;
+				armRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightArm").GetComponent<SpriteRenderer>().sprite;
+				legLeft.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("LeftLeg").GetComponent<SpriteRenderer>().sprite;
+				legRight.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("RightLeg").GetComponent<SpriteRenderer>().sprite;
+				body.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Body").GetComponent<SpriteRenderer>().sprite;
+				tail.GetComponent<SpriteRenderer>().sprite = activeCat.transform.Find("Tail").GetComponent<SpriteRenderer>().sprite;
+				activeCat.SetActive(false);
+			}
 		}
 	}
 

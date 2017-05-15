@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 61149169933829552}
   - component: {fileID: 212723862054251224}
   - component: {fileID: 114217385784844632}
+  - component: {fileID: 114446590826854422}
   m_Layer: 0
   m_Name: HiddenSpikes
   m_TagString: Trap
@@ -110,6 +111,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doneMoving: 0
+--- !u!114 &114446590826854422
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1081739294413208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90158b93fb146df4f936ad4c824d1301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
 --- !u!114 &114548584855416138
 MonoBehaviour:
   m_ObjectHideFlags: 1

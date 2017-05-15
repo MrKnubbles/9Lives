@@ -72,7 +72,7 @@ public class LevelManager : MonoBehaviour {
 			worlds[0] = HUD.transform.Find("LevelSelectScreen/World1").gameObject;
 			worlds[1] = HUD.transform.Find("LevelSelectScreen/World2").gameObject;
 			worlds[2] = HUD.transform.Find("LevelSelectScreen/World3").gameObject;
-			pageTracker = HUD.transform.Find("LevelSelectScreen/PageTracker").gameObject;
+			//pageTracker = HUD.transform.Find("LevelSelectScreen/PageTracker").gameObject;
 			lockedLevelScript = HUD.transform.Find("LevelSelectScreen").gameObject.GetComponent<LockedLevels>();
 			levelPages[0] = HUD.transform.Find("LevelSelectScreen/World1/Page1").gameObject;
 			levelPages[1] = HUD.transform.Find("LevelSelectScreen/World1/Page2").gameObject;

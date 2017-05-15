@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 58621546661114086}
   - component: {fileID: 61574515363600622}
   - component: {fileID: 114627035348163670}
+  - component: {fileID: 114145824822824976}
   m_Layer: 0
   m_Name: HiddenSaw
   m_TagString: Trap
@@ -257,6 +258,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doneMoving: 0
+--- !u!114 &114145824822824976
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1979379565335766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90158b93fb146df4f936ad4c824d1301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
 --- !u!114 &114290386944100576
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -286,6 +299,7 @@ MonoBehaviour:
   moveVertical: -0.25
   sfxSpikesTrigger: {fileID: 8300000, guid: cdf8b4096275e7b4a97e6d78c6f3c558, type: 3}
   sfxSpikesMoving: {fileID: 8300000, guid: 60b3c752569b9864d89df4391cfedde9, type: 3}
+  damage: 0
 --- !u!198 &198174908741953668
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -294,7 +308,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1735203539728366}
   serializedVersion: 5
   lengthInSec: 3
-  speed: 1
+  simulationSpeed: 1
   looping: 1
   prewarm: 0
   playOnAwake: 1
@@ -2859,7 +2873,7 @@ ParticleSystem:
   m_GameObject: {fileID: 1369858478238986}
   serializedVersion: 5
   lengthInSec: 3
-  speed: 1
+  simulationSpeed: 1
   looping: 1
   prewarm: 0
   playOnAwake: 1

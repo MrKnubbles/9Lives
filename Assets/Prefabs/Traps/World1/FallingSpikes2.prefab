@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114877663714174670}
   - component: {fileID: 61915197703741620}
   - component: {fileID: 114625156802129302}
+  - component: {fileID: 114367797231932974}
   m_Layer: 10
   m_Name: FallingSpikes2
   m_TagString: Trap
@@ -127,6 +128,18 @@ BoxCollider2D:
   m_Offset: {x: 0, y: 3.5}
   serializedVersion: 2
   m_Size: {x: 1.75, y: 8}
+--- !u!114 &114367797231932974
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1562681814614728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90158b93fb146df4f936ad4c824d1301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 3
 --- !u!114 &114625156802129302
 MonoBehaviour:
   m_ObjectHideFlags: 1
