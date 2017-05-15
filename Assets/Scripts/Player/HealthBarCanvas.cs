@@ -40,7 +40,7 @@ public class HealthBarCanvas : MonoBehaviour {
 	void Update () {
         UpdateHealthRegeneration();
         float derp = TimeSinceLastHealthRegen(System.DateTime.Now.Second);
-		Debug.Log(derp);
+		//Debug.Log(derp);
         //float ddd = System.DateTime.Now.Second;
 		//Debug.Log(ddd);
 	}
