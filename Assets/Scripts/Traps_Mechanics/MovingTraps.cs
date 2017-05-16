@@ -12,6 +12,8 @@ public class MovingTraps : MonoBehaviour {
 	private Vector3 startPosition;
 	private Vector3 endPosition;
 	public float damage;
+	private Vector3 direction;
+	private float knockbackVelocity = 3f;
 
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<Player>();
@@ -88,15 +90,23 @@ public class MovingTraps : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter2D(Collision2D other){
-		if (other.gameObject.tag == "Player"){
-			GetComponent<Collider2D>().enabled = false;
-		}
-	}
-
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.gameObject.tag == "Player" && !player.isDead){
 			GetComponent<Collider2D>().enabled = true;
+		}
+	}
+
+	void OnCollisionEnter2D(Collision2D other) {
+		if (other.collider.tag == "Player") {
+			if (player.isDead){
+				GetComponent<Collider2D>().enabled = false;
+			}
+			else{
+				direction = (other.collider.transform.position - transform.position).normalized;
+				var charMotor = other.rigidbody;
+				charMotor.velocity = (direction * knockbackVelocity);
+				player.isStunned = true;
+			}
 		}
 	}
 }

@@ -111,6 +111,7 @@ public class Spikes : MonoBehaviour {
 				direction = (other.collider.transform.position - transform.position).normalized;
 				var charMotor = other.rigidbody;
 				charMotor.velocity = (direction * knockbackVelocity);
+				player.isStunned = true;
 			}
 		}
 	}

@@ -51,6 +51,7 @@ public class Player : MonoBehaviour {
 	private float invulnerableTimer;
 	private float maxInvulnerableTimer = .5f;
 	public bool isInvulnerable = false;
+	public bool isStunned = false;
 	public GameManager gameManager;
 	public bool isGrounded = true;
 	public AudioClip sfxDie;
@@ -111,7 +112,7 @@ public class Player : MonoBehaviour {
 						ResetSlide();
 					}
 				}
-				if (!isInvulnerable){
+				if (!isStunned){
 					if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow)){
 						action.MoveRight();
 					}
@@ -203,6 +204,7 @@ public class Player : MonoBehaviour {
 				DamageFlash();
 			} else {
 				isInvulnerable = false;
+				isStunned = false;
 				invulnerableTimer = maxInvulnerableTimer;
 			}
 		}
@@ -265,8 +267,6 @@ public class Player : MonoBehaviour {
 		audioManager.PlayOnce(sfxDie);
 		animator.SetBool("isDead", true);
 		isActivatingSwitch = false;
-		isInvulnerable = false;
-		invulnerableTimer = maxInvulnerableTimer;
 		if (lives == 1){
 			lives = 0;
 			gameManager.isGameOver = true;
@@ -303,6 +303,9 @@ public class Player : MonoBehaviour {
 			GetComponent<CircleCollider2D>().enabled = true;
 			transform.position = respawnPos.transform.position;
 			transform.localScale = respawnPos.transform.localScale;
+			isInvulnerable = false;
+			isStunned = false;
+			invulnerableTimer = maxInvulnerableTimer;
 		}
 	}
 
@@ -335,7 +338,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D other){
-		if ((other.gameObject.tag == "Trap" || other.gameObject.tag == "TriggerKill") && !isDead){
+		if ((other.gameObject.tag == "Trap" || other.gameObject.tag == "TriggerTrap") && !isDead){
 			if(!isInvulnerable) {
 				TrapStats stats = other.gameObject.GetComponent<TrapStats>();
 				if(stats != null) {
