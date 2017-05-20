@@ -90,7 +90,7 @@ public class Player : MonoBehaviour {
 		exitDoor = GameObject.Find("ExitDoor/Door").GetComponent<Door>();
 		respawnPos = GameObject.Find("Respawn");
 	} 
-	void Update(){
+	void Update() {
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
 			HandleHeads();
 			//UpdateHealthRegeneration();
