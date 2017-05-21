@@ -76,7 +76,7 @@ public class ScoreTracker : MonoBehaviour {
 			else {
 				time -= Time.deltaTime;
 			}
-			livesText.text = "x " + player.lives;
+			livesText.text = "x " + player.GetPlayerCanvas().GetLives();
 			if (time >= 0){
 				timeText.text = "" + GetTime();
 				//TODO: Update score in live time to display on the score bar.
@@ -91,15 +91,15 @@ public class ScoreTracker : MonoBehaviour {
 			int tempPlayerCoins = PlayerPrefs.GetInt("Coins");
 			PlayerPrefs.SetInt("Coins", tempPlayerCoins += gameManager.coinCounter);
 			timeText.text = "" + GetTime();
-			livesText.text = "" + player.lives;
-			score = (GetTime() * player.lives) + coinScore;
+			livesText.text = "" + player.GetPlayerCanvas().GetLives();
+			score = (GetTime() * player.GetPlayerCanvas().GetLives()) + coinScore;
 			LevelComplete();
 		}
 		else if (gameManager.isGameOver && !triggerOnce){
 			int coinScore = gameManager.tempCoinCounter * coinScoreValue;
 			gameManager.tempCoinCounter = 0;
 			timeText.text = "" + GetTime();
-			livesText.text = "" + player.lives;
+			livesText.text = "" + player.GetPlayerCanvas().GetLives();
 			score = coinScore;
 			GameOver();
 		}
