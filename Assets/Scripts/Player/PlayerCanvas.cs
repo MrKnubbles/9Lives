@@ -12,6 +12,8 @@ public class PlayerCanvas : MonoBehaviour {
     float xp;
     float nextLevelUpAmount;
     float lastLevelUpAmount;
+    [SerializeField] Text levelText;
+    [SerializeField] Text xpText;
 
     // Health Stuff
 	[SerializeField] float maxHealth = 5;
@@ -124,6 +126,7 @@ public class PlayerCanvas : MonoBehaviour {
             xp = 0;
         } else {
             xp = PlayerPrefs.GetFloat("xp");
+            UpdateXPText();
         }
     }
 
@@ -132,6 +135,7 @@ public class PlayerCanvas : MonoBehaviour {
             level = 1;
         } else {
             level = PlayerPrefs.GetInt("level");
+            UpdateLevelText();
         }
     }
 
@@ -185,13 +189,23 @@ public class PlayerCanvas : MonoBehaviour {
         livesText.text = lives.ToString();
 	}
 
+    void UpdateLevelText() {
+        levelText.text = level.ToString();
+    }
+
+    void UpdateXPText() {
+        xpText.text = xp.ToString();
+    }
+
     public void AddXP(float value) {
         xp += value;
+        UpdateXPText();
         if(xp >= nextLevelUpAmount) {
             level++;
             float newLevelUpAmount = nextLevelUpAmount + (lastLevelUpAmount * 0.2f);
             lastLevelUpAmount = nextLevelUpAmount;
             nextLevelUpAmount = newLevelUpAmount;
+            UpdateLevelText();
         }
     }
 }
