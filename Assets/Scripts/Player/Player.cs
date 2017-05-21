@@ -37,7 +37,8 @@ public class Player : MonoBehaviour {
 	public bool hasDoubleJumped = false;
     public float jumpSpeed = 15.0f;
 	public float moveSpeed = 1.5f;
-	public float lives = 9;
+	//public float lives = 9;
+	
 	[SerializeField] PlayerCanvas playerCanvas;
 	[SerializeField] GameObject playerCanvasGO;
 	[SerializeField] GameObject playerCanvasPrefab;
@@ -61,6 +62,9 @@ public class Player : MonoBehaviour {
 	public bool isNearSwitch = false;
 	public bool isActivatingSwitch = false;
 	public GameObject HUD;
+
+	// Getters and Setters
+	public PlayerCanvas GetPlayerCanvas() { return playerCanvas; }
 	
     void Start(){
 		InitPlayerCanvas();
@@ -190,12 +194,9 @@ public class Player : MonoBehaviour {
 		audioManager.PlayOnce(sfxDie);
 		animator.SetBool("isDead", true);
 		isActivatingSwitch = false;
-		if (lives == 1){
-			lives = 0;
+		int lives = playerCanvas.GetLives();
+		if (lives <= 0) {
 			gameManager.isGameOver = true;
-		}
-		else{
-			lives--;
 		}
 	}
 
@@ -227,6 +228,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void Respawn(){
+		float lives = playerCanvas.GetLives();
 		if (lives != 0){
 			playerCanvas.Respawn();
 			isDead = false;
