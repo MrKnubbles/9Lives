@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerCanvas : MonoBehaviour {
-
-    public GameManager gameManager;
+    
     private bool isFirstStartup = true;
 
     // Level and Experience stuff
@@ -42,8 +41,8 @@ public class PlayerCanvas : MonoBehaviour {
         DontDestroyOnLoad(this);
         CheckFirstStartup();
 
-        SetHealthOnStartup();   
-        SetLivesOnStartup();            
+        InitHealth();   
+        InitLives();            
     }
 
 	void Start () {	
@@ -72,6 +71,10 @@ public class PlayerCanvas : MonoBehaviour {
 	void OnApplicationQuit() {
 		PlayerPrefs.SetFloat("LastExitTime", (float)System.DateTime.Now.Second);
         PlayerPrefs.SetInt("isFirstStartup", 1);
+        PlayerPrefs.SetFloat("health", health);
+        PlayerPrefs.SetInt("level", level);
+        PlayerPrefs.SetInt("lives", lives);
+        PlayerPrefs.SetFloat("xp", xp);
 	}
 
     public void Die() {
@@ -82,31 +85,55 @@ public class PlayerCanvas : MonoBehaviour {
 
     public float TimeSinceLastHealthRegen(float dateTime) {
          return (dateTime - lastHealthRegenTime);
-     }
+    }
 
-     void SetHealthOnStartup() {
-        timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
-        timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
-        if(timeSinceLastOpenedGame > healthRegenInterval * maxHealth) {
+    void InitHealth() {
+        if(isFirstStartup) {
             health = maxHealth;
-            UpdateHealthBar();
         } else {
-            // TODO: Calculate health
-            health = maxHealth;
+            timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
+            timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
+            if(timeSinceLastOpenedGame > healthRegenInterval * maxHealth) {
+                health = maxHealth;
+                UpdateHealthBar();
+            } else {
+                // TODO: Calculate health
+                health = maxHealth;
+            }
         }
-     }
+    }
 
-     void SetLivesOnStartup() {
-        timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
-        timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
-        if(timeSinceLastOpenedGame > healthRegenInterval * maxHealth) {
+    void InitLives() {
+        if(isFirstStartup) {
             lives = maxLives;
-            UpdateHealthBar();
         } else {
-            // TODO: Calculate health
-            lives = maxLives;
+            timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
+            timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
+            if(timeSinceLastOpenedGame > healthRegenInterval * maxHealth) {
+                lives = maxLives;
+                UpdateHealthBar();
+            } else {
+                // TODO: Calculate health
+                lives = maxLives;
+            }
         }
-     }
+    }
+
+    void InitXP() {
+        if(isFirstStartup) {
+            xp = 0;
+        } else {
+            xp = PlayerPrefs.GetFloat("xp");
+        }
+    }
+
+    void InitLevel() {
+        if(isFirstStartup) {
+            level = 1;
+        } else {
+            level = PlayerPrefs.GetInt("level");
+        }
+    }
 
 	void UpdateHealthRegeneration() {
         if(health < maxHealth) {
@@ -158,8 +185,13 @@ public class PlayerCanvas : MonoBehaviour {
         livesText.text = lives.ToString();
 	}
 
-    public void AddXP(float newXP) {
-        xp += newXP;
-
+    public void AddXP(float value) {
+        xp += value;
+        if(xp >= nextLevelUpAmount) {
+            level++;
+            float newLevelUpAmount = nextLevelUpAmount + (lastLevelUpAmount * 0.2f);
+            lastLevelUpAmount = nextLevelUpAmount;
+            nextLevelUpAmount = newLevelUpAmount;
+        }
     }
 }

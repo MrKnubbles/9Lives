@@ -13,6 +13,5 @@ public class StartUp : MonoBehaviour {
 		} else {
 			SceneManager.LoadScene("Main");
 		}
-		
 	}
 }
