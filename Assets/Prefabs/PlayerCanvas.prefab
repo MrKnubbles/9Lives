@@ -197,8 +197,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3649610cb497be746b72499f65fa8813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelText: {fileID: 0}
-  xpText: {fileID: 0}
+  isFirstStartup: 1
+  levelText: {fileID: 114018126527941236}
+  xpText: {fileID: 114606870217591016}
   maxHealth: 5
   healthBarForeground: {fileID: 114508250145646178}
   maxLives: 9
@@ -493,7 +494,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 207, y: -30}
+  m_AnchoredPosition: {x: 151, y: -30}
   m_SizeDelta: {x: 414, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224665315709590974
