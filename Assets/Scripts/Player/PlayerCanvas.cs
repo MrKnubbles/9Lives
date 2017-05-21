@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerCanvas : MonoBehaviour {
 
     public GameManager gameManager;
+    private bool isFirstStartup = true;
 
     // Level and Experience stuff
     int level;
@@ -37,8 +38,9 @@ public class PlayerCanvas : MonoBehaviour {
     public float GetHealth() { return health; }
     public int GetLives() { return lives; }
 
-    void Awake() {
+    void Awake() {        
         DontDestroyOnLoad(this);
+        CheckFirstStartup();
 
         SetHealthOnStartup();   
         SetLivesOnStartup();            
@@ -47,7 +49,18 @@ public class PlayerCanvas : MonoBehaviour {
 	void Start () {	
 		UpdateHealthBar();
 	}
-	
+
+    void CheckFirstStartup() {
+        int tmp = PlayerPrefs.GetInt("isFirstStartup");
+        if(tmp == 0) {
+            isFirstStartup = true;
+        } else if(tmp == 1) {
+            isFirstStartup = false;
+        } else {
+            isFirstStartup = true;
+        }
+    }	
+
 	void Update () {
         UpdateHealthRegeneration();
         float derp = TimeSinceLastHealthRegen(System.DateTime.Now.Second);
@@ -58,6 +71,7 @@ public class PlayerCanvas : MonoBehaviour {
 
 	void OnApplicationQuit() {
 		PlayerPrefs.SetFloat("LastExitTime", (float)System.DateTime.Now.Second);
+        PlayerPrefs.SetInt("isFirstStartup", 1);
 	}
 
     public void Die() {
@@ -143,4 +157,9 @@ public class PlayerCanvas : MonoBehaviour {
 	void UpdateLivesText() {
         livesText.text = lives.ToString();
 	}
+
+    public void AddXP(float newXP) {
+        xp += newXP;
+
+    }
 }
