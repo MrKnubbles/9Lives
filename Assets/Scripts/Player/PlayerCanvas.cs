@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBarCanvas : MonoBehaviour {
+public class PlayerCanvas : MonoBehaviour {
 
 	float health;
     public GameManager gameManager;
