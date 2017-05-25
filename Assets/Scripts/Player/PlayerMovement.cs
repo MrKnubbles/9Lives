@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	
 	public void Jump(){
-		if (!player.isDead){
+		if (!player.isDead && !player.isStunned){
 			if (!player.hasDoubleJumped){
 				player.GetComponent<Animator>().SetBool("isJumping", true);
 				player.GetComponent<Animator>().SetBool("isFalling", false);
@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	public void Special(){
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
-			if (!player.isDead){
+			if (!player.isDead && !player.isStunned){
 				if (player.isNearSwitch && !player.isActivatingSwitch){
 					ActivateSwitch();
 				}
@@ -56,7 +56,9 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	private void ActivateSwitch(){
-		player.isActivatingSwitch = true;
+		if (!player.isStunned){
+			player.isActivatingSwitch = true;
+		}
 	}
 
 	private void Slam(){
@@ -88,7 +90,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	public void MoveLeft(){
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
-			if (!player.isDead){
+			if (!player.isDead && !player.isStunned){
 				if (player.isSliding && player.isFacingRight){
 					player.rb2d.velocity = new Vector2(player.rb2d.velocity.x, 0);
 					player.rb2d.velocity *= -1;
@@ -111,7 +113,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	public void MoveRight(){
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
-			if (!player.isDead){
+			if (!player.isDead && !player.isStunned){
 				if (player.isSliding && !player.isFacingRight){
 					player.rb2d.velocity = new Vector2(player.rb2d.velocity.x, 0);
 					player.rb2d.velocity *= -1;

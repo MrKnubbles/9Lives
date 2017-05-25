@@ -17,6 +17,8 @@ public class Spikes : MonoBehaviour {
 	public AudioClip sfxSpikesMoving;
 	public float damage;
 	private AudioManager audioManager;
+	private Vector3 direction;
+	private float knockbackVelocity = 3f;
 
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<Player>();
@@ -102,7 +104,15 @@ public class Spikes : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D other) {
 		if (other.collider.tag == "Player") {
-			GetComponent<Collider2D>().enabled = false;
+			if (player.isDead){
+				GetComponent<Collider2D>().enabled = false;
+			}
+			else{
+				direction = (other.collider.transform.position - transform.position).normalized;
+				var charMotor = other.rigidbody;
+				charMotor.velocity = (direction * knockbackVelocity);
+				player.isStunned = true;
+			}
 		}
 	}
 }
