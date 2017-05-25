@@ -49,9 +49,6 @@ public class Player : MonoBehaviour {
 	[SerializeField] PlayerCanvas playerCanvas;
 	[SerializeField] GameObject playerCanvasGO;
 	[SerializeField] GameObject playerCanvasPrefab;
-	float invulnerableTimer = 2.0f;
-	float maxInvulnerableTimer = 2.0f;
-	bool isInvulnerable = false;
 	public float lives = 9;
 	[SerializeField] HealthBarCanvas healthBarCanvas;
 	[SerializeField] GameObject healthBarCanvasGO;
