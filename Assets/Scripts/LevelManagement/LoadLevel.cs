@@ -5,7 +5,7 @@ using System;
 using UnityEngine.UI;
 
 public class LoadLevel : MonoBehaviour {
-	public Player player;
+	public PlayerMain player;
 	public GameObject worldSelectScreen;
 	public GameObject levelSelectScreen;
 	public GameObject[] levelScreens;
@@ -28,6 +28,16 @@ public class LoadLevel : MonoBehaviour {
 	public UnityAds unityAds;
 	private AudioManager audioManager;
 	public ScoreTracker scoreTracker;
+	private float speed = 10f;
+	private Vector2 moveLocation;
+	private Ray ray;
+	private float distance = 188f;
+	private float moveDistance;
+	private bool isPlayerMoving = false;
+	private int worldLevelNumber;
+	private string playerDirection;
+	private MovePlayer playerMovement;
+	private Vector3 playerFacing;
 
 	void Start(){
 		Time.timeScale = 1;
@@ -35,6 +45,9 @@ public class LoadLevel : MonoBehaviour {
 		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main")){
 			musicMuted = HUD.transform.Find("OptionsScreen/MuteMusicButton/MusicMuted").gameObject;
 			soundMuted = HUD.transform.Find("OptionsScreen/MuteSoundButton/SoundMuted").gameObject;
+			playerMovement = player.transform.gameObject.GetComponent<MovePlayer>();
+			playerMovement.SetSpeed(speed);
+			playerFacing = player.transform.localScale;
 			Screen.sleepTimeout = SleepTimeout.SystemSetting;
 		}
 		else if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main")){
@@ -44,7 +57,6 @@ public class LoadLevel : MonoBehaviour {
 			pauseMenuScreen = HUD.transform.Find("Pause Menu").gameObject;
 			gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 			scoreTracker = HUD.GetComponent<ScoreTracker>();
-			//gameManager = gameMan.GetComponent<GameManager>();
 			currentLevel = float.Parse(SceneManager.GetActiveScene().name);
 			currentLevelName = "" + currentLevel;
 			nextLevelName = "" + (currentLevel + 1);
@@ -82,6 +94,38 @@ public class LoadLevel : MonoBehaviour {
 			}
 			else{
 				soundMuted.SetActive(false);
+			}
+		}
+	}
+
+	void LateUpdate(){
+		if (worldSelectScreen.activeSelf){
+			if (playerDirection == "right"){
+				if (player.transform.position.x < moveLocation.x && isPlayerMoving && !playerMovement.isObjectMoving()){
+					playerMovement.SetDistanceX(moveDistance);
+					playerMovement.Move();
+					isPlayerMoving = false;
+				}
+				else if (!playerMovement.isObjectMoving() && playerMovement.isDoneMoving()){
+					ShowLevelSelect(worldLevelNumber);
+					player.animator.SetBool("isRunning", false);
+				}
+			}
+			else if (playerDirection == "left"){
+				if (player.transform.position.x > moveLocation.x && isPlayerMoving && !playerMovement.isObjectMoving()){
+					playerMovement.SetDistanceX(moveDistance);
+					playerMovement.Move();
+					isPlayerMoving = false;
+				}
+				else if (!playerMovement.isObjectMoving() && playerMovement.isDoneMoving()){
+					ShowLevelSelect(worldLevelNumber);
+					player.animator.SetBool("isRunning", false);
+				}
+			}
+			else if (playerDirection == "none"){
+				isPlayerMoving = false;
+				ShowLevelSelect(worldLevelNumber);
+				player.animator.SetBool("isRunning", false);
 			}
 		}
 	}
@@ -137,6 +181,37 @@ public class LoadLevel : MonoBehaviour {
 		SceneManager.LoadScene(currentLevelName);
 	}
 
+	// Sets the location for the player to move to on the WorldSelectScreen.
+	public void SetPlayerMoveLocation(int worldNumber){
+		int subtractValue = RoundDown(worldNumber);
+		int buildingNumber = worldNumber - subtractValue;
+		// Move location is the building you selected.
+		moveLocation = GameObject.Find("HUD/WorldSelectScreen/WorldsScrollView/Viewport/WorldsSet").transform.GetChild(buildingNumber-1).transform.position;
+		moveDistance = (moveLocation.x - player.transform.position.x);
+		worldLevelNumber = worldNumber;
+		isPlayerMoving = true;
+		if (player.transform.position.x < moveLocation.x){
+			playerDirection = "right";
+			player.animator.SetBool("isRunning", true);
+			if (playerFacing.x < 0){
+				playerFacing.x *= -1;
+				player.transform.localScale = playerFacing;
+			}
+		}
+		else if (player.transform.position.x > moveLocation.x){
+			playerDirection = "left";
+			player.animator.SetBool("isRunning", true);
+			if (playerFacing.x > 0){
+				playerFacing.x *= -1;
+				player.transform.localScale = playerFacing;
+			}
+		}
+		else {
+			playerDirection = "none";
+			player.animator.SetBool("isRunning", false);
+		}
+	}
+
 	public void ShowLevelSelect(int worldNumber){
 		int subtractValue = RoundDown(worldNumber);
 		int multiplier = subtractValue/10;
@@ -162,8 +237,7 @@ public class LoadLevel : MonoBehaviour {
 	public void ShowWorldSelect(){
 		DisableAllScreens();
 		worldSelectScreen.SetActive(true);
-		//TODO: Change from a hard number to a variable that checks what your max level unlocked is.
-		ShowLevelSelect(11);
+		player.Start();
 	}
 
 	public void ShowControls(){

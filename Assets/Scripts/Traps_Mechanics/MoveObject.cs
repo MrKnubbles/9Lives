@@ -8,12 +8,12 @@ public class MoveObject : MonoBehaviour {
 	private float moveAmountX   	= 0;						
 	private float moveAmountY   	= 0;
 	private float rotationAmount	= 0;		
-	private bool isMoving 		= false; // is this element currently moving? 
-	private bool isRotating		= false;
-	public bool doneMoving		= false;
+	private bool isMoving 			= false; // is this element currently moving? 
+	private bool isRotating			= false;
+	public bool doneMoving			= false;
 	private bool doneRotating		= false;
 	private bool startMoving 		= false;
-	private bool startRotating	= false;
+	private bool startRotating		= false;
 	
 
 	public void SetSpeed(float newSpeed) { moveSpeed = newSpeed; } 
