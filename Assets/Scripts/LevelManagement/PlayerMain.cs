@@ -20,12 +20,12 @@ public class PlayerMain : MonoBehaviour {
 	public GameObject body;
 	public GameObject tail;
 	// Sprite of each body part
-	private SpriteRenderer[] headSprites = new SpriteRenderer[3];
-	private SpriteRenderer[] earSprites = new SpriteRenderer[2];
-	private SpriteRenderer[] armSprites = new SpriteRenderer[2];
-	private SpriteRenderer[] legSprites = new SpriteRenderer[2];
-	private SpriteRenderer bodySprite;
-	private SpriteRenderer tailSprite;
+	private Image[] headSprites = new Image[3];
+	private Image[] earSprites = new Image[2];
+	private Image[] armSprites = new Image[2];
+	private Image[] legSprites = new Image[2];
+	private Image bodySprite;
+	private Image tailSprite;
 	public Vector3 pos;
 	public Vector3 facing;
 	
@@ -47,17 +47,17 @@ public class PlayerMain : MonoBehaviour {
 	}
 
 	void GetSpriteRenderers(){
-		headSprites[0] = headIdle.GetComponent<SpriteRenderer>();
-		headSprites[1] = headDie.GetComponent<SpriteRenderer>();
-		headSprites[2] = headJump.GetComponent<SpriteRenderer>();
-		earSprites[0] = earLeft.GetComponent<SpriteRenderer>();
-		earSprites[1] = earRight.GetComponent<SpriteRenderer>();
-		armSprites[0] =	armLeft.GetComponent<SpriteRenderer>();
-		armSprites[1] = armRight.GetComponent<SpriteRenderer>();
-		legSprites[0] = legLeft.GetComponent<SpriteRenderer>();
-		legSprites[1] = legRight.GetComponent<SpriteRenderer>();
-		bodySprite = body.GetComponent<SpriteRenderer>();
-		tailSprite = tail.GetComponent<SpriteRenderer>();
+		headSprites[0] = headIdle.GetComponent<Image>();
+		headSprites[1] = headDie.GetComponent<Image>();
+		headSprites[2] = headJump.GetComponent<Image>();
+		earSprites[0] = earLeft.GetComponent<Image>();
+		earSprites[1] = earRight.GetComponent<Image>();
+		armSprites[0] =	armLeft.GetComponent<Image>();
+		armSprites[1] = armRight.GetComponent<Image>();
+		legSprites[0] = legLeft.GetComponent<Image>();
+		legSprites[1] = legRight.GetComponent<Image>();
+		bodySprite = body.GetComponent<Image>();
+		tailSprite = tail.GetComponent<Image>();
 	}
 
 	// Sets the Player's character to the active character selected by swapping the sprites of each body part.
@@ -67,17 +67,17 @@ public class PlayerMain : MonoBehaviour {
 			GameObject activeCat = GameObject.Find("Player/Skins/"+activeChar);
 			if(activeCat != null) {
 				activeCat.SetActive(true);
-				headSprites[0].sprite = activeCat.transform.Find("Head").GetComponent<SpriteRenderer>().sprite;
-				headSprites[1].sprite = activeCat.transform.Find("HeadDead").GetComponent<SpriteRenderer>().sprite;
-				headSprites[2].sprite = activeCat.transform.Find("HeadJump").GetComponent<SpriteRenderer>().sprite;
-				earSprites[0].sprite = activeCat.transform.Find("LeftEar").GetComponent<SpriteRenderer>().sprite;
-				earSprites[1].sprite = activeCat.transform.Find("RightEar").GetComponent<SpriteRenderer>().sprite;
-				armSprites[0].sprite = activeCat.transform.Find("LeftArm").GetComponent<SpriteRenderer>().sprite;
-				armSprites[1].sprite = activeCat.transform.Find("RightArm").GetComponent<SpriteRenderer>().sprite;
-				legSprites[0].sprite = activeCat.transform.Find("LeftLeg").GetComponent<SpriteRenderer>().sprite;
-				legSprites[1].sprite = activeCat.transform.Find("RightLeg").GetComponent<SpriteRenderer>().sprite;
-				bodySprite.sprite = activeCat.transform.Find("Body").GetComponent<SpriteRenderer>().sprite;
-				tailSprite.sprite = activeCat.transform.Find("Tail").GetComponent<SpriteRenderer>().sprite;
+				headSprites[0].sprite = activeCat.transform.Find("Head").GetComponent<Image>().sprite;
+				headSprites[1].sprite = activeCat.transform.Find("HeadDead").GetComponent<Image>().sprite;
+				headSprites[2].sprite = activeCat.transform.Find("HeadJump").GetComponent<Image>().sprite;
+				earSprites[0].sprite = activeCat.transform.Find("LeftEar").GetComponent<Image>().sprite;
+				earSprites[1].sprite = activeCat.transform.Find("RightEar").GetComponent<Image>().sprite;
+				armSprites[0].sprite = activeCat.transform.Find("LeftArm").GetComponent<Image>().sprite;
+				armSprites[1].sprite = activeCat.transform.Find("RightArm").GetComponent<Image>().sprite;
+				legSprites[0].sprite = activeCat.transform.Find("LeftLeg").GetComponent<Image>().sprite;
+				legSprites[1].sprite = activeCat.transform.Find("RightLeg").GetComponent<Image>().sprite;
+				bodySprite.sprite = activeCat.transform.Find("Body").GetComponent<Image>().sprite;
+				tailSprite.sprite = activeCat.transform.Find("Tail").GetComponent<Image>().sprite;
 				activeCat.SetActive(false);
 			}
 		}
