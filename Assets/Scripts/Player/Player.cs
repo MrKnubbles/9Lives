@@ -44,6 +44,11 @@ public class Player : MonoBehaviour {
 	public bool hasDoubleJumped = false;
     public float jumpSpeed = 15.0f;
 	public float moveSpeed = 1.5f;
+	//public float lives = 9;
+	
+	[SerializeField] PlayerCanvas playerCanvas;
+	[SerializeField] GameObject playerCanvasGO;
+	[SerializeField] GameObject playerCanvasPrefab;
 	public float lives = 9;
 	[SerializeField] HealthBarCanvas healthBarCanvas;
 	[SerializeField] GameObject healthBarCanvasGO;
@@ -69,24 +74,17 @@ public class Player : MonoBehaviour {
 	public bool isNearSwitch = false;
 	public bool isActivatingSwitch = false;
 	public GameObject HUD;
+
+	// Getters and Setters
+	public PlayerCanvas GetPlayerCanvas() { return playerCanvas; }
 	
     void Start(){
-		healthBarCanvasGO = GameObject.Find("HealthBarCanvas");
-		if(healthBarCanvasGO == null) {
-			GameObject tmp = GameObject.Instantiate(healthBarCanvasPrefab);
-			tmp.name = "HealthBarCanvas";
-			healthBarCanvas = tmp.GetComponent<HealthBarCanvas>();
-		} else {
-			healthBarCanvas = healthBarCanvasGO.GetComponent<HealthBarCanvas>();
-		}
+		InitPlayerCanvas();
 		animator = GetComponent<Animator>();
 		GetSpriteRenderers();
 		SetCharacter();
 		SetHeads();	
-		masksContainer = GameObject.Find("Masks");
-		foreach(RectTransform g in masksContainer.transform) {
-			masks.Add(g.gameObject);
-		}
+		InitLayerMasks();
 		gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 		rb2d = GetComponent<Rigidbody2D>();
 		HUD = GameObject.Find("HUD");
@@ -100,7 +98,7 @@ public class Player : MonoBehaviour {
 		respawnPos = GameObject.Find("Respawn");
 		invulnerableTimer = maxInvulnerableTimer;
 	} 
-	void Update(){
+	void Update() {
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
 			HandleHeads();
 			//UpdateHealthRegeneration();
@@ -179,12 +177,12 @@ public class Player : MonoBehaviour {
 		// This is to check if the player is already dead
 		// If they are then return because we don't 
 		// care about the rest
-		float health = healthBarCanvas.GetHealth();
+		float health = playerCanvas.GetHealth();
 		if(health <= 0) {
 			return;
 		} else {	
-			healthBarCanvas.TakeDamage(damage);
-			health = healthBarCanvas.GetHealth();
+			playerCanvas.TakeDamage(damage);
+			health = playerCanvas.GetHealth();
 			// check if that last hit killed the player and if 
 			// so then call Die
 			if(health <= 0) {
@@ -261,18 +259,33 @@ public class Player : MonoBehaviour {
 	}
 
 	public void Die(){
-		healthBarCanvas.Die();
+		playerCanvas.Die();
 		SpawnBlood();
 		isDead = true;
 		audioManager.PlayOnce(sfxDie);
 		animator.SetBool("isDead", true);
 		isActivatingSwitch = false;
-		if (lives == 1){
-			lives = 0;
+		int lives = playerCanvas.GetLives();
+		if (lives <= 0) {
 			gameManager.isGameOver = true;
 		}
-		else{
-			lives--;
+	}
+
+	void InitPlayerCanvas() {
+		playerCanvasGO = GameObject.Find("PlayerCanvas");
+		if(playerCanvasGO == null) {
+			GameObject tmp = GameObject.Instantiate(playerCanvasPrefab);
+			tmp.name = "PlayerCanvas";
+			playerCanvas = tmp.GetComponent<PlayerCanvas>();
+		} else {
+			playerCanvas = playerCanvasGO.GetComponent<PlayerCanvas>();
+		}
+	}
+
+	void InitLayerMasks() {
+		masksContainer = GameObject.Find("Masks");
+		foreach(RectTransform g in masksContainer.transform) {
+			masks.Add(g.gameObject);
 		}
 	}
 
@@ -286,8 +299,9 @@ public class Player : MonoBehaviour {
 	}
 
 	void Respawn(){
+		float lives = playerCanvas.GetLives();
 		if (lives != 0){
-			healthBarCanvas.Respawn();
+			playerCanvas.Respawn();
 			isDead = false;
 			isJumping = false;
 			hasDoubleJumped = false;
