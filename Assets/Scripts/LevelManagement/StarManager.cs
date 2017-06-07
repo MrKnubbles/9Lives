@@ -16,6 +16,7 @@ public class StarManager : MonoBehaviour {
 	public Text[] starsTextWorld3;
 	public int starQuotaWorld2;
 	public int starQuotaWorld3;
+	public GameObject[] lockedWorld1;
 	public GameObject[] lockedWorld2;
 	public GameObject[] lockedWorld3;
 
@@ -31,6 +32,8 @@ public class StarManager : MonoBehaviour {
 		starsTextWorld3[1] = GameObject.Find("WorldSelectScreen").transform.GetChild(1).GetChild(0).GetChild(0).GetChild(7).GetChild(1).GetChild(0).GetComponent<Text>();
 		starsTextWorld3[2] = GameObject.Find("WorldSelectScreen").transform.GetChild(1).GetChild(0).GetChild(0).GetChild(8).GetChild(1).GetChild(0).GetComponent<Text>();
 		totalStarsText = GameObject.Find("WorldSelectScreen").transform.GetChild(2).GetChild(0).GetComponent<Text>();
+		lockedWorld1[0] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(1).GetChild(2).gameObject;
+		lockedWorld1[1] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(2).GetChild(2).gameObject;
 		lockedWorld2[0] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(3).GetChild(2).gameObject;
 		lockedWorld2[1] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(4).GetChild(2).gameObject;
 		lockedWorld2[2] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(5).GetChild(2).gameObject;
@@ -56,13 +59,30 @@ public class StarManager : MonoBehaviour {
 		starsTextWorld3[1].text = "" + starsWorld2[1] + "/" + maxLevelStars;
 		starsTextWorld3[2].text = "" + starsWorld2[2] + "/" + maxLevelStars;
 		totalStarsText.text = "" + starCounter + "/" + tempTotalMax;
+		// If the player has beaten 15 World 1 levels, unlock Building 2.
+		if (PlayerPrefs.GetInt("World1PlayerLevel") > 15){
+			lockedWorld1[0].SetActive(false);
+			// If the player has beaten 30 World 1 levels, unlocked Building 3.
+			if (PlayerPrefs.GetInt("World1PlayerLevel") > 30){
+				lockedWorld1[1].SetActive(false);
+			}
+		}
+		// If the player has enough stars, unlock World 2.
 		if (starCounter >= starQuotaWorld2){
 			lockedWorld2[0].SetActive(false);
-			lockedWorld2[1].SetActive(false);
-			lockedWorld2[2].SetActive(false);
+			// Set World 2 to "unlocked".
 			if (PlayerPrefs.GetInt("World2PlayerLevel") <= 0){
 				PlayerPrefs.SetInt("World2PlayerLevel", 1);
 			}
+			// If the player has beaten 15 World 2 levels, unlock Building 2.
+			if (PlayerPrefs.GetInt("World2PlayerLevel") > 15){
+				lockedWorld2[1].SetActive(false);
+				// If the player has beaten 30 World 2 levels, unlock Building 3.
+				if (PlayerPrefs.GetInt("World2PlayerLevel") > 30){
+					lockedWorld2[2].SetActive(false);
+				}
+			}
+			// If the player has enough stars, unlock World 3.
 			if (starCounter >= starQuotaWorld3){
 				lockedWorld3[0].SetActive(false);
 				lockedWorld3[1].SetActive(false);
