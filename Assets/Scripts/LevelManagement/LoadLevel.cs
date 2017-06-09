@@ -99,33 +99,37 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	void LateUpdate(){
-		if (worldSelectScreen.activeSelf){
-			if (playerDirection == "right"){
-				if (player.transform.position.x < moveLocation.x && isPlayerMoving && !playerMovement.isObjectMoving()){
-					playerMovement.SetDistanceX(moveDistance);
-					playerMovement.Move();
-					isPlayerMoving = false;
+		// Controls player movement on the World / Level Select Screen.
+		// Lets the player move to one location at a time.
+		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main")){
+			if (worldSelectScreen.activeSelf){
+				if (playerDirection == "right"){
+					if (player.transform.position.x < moveLocation.x && isPlayerMoving && !playerMovement.isObjectMoving()){
+						playerMovement.SetDistanceX(moveDistance);
+						playerMovement.Move();
+						isPlayerMoving = false;
+					}
+					else if (!playerMovement.isObjectMoving() && playerMovement.isDoneMoving()){
+						ShowLevelSelect(worldLevelNumber);
+						player.animator.SetBool("isRunning", false);
+					}
 				}
-				else if (!playerMovement.isObjectMoving() && playerMovement.isDoneMoving()){
+				else if (playerDirection == "left"){
+					if (player.transform.position.x > moveLocation.x && isPlayerMoving && !playerMovement.isObjectMoving()){
+						playerMovement.SetDistanceX(moveDistance);
+						playerMovement.Move();
+						isPlayerMoving = false;
+					}
+					else if (!playerMovement.isObjectMoving() && playerMovement.isDoneMoving()){
+						ShowLevelSelect(worldLevelNumber);
+						player.animator.SetBool("isRunning", false);
+					}
+				}
+				else if (playerDirection == "none"){
+					isPlayerMoving = false;
 					ShowLevelSelect(worldLevelNumber);
 					player.animator.SetBool("isRunning", false);
 				}
-			}
-			else if (playerDirection == "left"){
-				if (player.transform.position.x > moveLocation.x && isPlayerMoving && !playerMovement.isObjectMoving()){
-					playerMovement.SetDistanceX(moveDistance);
-					playerMovement.Move();
-					isPlayerMoving = false;
-				}
-				else if (!playerMovement.isObjectMoving() && playerMovement.isDoneMoving()){
-					ShowLevelSelect(worldLevelNumber);
-					player.animator.SetBool("isRunning", false);
-				}
-			}
-			else if (playerDirection == "none"){
-				isPlayerMoving = false;
-				ShowLevelSelect(worldLevelNumber);
-				player.animator.SetBool("isRunning", false);
 			}
 		}
 	}
@@ -183,13 +187,15 @@ public class LoadLevel : MonoBehaviour {
 
 	// Sets the location for the player to move to on the WorldSelectScreen.
 	public void SetPlayerMoveLocation(int worldNumber){
-		int subtractValue = RoundDown(worldNumber);
-		int buildingNumber = worldNumber - subtractValue;
+		int roundedValue = RoundDown(worldNumber);
+		int firstDigit = roundedValue/10;
+		int secondDigit = worldNumber - roundedValue;
 		// Move location is the building you selected.
-		moveLocation = GameObject.Find("HUD/WorldSelectScreen/WorldsScrollView/Viewport/WorldsSet").transform.GetChild(buildingNumber-1).transform.position;
+		moveLocation = GameObject.Find("HUD/WorldSelectScreen/WorldsScrollView/Viewport/WorldsSet").transform.GetChild((firstDigit * 3) - (4 - secondDigit)).transform.position;
 		moveDistance = (moveLocation.x - player.transform.position.x);
 		worldLevelNumber = worldNumber;
 		isPlayerMoving = true;
+		// Makes player run to the right.
 		if (player.transform.position.x < moveLocation.x){
 			playerDirection = "right";
 			player.animator.SetBool("isRunning", true);
@@ -198,6 +204,7 @@ public class LoadLevel : MonoBehaviour {
 				player.transform.localScale = playerFacing;
 			}
 		}
+		// Makes player run to the left.
 		else if (player.transform.position.x > moveLocation.x){
 			playerDirection = "left";
 			player.animator.SetBool("isRunning", true);
@@ -213,15 +220,15 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	public void ShowLevelSelect(int worldNumber){
-		int subtractValue = RoundDown(worldNumber);
-		int multiplier = subtractValue/10;
-		int pageNumber = worldNumber - subtractValue;
+		int roundedValue = RoundDown(worldNumber);
+		int firstDigit = roundedValue/10;
+		int secondDigit = worldNumber - roundedValue;
 		HideWorlds();
 		levelSelectScreen.SetActive(true);
-		levelScreens[worldNumber - (subtractValue + pageNumber) - 1 + (1 * multiplier)].SetActive(true);
+		levelScreens[worldNumber - (roundedValue + secondDigit) - 1 + (1 * firstDigit)].SetActive(true);
 		mainMenuScreen.SetActive(false);
 		HidePages();
-		ShowPage(pageNumber);
+		ShowPage(secondDigit);
 	}
 
 	int RoundDown(int toRound)
