@@ -61,7 +61,7 @@ public class ScoreTracker : MonoBehaviour {
 			worldNumber = 3;
 			levelNumber -= 90;
 		}
-		levelNumberText.text = worldNumber + "-" + levelNumber;
+		levelNumberText.text = worldNumber + " - " + levelNumber;
 		audioManager = AudioManager.Instance;
 		time = maxTime;
 		triggerOnce = false;
@@ -76,7 +76,6 @@ public class ScoreTracker : MonoBehaviour {
 			else {
 				time -= Time.deltaTime;
 			}
-			livesText.text = "x " + player.GetPlayerCanvas().GetLives();
 			if (time >= 0){
 				timeText.text = "" + GetTime();
 				//TODO: Update score in live time to display on the score bar.
@@ -91,6 +90,7 @@ public class ScoreTracker : MonoBehaviour {
 			int tempPlayerCoins = PlayerPrefs.GetInt("Coins");
 			PlayerPrefs.SetInt("Coins", tempPlayerCoins += gameManager.coinCounter);
 			timeText.text = "" + GetTime();
+			//TODO: Grab Lives info from Player Canvas.
 			livesText.text = "" + player.GetPlayerCanvas().GetLives();
 			score = (GetTime() * player.GetPlayerCanvas().GetLives()) + coinScore;
 			LevelComplete();
@@ -99,6 +99,7 @@ public class ScoreTracker : MonoBehaviour {
 			int coinScore = gameManager.tempCoinCounter * coinScoreValue;
 			gameManager.tempCoinCounter = 0;
 			timeText.text = "" + GetTime();
+			//TODO: Grab Lives info from Player Canvas.
 			livesText.text = "" + player.GetPlayerCanvas().GetLives();
 			score = coinScore;
 			GameOver();

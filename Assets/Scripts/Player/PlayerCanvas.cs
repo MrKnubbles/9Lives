@@ -247,7 +247,7 @@ public class PlayerCanvas : MonoBehaviour {
 	}
 
 	void UpdateLivesText() {
-        livesText.text = "Lives: " + lives.ToString();
+        livesText.text = "x " + lives.ToString();
 	}
 
     void UpdateLevelText() {

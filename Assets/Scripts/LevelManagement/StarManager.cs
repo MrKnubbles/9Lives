@@ -22,12 +22,12 @@ public class StarManager : MonoBehaviour {
 
 	void Start(){
 		levelManager = LevelManager.Instance;
-		starsTextWorld1[0] = GameObject.Find("LevelSelectScreen").transform.GetChild(1).GetChild(0).GetChild(2).GetChild(0).GetComponent<Text>();
-		starsTextWorld1[1] = GameObject.Find("LevelSelectScreen").transform.GetChild(1).GetChild(1).GetChild(2).GetChild(0).GetComponent<Text>();
-		starsTextWorld1[2] = GameObject.Find("LevelSelectScreen").transform.GetChild(1).GetChild(2).GetChild(2).GetChild(0).GetComponent<Text>();
-		starsTextWorld2[0] = GameObject.Find("LevelSelectScreen").transform.GetChild(2).GetChild(0).GetChild(2).GetChild(0).GetComponent<Text>();
-		starsTextWorld2[1] = GameObject.Find("LevelSelectScreen").transform.GetChild(2).GetChild(1).GetChild(2).GetChild(0).GetComponent<Text>();
-		starsTextWorld2[2] = GameObject.Find("LevelSelectScreen").transform.GetChild(2).GetChild(2).GetChild(2).GetChild(0).GetComponent<Text>();
+		starsTextWorld1[0] = GameObject.Find("LevelSelectScreen").transform.GetChild(0).GetChild(0).GetChild(0).GetChild(2).GetChild(0).GetComponent<Text>();
+		starsTextWorld1[1] = GameObject.Find("LevelSelectScreen").transform.GetChild(0).GetChild(0).GetChild(1).GetChild(2).GetChild(0).GetComponent<Text>();
+		starsTextWorld1[2] = GameObject.Find("LevelSelectScreen").transform.GetChild(0).GetChild(0).GetChild(2).GetChild(2).GetChild(0).GetComponent<Text>();
+		starsTextWorld2[0] = GameObject.Find("LevelSelectScreen").transform.GetChild(0).GetChild(1).GetChild(0).GetChild(2).GetChild(0).GetComponent<Text>();
+		starsTextWorld2[1] = GameObject.Find("LevelSelectScreen").transform.GetChild(0).GetChild(1).GetChild(1).GetChild(2).GetChild(0).GetComponent<Text>();
+		starsTextWorld2[2] = GameObject.Find("LevelSelectScreen").transform.GetChild(0).GetChild(1).GetChild(2).GetChild(2).GetChild(0).GetComponent<Text>();
 		starsTextWorld3[0] = GameObject.Find("WorldSelectScreen").transform.GetChild(1).GetChild(0).GetChild(0).GetChild(6).GetChild(1).GetChild(0).GetComponent<Text>();
 		starsTextWorld3[1] = GameObject.Find("WorldSelectScreen").transform.GetChild(1).GetChild(0).GetChild(0).GetChild(7).GetChild(1).GetChild(0).GetComponent<Text>();
 		starsTextWorld3[2] = GameObject.Find("WorldSelectScreen").transform.GetChild(1).GetChild(0).GetChild(0).GetChild(8).GetChild(1).GetChild(0).GetComponent<Text>();
