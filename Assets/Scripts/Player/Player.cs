@@ -411,6 +411,7 @@ public class Player : MonoBehaviour {
 		Vector3 spawnPosition = this.transform.position;
 		GameObject tmpBlood;
 		tmpBlood = GameObject.Instantiate(bloodParticle, spawnPosition, Quaternion.identity);
+		Destroy(tmpBlood, 5f);
 		foreach(GameObject g in masks) {
 			//offsetY = new Vector3(0, -1f, 0);
 			GameObject tmpBloodSplat;
