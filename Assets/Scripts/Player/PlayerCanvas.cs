@@ -71,7 +71,7 @@ public class PlayerCanvas : MonoBehaviour {
     }	
 
 	void Update () {
-        UpdateHealthRegeneration();
+        //UpdateHealthRegeneration();
         UpdateLivesRegeneration();
         // float derp = TimeSinceLastHealthRegen(System.DateTime.Now.Second);
 		// Debug.Log(derp);
@@ -102,14 +102,15 @@ public class PlayerCanvas : MonoBehaviour {
         if(isFirstStartup) {
             health = maxHealth;
         } else {
-            timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
-            timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
-            if(timeSinceLastOpenedGame > (healthRegenInterval * maxHealth)) {
-                health = maxHealth;
-            } else {
-                // TODO: Calculate health
-                health = maxHealth;
-            }
+            health = PlayerPrefs.GetFloat("health");
+            // timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
+            // timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
+            // if(timeSinceLastOpenedGame > (healthRegenInterval * maxHealth)) {
+            //     health = maxHealth;
+            // } else {
+            //     // TODO: Calculate health
+            //     health = maxHealth;
+            // }
         }
         UpdateHealthBar();
     }
@@ -177,8 +178,10 @@ public class PlayerCanvas : MonoBehaviour {
                 if(lives > maxLives) {
                     lives = maxLives;
                 }
+                health = maxHealth;
             }
         }
+        UpdateHealthBar();
         UpdateLivesText();
     }
 
@@ -218,8 +221,10 @@ public class PlayerCanvas : MonoBehaviour {
             if(currentLifeRegenTime > 0) {
                 currentLifeRegenTime -= Time.deltaTime;
             } else {
+                health = maxHealth;
                 lives += 1;
                 UpdateLivesText();
+                UpdateHealthBar();
                 currentLifeRegenTime = lifeRegenInterval;
                 lastLifeRegenTime = System.DateTime.Now.Second;
             }
