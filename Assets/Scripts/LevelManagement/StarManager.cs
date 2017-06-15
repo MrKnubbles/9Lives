@@ -28,18 +28,18 @@ public class StarManager : MonoBehaviour {
 		starsTextWorld2[0] = GameObject.Find("LevelSelectScreen").transform.GetChild(0).GetChild(1).GetChild(0).GetChild(2).GetChild(0).GetComponent<Text>();
 		starsTextWorld2[1] = GameObject.Find("LevelSelectScreen").transform.GetChild(0).GetChild(1).GetChild(1).GetChild(2).GetChild(0).GetComponent<Text>();
 		starsTextWorld2[2] = GameObject.Find("LevelSelectScreen").transform.GetChild(0).GetChild(1).GetChild(2).GetChild(2).GetChild(0).GetComponent<Text>();
-		starsTextWorld3[0] = GameObject.Find("WorldSelectScreen").transform.GetChild(1).GetChild(0).GetChild(0).GetChild(6).GetChild(1).GetChild(0).GetComponent<Text>();
-		starsTextWorld3[1] = GameObject.Find("WorldSelectScreen").transform.GetChild(1).GetChild(0).GetChild(0).GetChild(7).GetChild(1).GetChild(0).GetComponent<Text>();
-		starsTextWorld3[2] = GameObject.Find("WorldSelectScreen").transform.GetChild(1).GetChild(0).GetChild(0).GetChild(8).GetChild(1).GetChild(0).GetComponent<Text>();
+		starsTextWorld3[0] = GameObject.Find("LevelSelectScreen").transform.GetChild(0).GetChild(2).GetChild(0).GetChild(2).GetChild(0).GetComponent<Text>();
+		starsTextWorld3[1] = GameObject.Find("LevelSelectScreen").transform.GetChild(0).GetChild(2).GetChild(1).GetChild(2).GetChild(0).GetComponent<Text>();
+		starsTextWorld3[2] = GameObject.Find("LevelSelectScreen").transform.GetChild(0).GetChild(2).GetChild(2).GetChild(2).GetChild(0).GetComponent<Text>();
 		totalStarsText = GameObject.Find("WorldSelectScreen").transform.GetChild(2).GetChild(0).GetComponent<Text>();
 		lockedWorld1[0] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(1).GetChild(2).gameObject;
 		lockedWorld1[1] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(2).GetChild(2).gameObject;
 		lockedWorld2[0] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(3).GetChild(2).gameObject;
 		lockedWorld2[1] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(4).GetChild(2).gameObject;
 		lockedWorld2[2] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(5).GetChild(2).gameObject;
-		lockedWorld3[0] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(6).GetChild(3).gameObject;
-		lockedWorld3[1] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(7).GetChild(3).gameObject;
-		lockedWorld3[2] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(8).GetChild(3).gameObject;
+		lockedWorld3[0] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(6).GetChild(2).gameObject;
+		lockedWorld3[1] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(7).GetChild(2).gameObject;
+		lockedWorld3[2] = GameObject.Find("HUD").transform.GetChild(4).GetChild(1).GetChild(0).GetChild(0).GetChild(8).GetChild(2).gameObject;
 		starQuotaWorld2 = Convert.ToInt32(lockedWorld2[0].transform.GetChild(0).GetChild(0).GetComponent<Text>().text);
 		starQuotaWorld3 = Convert.ToInt32(lockedWorld3[0].transform.GetChild(0).GetChild(0).GetComponent<Text>().text);
 	}
