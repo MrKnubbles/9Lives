@@ -12,7 +12,7 @@ public class ScoreTracker : MonoBehaviour {
 	public float time;
 	public float maxTime = 120f;
 	public float score;
-	private int coinScoreValue = 25;
+	private int coinExpValue = 1;
 	private int worldNumber;
 	private int levelNumber;
 	public Text levelNumberText;
@@ -83,25 +83,26 @@ public class ScoreTracker : MonoBehaviour {
 			}
 		}
 		else if (gameManager.isLevelComplete && !triggerOnce){
-			int coinScore = gameManager.tempCoinCounter * coinScoreValue;
+			int coinScore = gameManager.tempCoinCounter * coinExpValue;
 			//gameManager.coinCounter += (gameManager.tempCoinCounter * Int32.Parse(scene.name));
 			gameManager.coinCounter += (gameManager.tempCoinCounter);
 			gameManager.tempCoinCounter = 0;
 			int tempPlayerCoins = PlayerPrefs.GetInt("Coins");
 			PlayerPrefs.SetInt("Coins", tempPlayerCoins += gameManager.coinCounter);
 			timeText.text = "" + GetTime();
-			//TODO: Grab Lives info from Player Canvas.
-			livesText.text = "" + player.GetPlayerCanvas().GetLives();
+			levelLivesText.text = "" + player.GetPlayerCanvas().GetLives();
 			score = (GetTime() * player.GetPlayerCanvas().GetLives()) + coinScore;
+			player.GetPlayerCanvas().AddXP(coinScore);
 			LevelComplete();
 		}
 		else if (gameManager.isGameOver && !triggerOnce){
-			int coinScore = gameManager.tempCoinCounter * coinScoreValue;
+			int coinScore = gameManager.tempCoinCounter * coinExpValue;
 			gameManager.tempCoinCounter = 0;
 			timeText.text = "" + GetTime();
 			//TODO: Grab Lives info from Player Canvas.
 			livesText.text = "" + player.GetPlayerCanvas().GetLives();
 			score = coinScore;
+			player.GetPlayerCanvas().AddXP(coinScore);
 			GameOver();
 		}
 	}
@@ -123,12 +124,15 @@ public class ScoreTracker : MonoBehaviour {
 
 		if (score > 0){
 			stars[0].SetActive(true);
+			player.GetPlayerCanvas().AddXP(1);
 		}
 		if (score >= 450){
 			stars[1].SetActive(true);
+			player.GetPlayerCanvas().AddXP(1);
 		}
 		if (score >= 900){
 			stars[2].SetActive(true);
+			player.GetPlayerCanvas().AddXP(1);
 		}
 		nextLevelButton.SetActive(true);
 		CalculateScore();
@@ -150,8 +154,8 @@ public class ScoreTracker : MonoBehaviour {
 	}
 
 	void CalculateScore(){
-		levelLivesText.text = "" + livesText.text;
-		levelTimeText.text = "" + timeText.text;
+		levelLivesText.text = "" + player.GetPlayerCanvas().GetLives();
+		levelTimeText.text = "" + GetTime();
 		levelScoreText.text = "" + score;
 	}
 
