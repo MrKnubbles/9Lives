@@ -14,6 +14,7 @@ public class PlayerCanvas : MonoBehaviour {
     float lastLevelUpAmount;
     [SerializeField] Text levelText;
     [SerializeField] Text xpText;
+    [SerializeField] Image expBar;
 
     // Health Stuff
 	[SerializeField] float maxHealth = 5;
@@ -83,8 +84,9 @@ public class PlayerCanvas : MonoBehaviour {
 		PlayerPrefs.SetFloat("LastExitTime", (float)System.DateTime.Now.Second);
         PlayerPrefs.SetInt("isFirstStartup", 1);
         PlayerPrefs.SetFloat("health", health);
-        PlayerPrefs.SetInt("level", level);
         PlayerPrefs.SetInt("lives", lives);
+        PlayerPrefs.SetFloat("nextLevel", nextLevelUpAmount);
+        PlayerPrefs.SetInt("level", level);
         PlayerPrefs.SetFloat("xp", xp);
 	}
 
@@ -188,10 +190,13 @@ public class PlayerCanvas : MonoBehaviour {
     void InitXP() {
         if(isFirstStartup) {
             xp = 0;
+            nextLevelUpAmount = 10;
         } else {
             xp = PlayerPrefs.GetFloat("xp");
+            nextLevelUpAmount = PlayerPrefs.GetFloat("nextLevel");
         }
         UpdateXPText();
+        UpdateXPBar();
     }
 
     void InitLevel() {
@@ -256,22 +261,32 @@ public class PlayerCanvas : MonoBehaviour {
 	}
 
     void UpdateLevelText() {
-        levelText.text = "Level: " + level.ToString();
+        levelText.text = "" + level.ToString();
     }
 
     void UpdateXPText() {
-        xpText.text = "XP: " + xp.ToString();
+        xpText.text = "XP: " + xp.ToString() + " / " + nextLevelUpAmount.ToString();
+    }
+
+    void UpdateXPBar(){
+        float currentFillAmount =  xp / nextLevelUpAmount;
+		expBar.GetComponent<Image>().fillAmount = currentFillAmount;
     }
 
     public void AddXP(float value) {
         xp += value;
-        UpdateXPText();
         if(xp >= nextLevelUpAmount) {
             level++;
-            float newLevelUpAmount = nextLevelUpAmount + (lastLevelUpAmount * 0.2f);
-            lastLevelUpAmount = nextLevelUpAmount;
+            xp -= nextLevelUpAmount;
+            float newLevelUpAmount = nextLevelUpAmount * 1.5f;
             nextLevelUpAmount = newLevelUpAmount;
-            UpdateLevelText();
+            PlayerPrefs.SetFloat("nextLevel", nextLevelUpAmount);
         }
+        PlayerPrefs.SetFloat("xp", xp);
+        PlayerPrefs.SetInt("level", level);
+        UpdateLevelText();
+        UpdateXPText();
+        UpdateXPBar();
+        //print("added " + value + " exp");
     }
 }
