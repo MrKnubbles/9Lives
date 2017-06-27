@@ -87,10 +87,13 @@ public class LevelManager : MonoBehaviour {
 			GameObject.Find("WorldSelectScreen").gameObject.SetActive(false);
 
 			// Sets the player to level 1 the first time they play.
-			if (PlayerPrefs.GetInt("World1PlayerLevel") <= 0){
+			if (!PlayerPrefs.HasKey("World1PlayerLevel")){
 				PlayerPrefs.SetInt("World1PlayerLevel", 1);
 				PlayerPrefs.SetInt("World2PlayerLevel", 0);
 				PlayerPrefs.SetInt("World3PlayerLevel", 0);
+				world1PlayerLevel = PlayerPrefs.GetInt("World1PlayerLevel");
+				world2PlayerLevel = PlayerPrefs.GetInt("World2PlayerLevel");
+				world3PlayerLevel = PlayerPrefs.GetInt("World3PlayerLevel");
 				PlayerPrefs.SetInt("MusicMuted", 1);
 				PlayerPrefs.SetInt("SFXMuted", 1);
 				PlayerPrefs.SetInt("StarsCollected", 0);

@@ -83,11 +83,11 @@ public class PlayerCanvas : MonoBehaviour {
 	void OnApplicationQuit() {
 		PlayerPrefs.SetFloat("LastExitTime", (float)System.DateTime.Now.Second);
         PlayerPrefs.SetInt("isFirstStartup", 1);
-        PlayerPrefs.SetFloat("health", health);
-        PlayerPrefs.SetInt("lives", lives);
-        PlayerPrefs.SetFloat("nextLevel", nextLevelUpAmount);
-        PlayerPrefs.SetInt("level", level);
-        PlayerPrefs.SetFloat("xp", xp);
+        PlayerPrefs.SetFloat("PlayerHealth", health);
+        PlayerPrefs.SetInt("PlayerLives", lives);
+        PlayerPrefs.SetFloat("NextLevel", nextLevelUpAmount);
+        PlayerPrefs.SetInt("PlayerLevel", level);
+        PlayerPrefs.SetFloat("XP", xp);
 	}
 
     public void Die() {
@@ -103,6 +103,7 @@ public class PlayerCanvas : MonoBehaviour {
     void InitHealth() {
         if(isFirstStartup) {
             health = maxHealth;
+            PlayerPrefs.SetFloat("PlayerHealth", maxHealth);
         } else {
             timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
             timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
@@ -119,8 +120,9 @@ public class PlayerCanvas : MonoBehaviour {
     void InitLives() {
         if(isFirstStartup) {
             lives = maxLives;
+            PlayerPrefs.SetInt("PlayerLives", maxLives);
         } else {
-            lives = PlayerPrefs.GetInt("lives");
+            lives = PlayerPrefs.GetInt("PlayerLives");
             timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
             timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
             if(timeSinceLastOpenedGame > (lifeRegenInterval * maxLives)) {
@@ -187,10 +189,11 @@ public class PlayerCanvas : MonoBehaviour {
     void InitXP() {
         if(isFirstStartup) {
             xp = 0;
-            nextLevelUpAmount = 10;
+            nextLevelUpAmount = 20;
+            PlayerPrefs.SetFloat("NextLevel", nextLevelUpAmount);
         } else {
-            xp = PlayerPrefs.GetFloat("xp");
-            nextLevelUpAmount = PlayerPrefs.GetFloat("nextLevel");
+            xp = PlayerPrefs.GetFloat("XP");
+            nextLevelUpAmount = PlayerPrefs.GetFloat("NextLevel");
         }
         UpdateXPText();
         UpdateXPBar();
@@ -199,8 +202,9 @@ public class PlayerCanvas : MonoBehaviour {
     void InitLevel() {
         if(isFirstStartup) {
             level = 1;
+            PlayerPrefs.SetInt("PlayerLevel", level);
         } else {
-            level = PlayerPrefs.GetInt("level");
+            level = PlayerPrefs.GetInt("PlayerLevel");
         }
         UpdateLevelText();
     }
@@ -273,12 +277,12 @@ public class PlayerCanvas : MonoBehaviour {
         if(xp >= nextLevelUpAmount) {
             level++;
             xp -= nextLevelUpAmount;
-            float newLevelUpAmount = nextLevelUpAmount * 1.5f;
+            float newLevelUpAmount = (nextLevelUpAmount * 1.25f) + 20;
             nextLevelUpAmount = newLevelUpAmount;
-            PlayerPrefs.SetFloat("nextLevel", nextLevelUpAmount);
+            PlayerPrefs.SetFloat("NextLevel", nextLevelUpAmount);
         }
-        PlayerPrefs.SetFloat("xp", xp);
-        PlayerPrefs.SetInt("level", level);
+        PlayerPrefs.SetFloat("XP", xp);
+        PlayerPrefs.SetInt("PlayerLevel", level);
         UpdateLevelText();
         UpdateXPText();
         UpdateXPBar();
