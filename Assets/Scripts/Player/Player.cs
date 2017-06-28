@@ -44,6 +44,7 @@ public class Player : MonoBehaviour {
 	public bool hasDoubleJumped = false;
     public float jumpSpeed = 15.0f;
 	public float moveSpeed = 1.5f;
+	public float knockbackSpeed = 20.0f;
 	//public float lives = 9;
 	
 	[SerializeField] PlayerCanvas playerCanvas;
@@ -389,6 +390,32 @@ public class Player : MonoBehaviour {
 					float damage = stats.damage;
 					if(damage > 0) {
 						TakeDamage(damage);
+						// When the player hits the left of trap...
+						// get knocked away and face towards trap.
+						if (transform.position.x <= other.transform.position.x){
+							if (facing.x < 0){
+								facing.x *= -1;
+								transform.localScale = facing;
+								isFacingRight = true;
+							}
+							rb2d.velocity = new Vector2(0, 0);
+							rb2d.AddForce(transform.up * knockbackSpeed * 2f);
+							rb2d.AddForce(transform.right * -knockbackSpeed);
+							isStunned = true;
+						}
+						// When the player hits the right of trap...
+						// get knocked away and face towards trap.
+						else if (transform.position.x > other.transform.position.x){
+							if (facing.x > 0){
+								facing.x *= -1;
+								transform.localScale = facing;
+								isFacingRight = false;
+							}
+							rb2d.velocity = new Vector2(0, 0);
+							rb2d.AddForce(transform.up * knockbackSpeed * 2f);
+							rb2d.AddForce(transform.right * knockbackSpeed);
+							isStunned = true;
+						}
 					} else {
 						Die();
 					}
@@ -411,6 +438,7 @@ public class Player : MonoBehaviour {
 		Vector3 spawnPosition = this.transform.position;
 		GameObject tmpBlood;
 		tmpBlood = GameObject.Instantiate(bloodParticle, spawnPosition, Quaternion.identity);
+		Destroy(tmpBlood, 5f);
 		foreach(GameObject g in masks) {
 			//offsetY = new Vector3(0, -1f, 0);
 			GameObject tmpBloodSplat;
