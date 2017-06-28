@@ -69,28 +69,31 @@ public class LevelManager : MonoBehaviour {
 			// Sets the game objects needed to track and set each world page, locked levels, unlocked levels and level stars.
 			levelButtons = new GameObject[levelsPerPage * levelPages.Length];
 			HUD = GameObject.Find("HUD");
-			worlds[0] = HUD.transform.Find("LevelSelectScreen/World1").gameObject;
-			worlds[1] = HUD.transform.Find("LevelSelectScreen/World2").gameObject;
-			worlds[2] = HUD.transform.Find("LevelSelectScreen/World3").gameObject;
+			worlds[0] = HUD.transform.Find("LevelSelectScreen/Background/World1").gameObject;
+			worlds[1] = HUD.transform.Find("LevelSelectScreen/Background/World2").gameObject;
+			worlds[2] = HUD.transform.Find("LevelSelectScreen/Background/World3").gameObject;
 			//pageTracker = HUD.transform.Find("LevelSelectScreen/PageTracker").gameObject;
 			lockedLevelScript = HUD.transform.Find("LevelSelectScreen").gameObject.GetComponent<LockedLevels>();
-			levelPages[0] = HUD.transform.Find("LevelSelectScreen/World1/Page1").gameObject;
-			levelPages[1] = HUD.transform.Find("LevelSelectScreen/World1/Page2").gameObject;
-			levelPages[2] = HUD.transform.Find("LevelSelectScreen/World1/Page3").gameObject;
-			levelPages[3] = HUD.transform.Find("LevelSelectScreen/World2/Page1").gameObject;
-			levelPages[4] = HUD.transform.Find("LevelSelectScreen/World2/Page2").gameObject;
-			levelPages[5] = HUD.transform.Find("LevelSelectScreen/World2/Page3").gameObject;
-			levelPages[6] = HUD.transform.Find("LevelSelectScreen/World3/Page1").gameObject;
-			levelPages[7] = HUD.transform.Find("LevelSelectScreen/World3/Page2").gameObject;
-			levelPages[8] = HUD.transform.Find("LevelSelectScreen/World3/Page3").gameObject;
+			levelPages[0] = HUD.transform.Find("LevelSelectScreen/Background/World1/Page1").gameObject;
+			levelPages[1] = HUD.transform.Find("LevelSelectScreen/Background/World1/Page2").gameObject;
+			levelPages[2] = HUD.transform.Find("LevelSelectScreen/Background/World1/Page3").gameObject;
+			levelPages[3] = HUD.transform.Find("LevelSelectScreen/Background/World2/Page1").gameObject;
+			levelPages[4] = HUD.transform.Find("LevelSelectScreen/Background/World2/Page2").gameObject;
+			levelPages[5] = HUD.transform.Find("LevelSelectScreen/Background/World2/Page3").gameObject;
+			levelPages[6] = HUD.transform.Find("LevelSelectScreen/Background/World3/Page1").gameObject;
+			levelPages[7] = HUD.transform.Find("LevelSelectScreen/Background/World3/Page2").gameObject;
+			levelPages[8] = HUD.transform.Find("LevelSelectScreen/Background/World3/Page3").gameObject;
 			GameObject.Find("LevelSelectScreen").gameObject.SetActive(false);
 			GameObject.Find("WorldSelectScreen").gameObject.SetActive(false);
 
 			// Sets the player to level 1 the first time they play.
-			if (PlayerPrefs.GetInt("World1PlayerLevel") <= 0){
+			if (!PlayerPrefs.HasKey("World1PlayerLevel")){
 				PlayerPrefs.SetInt("World1PlayerLevel", 1);
 				PlayerPrefs.SetInt("World2PlayerLevel", 0);
 				PlayerPrefs.SetInt("World3PlayerLevel", 0);
+				world1PlayerLevel = PlayerPrefs.GetInt("World1PlayerLevel");
+				world2PlayerLevel = PlayerPrefs.GetInt("World2PlayerLevel");
+				world3PlayerLevel = PlayerPrefs.GetInt("World3PlayerLevel");
 				PlayerPrefs.SetInt("MusicMuted", 1);
 				PlayerPrefs.SetInt("SFXMuted", 1);
 				PlayerPrefs.SetInt("StarsCollected", 0);

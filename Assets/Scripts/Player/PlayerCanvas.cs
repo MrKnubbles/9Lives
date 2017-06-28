@@ -14,6 +14,7 @@ public class PlayerCanvas : MonoBehaviour {
     float lastLevelUpAmount;
     [SerializeField] Text levelText;
     [SerializeField] Text xpText;
+    [SerializeField] Image expBar;
 
     // Health Stuff
 	[SerializeField] float maxHealth = 5;
@@ -71,7 +72,7 @@ public class PlayerCanvas : MonoBehaviour {
     }	
 
 	void Update () {
-        UpdateHealthRegeneration();
+        //UpdateHealthRegeneration();
         UpdateLivesRegeneration();
         // float derp = TimeSinceLastHealthRegen(System.DateTime.Now.Second);
 		// Debug.Log(derp);
@@ -82,10 +83,11 @@ public class PlayerCanvas : MonoBehaviour {
 	void OnApplicationQuit() {
 		PlayerPrefs.SetFloat("LastExitTime", (float)System.DateTime.Now.Second);
         PlayerPrefs.SetInt("isFirstStartup", 1);
-        PlayerPrefs.SetFloat("health", health);
-        PlayerPrefs.SetInt("level", level);
-        PlayerPrefs.SetInt("lives", lives);
-        PlayerPrefs.SetFloat("xp", xp);
+        PlayerPrefs.SetFloat("PlayerHealth", health);
+        PlayerPrefs.SetInt("PlayerLives", lives);
+        PlayerPrefs.SetFloat("NextLevel", nextLevelUpAmount);
+        PlayerPrefs.SetInt("PlayerLevel", level);
+        PlayerPrefs.SetFloat("XP", xp);
 	}
 
     public void Die() {
@@ -101,15 +103,17 @@ public class PlayerCanvas : MonoBehaviour {
     void InitHealth() {
         if(isFirstStartup) {
             health = maxHealth;
+            PlayerPrefs.SetFloat("PlayerHealth", maxHealth);
         } else {
-            timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
-            timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
-            if(timeSinceLastOpenedGame > (healthRegenInterval * maxHealth)) {
-                health = maxHealth;
-            } else {
-                // TODO: Calculate health
-                health = maxHealth;
-            }
+            health = PlayerPrefs.GetFloat("health");
+            // timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
+            // timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
+            // if(timeSinceLastOpenedGame > (healthRegenInterval * maxHealth)) {
+            //     health = maxHealth;
+            // } else {
+            //     // TODO: Calculate health
+            //     health = maxHealth;
+            // }
         }
         UpdateHealthBar();
     }
@@ -117,8 +121,9 @@ public class PlayerCanvas : MonoBehaviour {
     void InitLives() {
         if(isFirstStartup) {
             lives = maxLives;
+            PlayerPrefs.SetInt("PlayerLives", maxLives);
         } else {
-            lives = PlayerPrefs.GetInt("lives");
+            lives = PlayerPrefs.GetInt("PlayerLives");
             timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
             timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
             if(timeSinceLastOpenedGame > (lifeRegenInterval * maxLives)) {
@@ -177,25 +182,32 @@ public class PlayerCanvas : MonoBehaviour {
                 if(lives > maxLives) {
                     lives = maxLives;
                 }
+                health = maxHealth;
             }
         }
+        UpdateHealthBar();
         UpdateLivesText();
     }
 
     void InitXP() {
         if(isFirstStartup) {
             xp = 0;
+            nextLevelUpAmount = 20;
+            PlayerPrefs.SetFloat("NextLevel", nextLevelUpAmount);
         } else {
-            xp = PlayerPrefs.GetFloat("xp");
+            xp = PlayerPrefs.GetFloat("XP");
+            nextLevelUpAmount = PlayerPrefs.GetFloat("NextLevel");
         }
         UpdateXPText();
+        UpdateXPBar();
     }
 
     void InitLevel() {
         if(isFirstStartup) {
             level = 1;
+            PlayerPrefs.SetInt("PlayerLevel", level);
         } else {
-            level = PlayerPrefs.GetInt("level");
+            level = PlayerPrefs.GetInt("PlayerLevel");
         }
         UpdateLevelText();
     }
@@ -218,8 +230,10 @@ public class PlayerCanvas : MonoBehaviour {
             if(currentLifeRegenTime > 0) {
                 currentLifeRegenTime -= Time.deltaTime;
             } else {
+                health = maxHealth;
                 lives += 1;
                 UpdateLivesText();
+                UpdateHealthBar();
                 currentLifeRegenTime = lifeRegenInterval;
                 lastLifeRegenTime = System.DateTime.Now.Second;
             }
@@ -247,26 +261,36 @@ public class PlayerCanvas : MonoBehaviour {
 	}
 
 	void UpdateLivesText() {
-        livesText.text = "Lives: " + lives.ToString();
+        livesText.text = "x " + lives.ToString();
 	}
 
     void UpdateLevelText() {
-        levelText.text = "Level: " + level.ToString();
+        levelText.text = "" + level.ToString();
     }
 
     void UpdateXPText() {
-        xpText.text = "XP: " + xp.ToString();
+        xpText.text = "XP: " + xp.ToString() + " / " + nextLevelUpAmount.ToString();
+    }
+
+    void UpdateXPBar(){
+        float currentFillAmount =  xp / nextLevelUpAmount;
+		expBar.GetComponent<Image>().fillAmount = currentFillAmount;
     }
 
     public void AddXP(float value) {
         xp += value;
-        UpdateXPText();
         if(xp >= nextLevelUpAmount) {
             level++;
-            float newLevelUpAmount = nextLevelUpAmount + (lastLevelUpAmount * 0.2f);
-            lastLevelUpAmount = nextLevelUpAmount;
+            xp -= nextLevelUpAmount;
+            float newLevelUpAmount = (nextLevelUpAmount * 1.25f) + 20;
             nextLevelUpAmount = newLevelUpAmount;
-            UpdateLevelText();
+            PlayerPrefs.SetFloat("NextLevel", nextLevelUpAmount);
         }
+        PlayerPrefs.SetFloat("XP", xp);
+        PlayerPrefs.SetInt("PlayerLevel", level);
+        UpdateLevelText();
+        UpdateXPText();
+        UpdateXPBar();
+        //print("added " + value + " exp");
     }
 }
