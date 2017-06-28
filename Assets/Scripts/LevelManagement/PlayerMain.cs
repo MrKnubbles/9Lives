@@ -64,7 +64,7 @@ public class PlayerMain : MonoBehaviour {
 	void SetCharacter(){
 		string activeChar = PlayerPrefs.GetString("ActiveChar");
 		if (PlayerPrefs.GetString("ActiveChar") == activeChar){
-			GameObject activeCat = GameObject.Find("Player/Skins/"+activeChar);
+			GameObject activeCat = GameObject.Find("HUD/WorldSelectScreen/WorldsScrollView/Viewport/WorldsSet/PlayerContainerPlayer/Skins/"+activeChar);
 			if(activeCat != null) {
 				activeCat.SetActive(true);
 				headSprites[0].sprite = activeCat.transform.Find("Head").GetComponent<Image>().sprite;

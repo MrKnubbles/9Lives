@@ -61,6 +61,10 @@ public class ScoreTracker : MonoBehaviour {
 			worldNumber = 3;
 			levelNumber -= 90;
 		}
+		// Set coin exp value based on which world you're in.
+		int tempCoinExpValue = coinExpValue * worldNumber;
+		coinExpValue = tempCoinExpValue;
+		
 		levelNumberText.text = worldNumber + " - " + levelNumber;
 		audioManager = AudioManager.Instance;
 		time = maxTime;
@@ -99,7 +103,6 @@ public class ScoreTracker : MonoBehaviour {
 			int coinScore = gameManager.tempCoinCounter * coinExpValue;
 			gameManager.tempCoinCounter = 0;
 			timeText.text = "" + GetTime();
-			//TODO: Grab Lives info from Player Canvas.
 			livesText.text = "" + player.GetPlayerCanvas().GetLives();
 			score = coinScore;
 			player.GetPlayerCanvas().AddXP(coinScore);
@@ -121,19 +124,51 @@ public class ScoreTracker : MonoBehaviour {
 		pauseButton.SetActive(false);
 		Time.timeScale = 0;
 		audioManager.StopSFX();
+		// Add exp and gold based on player level.
+		int tempPlayerCoins = PlayerPrefs.GetInt("Coins");
+		player.GetPlayerCanvas().AddXP(PlayerPrefs.GetInt("PlayerLevel"));
+		PlayerPrefs.SetInt("Coins", tempPlayerCoins += PlayerPrefs.GetInt("PlayerLevel"));
 
 		if (score > 0){
 			stars[0].SetActive(true);
-			player.GetPlayerCanvas().AddXP(1);
+			// If the player beats the level for the first time, award bonus exp and gold.
+			if (!PlayerPrefs.HasKey("Level" + float.Parse(SceneManager.GetActiveScene().name) + "Score")){
+				tempPlayerCoins = PlayerPrefs.GetInt("Coins");
+				player.GetPlayerCanvas().AddXP(PlayerPrefs.GetInt("PlayerLevel"));
+				PlayerPrefs.SetInt("Coins", tempPlayerCoins += PlayerPrefs.GetInt("PlayerLevel"));
+			}
 		}
 		if (score >= 450){
 			stars[1].SetActive(true);
-			player.GetPlayerCanvas().AddXP(1);
+			// If the player beats the level for the first time, award bonus exp and gold.
+			if (!PlayerPrefs.HasKey("Level" + float.Parse(SceneManager.GetActiveScene().name) + "Score")){
+				tempPlayerCoins = PlayerPrefs.GetInt("Coins");
+				player.GetPlayerCanvas().AddXP((PlayerPrefs.GetInt("PlayerLevel")) * 2);
+				PlayerPrefs.SetInt("Coins", tempPlayerCoins += (PlayerPrefs.GetInt("PlayerLevel") * 2));
+			}
+			// If the player previously beat the level with less than 2 stars, award bonus exp and gold for obtaining a second star.
+			else if (PlayerPrefs.GetInt("Level" + float.Parse(SceneManager.GetActiveScene().name) + "Score") < 450){
+				tempPlayerCoins = PlayerPrefs.GetInt("Coins");
+				player.GetPlayerCanvas().AddXP((PlayerPrefs.GetInt("PlayerLevel")) * 2);
+				PlayerPrefs.SetInt("Coins", tempPlayerCoins += (PlayerPrefs.GetInt("PlayerLevel") * 2));
+			}
 		}
 		if (score >= 900){
 			stars[2].SetActive(true);
-			player.GetPlayerCanvas().AddXP(1);
+			// If the player beats the level for the first time, award bonus exp and gold.
+			if (!PlayerPrefs.HasKey("Level" + float.Parse(SceneManager.GetActiveScene().name) + "Score")){
+				tempPlayerCoins = PlayerPrefs.GetInt("Coins");
+				player.GetPlayerCanvas().AddXP((PlayerPrefs.GetInt("PlayerLevel")) * 3);
+				PlayerPrefs.SetInt("Coins", tempPlayerCoins += (PlayerPrefs.GetInt("PlayerLevel") * 3));
+			}
+			// If the player previously beat the level with less than 3 stars, award bonus exp and gold for obtaining a third star.
+			else if (PlayerPrefs.GetInt("Level" + float.Parse(SceneManager.GetActiveScene().name) + "Score") < 900){
+				tempPlayerCoins = PlayerPrefs.GetInt("Coins");
+				player.GetPlayerCanvas().AddXP((PlayerPrefs.GetInt("PlayerLevel")) * 3);
+				PlayerPrefs.SetInt("Coins", tempPlayerCoins += (PlayerPrefs.GetInt("PlayerLevel") * 3));
+			}
 		}
+
 		nextLevelButton.SetActive(true);
 		CalculateScore();
 		levelManager.UnlockLevel(levelNumber);
