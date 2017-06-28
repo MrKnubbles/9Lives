@@ -102,10 +102,32 @@ public class MovingTraps : MonoBehaviour {
 				GetComponent<Collider2D>().enabled = false;
 			}
 			else{
-				direction = (other.collider.transform.position - transform.position).normalized;
-				var charMotor = other.rigidbody;
-				charMotor.velocity = (direction * knockbackVelocity);
-				player.isStunned = true;
+				// When the player hits the left of trap...
+				// get knocked away and face towards trap.
+				if (other.transform.position.x <= transform.position.x){
+					if (player.facing.x < 0){
+						player.facing.x *= -1;
+						player.transform.localScale = player.facing;
+						player.isFacingRight = true;
+					}
+					player.rb2d.velocity = new Vector2(0, 0);
+					player.rb2d.AddForce(transform.up * player.knockbackSpeed * 2f);
+					player.rb2d.AddForce(transform.right * -player.knockbackSpeed);
+					player.isStunned = true;
+				}
+				// When the player hits the right of trap...
+				// get knocked away and face towards trap.
+				else if (other.transform.position.x > transform.position.x){
+					if (player.facing.x > 0){
+						player.facing.x *= -1;
+						player.transform.localScale = player.facing;
+						player.isFacingRight = false;
+					}
+					player.rb2d.velocity = new Vector2(0, 0);
+					player.rb2d.AddForce(transform.up * player.knockbackSpeed * 2f);
+					player.rb2d.AddForce(transform.right * player.knockbackSpeed);
+					player.isStunned = true;
+				}
 			}
 		}
 	}
