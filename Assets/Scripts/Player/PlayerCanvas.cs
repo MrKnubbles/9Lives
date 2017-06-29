@@ -39,6 +39,7 @@ public class PlayerCanvas : MonoBehaviour {
     // Getters and Setters
     public float GetHealth() { return health; }
     public int GetLives() { return lives; }
+    public float GetMaxHealth() { return maxHealth; }
 
     void Awake() {        
         DontDestroyOnLoad(this);

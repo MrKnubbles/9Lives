@@ -45,7 +45,6 @@ public class Player : MonoBehaviour {
     public float jumpSpeed = 15.0f;
 	public float moveSpeed = 1.5f;
 	public float knockbackSpeed = 20.0f;
-	//public float lives = 9;
 	
 	[SerializeField] PlayerCanvas playerCanvas;
 	[SerializeField] GameObject playerCanvasGO;
@@ -75,6 +74,7 @@ public class Player : MonoBehaviour {
 	public bool isNearSwitch = false;
 	public bool isActivatingSwitch = false;
 	public GameObject HUD;
+	public float damageTaken;	// Used to track how much damage the player has taken this level which is a factor for calculating the level score.
 
 	// Getters and Setters
 	public PlayerCanvas GetPlayerCanvas() { return playerCanvas; }
@@ -98,6 +98,7 @@ public class Player : MonoBehaviour {
 		exitDoor = GameObject.Find("ExitDoor/Door").GetComponent<Door>();
 		respawnPos = GameObject.Find("Respawn");
 		invulnerableTimer = maxInvulnerableTimer;
+		damageTaken = 0;
 	} 
 	void Update() {
 		if (!gameManager.isLevelComplete && !gameManager.isPaused){
@@ -360,8 +361,11 @@ public class Player : MonoBehaviour {
 					float damage = stats.damage;
 					if(damage > 0) {
 						TakeDamage(damage);
+						damageTaken += damage;
 					} else {
-						Die();
+						float tempHealth = playerCanvas.GetHealth();
+						TakeDamage(tempHealth);
+						damageTaken += tempHealth;
 					}
 				}
 			}
@@ -417,13 +421,17 @@ public class Player : MonoBehaviour {
 							isStunned = true;
 						}
 					} else {
-						Die();
+						float tempHealth = playerCanvas.GetHealth();
+						TakeDamage(tempHealth);
+						damageTaken += tempHealth;
 					}
 				}
 			}
 		}
 		if (other.gameObject.tag == "TriggerKill" && !isDead){
-			Die();
+			float tempHealth = playerCanvas.GetHealth();
+			TakeDamage(tempHealth);
+			damageTaken += tempHealth;
 		}
 		if (other.gameObject.tag == "Exit" && !isDead && exitDoor.isActive){
 			// Hides player behind the exit door and stops time.
