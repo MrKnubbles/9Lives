@@ -47,4 +47,11 @@ public class DeveloperOptions : MonoBehaviour {
 		PlayerPrefs.SetInt("RemoveAds", 1);
 		print("RemoveAds = " + PlayerPrefs.GetInt("RemoveAds") + (". 1 means true"));
 	}
+
+	public void ResetExp(){
+		PlayerPrefs.SetFloat("xp", 0);
+		PlayerPrefs.SetInt("level", 1);
+		PlayerPrefs.SetInt("isFirstStartup", 0);
+		print("Player level set to 1 and exp set to 0.");
+	}
 }

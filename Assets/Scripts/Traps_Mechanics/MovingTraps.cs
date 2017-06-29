@@ -11,6 +11,9 @@ public class MovingTraps : MonoBehaviour {
 	private bool spikePress;
 	private Vector3 startPosition;
 	private Vector3 endPosition;
+	public float damage;
+	private Vector3 direction;
+	private float knockbackVelocity = 3f;
 
 	void Start() {
 		player = GameObject.Find("Player").GetComponent<Player>();
@@ -87,15 +90,45 @@ public class MovingTraps : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter2D(Collision2D other){
-		if (other.gameObject.tag == "Player"){
-			GetComponent<Collider2D>().enabled = false;
-		}
-	}
-
 	void OnTriggerEnter2D(Collider2D other){
 		if (other.gameObject.tag == "Player" && !player.isDead){
 			GetComponent<Collider2D>().enabled = true;
+		}
+	}
+
+	void OnCollisionEnter2D(Collision2D other) {
+		if (other.collider.tag == "Player") {
+			if (player.isDead){
+				GetComponent<Collider2D>().enabled = false;
+			}
+			else{
+				// When the player hits the left of trap...
+				// get knocked away and face towards trap.
+				if (other.transform.position.x <= transform.position.x){
+					if (player.facing.x < 0){
+						player.facing.x *= -1;
+						player.transform.localScale = player.facing;
+						player.isFacingRight = true;
+					}
+					player.rb2d.velocity = new Vector2(0, 0);
+					player.rb2d.AddForce(transform.up * player.knockbackSpeed * 2f);
+					player.rb2d.AddForce(transform.right * -player.knockbackSpeed);
+					player.isStunned = true;
+				}
+				// When the player hits the right of trap...
+				// get knocked away and face towards trap.
+				else if (other.transform.position.x > transform.position.x){
+					if (player.facing.x > 0){
+						player.facing.x *= -1;
+						player.transform.localScale = player.facing;
+						player.isFacingRight = false;
+					}
+					player.rb2d.velocity = new Vector2(0, 0);
+					player.rb2d.AddForce(transform.up * player.knockbackSpeed * 2f);
+					player.rb2d.AddForce(transform.right * player.knockbackSpeed);
+					player.isStunned = true;
+				}
+			}
 		}
 	}
 }

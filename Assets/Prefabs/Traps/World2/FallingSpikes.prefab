@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 114175745771430952}
   - component: {fileID: 61969038870636598}
   - component: {fileID: 114789859931090744}
+  - component: {fileID: 114944844082251760}
   m_Layer: 10
   m_Name: FallingSpikes
   m_TagString: Trap
@@ -142,6 +143,7 @@ MonoBehaviour:
   isActivated: 0
   sfxSpikesFalling: {fileID: 8300000, guid: 0599ced4e59a1a9478be8559866aec14, type: 3}
   sfxSpikesMoving: {fileID: 8300000, guid: 60b3c752569b9864d89df4391cfedde9, type: 3}
+  damage: 0
 --- !u!114 &114789859931090744
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -154,6 +156,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doneMoving: 0
+--- !u!114 &114944844082251760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1928486542192262}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90158b93fb146df4f936ad4c824d1301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
 --- !u!212 &212722871257455048
 SpriteRenderer:
   m_ObjectHideFlags: 1

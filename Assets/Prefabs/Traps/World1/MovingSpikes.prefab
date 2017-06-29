@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 212699489378569356}
   - component: {fileID: 114659170797696802}
   - component: {fileID: 114370552984261354}
+  - component: {fileID: 114916072559065876}
   m_Layer: 0
   m_Name: MovingSpikes
   m_TagString: Trap
@@ -116,6 +117,7 @@ MonoBehaviour:
   moveVertical: 0
   sfxSpikesTrigger: {fileID: 0}
   sfxSpikesMoving: {fileID: 0}
+  damage: 0
 --- !u!114 &114370552984261354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -130,6 +132,7 @@ MonoBehaviour:
   moveSpeed: 0.75
   moveHorizontal: 0
   moveVertical: 1
+  damage: 0
 --- !u!114 &114659170797696802
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -142,6 +145,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doneMoving: 0
+--- !u!114 &114916072559065876
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1110745346671806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90158b93fb146df4f936ad4c824d1301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
 --- !u!212 &212699489378569356
 SpriteRenderer:
   m_ObjectHideFlags: 1

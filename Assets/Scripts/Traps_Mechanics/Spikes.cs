@@ -15,6 +15,7 @@ public class Spikes : MonoBehaviour {
 	private MoveObject moveObject;
 	public AudioClip sfxSpikesTrigger;
 	public AudioClip sfxSpikesMoving;
+	public float damage;
 	private AudioManager audioManager;
 
 	void Start() {
@@ -101,7 +102,37 @@ public class Spikes : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D other) {
 		if (other.collider.tag == "Player") {
-			GetComponent<Collider2D>().enabled = false;
+			if (player.isDead){
+				GetComponent<Collider2D>().enabled = false;
+			}
+			else{
+				// When the player hits the left of trap...
+				// get knocked away and face towards trap.
+				if (other.transform.position.x <= transform.position.x){
+					if (player.facing.x < 0){
+						player.facing.x *= -1;
+						player.transform.localScale = player.facing;
+						player.isFacingRight = true;
+					}
+					player.rb2d.velocity = new Vector2(0, 0);
+					player.rb2d.AddForce(transform.up * player.knockbackSpeed * 2f);
+					player.rb2d.AddForce(transform.right * -player.knockbackSpeed);
+					player.isStunned = true;
+				}
+				// When the player hits the right of trap...
+				// get knocked away and face towards trap.
+				else if (other.transform.position.x > transform.position.x){
+					if (player.facing.x > 0){
+						player.facing.x *= -1;
+						player.transform.localScale = player.facing;
+						player.isFacingRight = false;
+					}
+					player.rb2d.velocity = new Vector2(0, 0);
+					player.rb2d.AddForce(transform.up * player.knockbackSpeed * 2f);
+					player.rb2d.AddForce(transform.right * player.knockbackSpeed);
+					player.isStunned = true;
+				}
+			}
 		}
 	}
 }
