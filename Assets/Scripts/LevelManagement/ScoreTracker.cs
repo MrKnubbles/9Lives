@@ -10,7 +10,7 @@ public class ScoreTracker : MonoBehaviour {
 	private AudioManager audioManager;
 	// HUD info
 	public float time;
-	public float maxTime = 120f;
+	public float maxTime = 60f;
 	public float score;
 	private int coinExpValue = 1;
 	private int worldNumber;
@@ -88,14 +88,13 @@ public class ScoreTracker : MonoBehaviour {
 		}
 		else if (gameManager.isLevelComplete && !triggerOnce){
 			int coinScore = gameManager.tempCoinCounter * coinExpValue;
-			//gameManager.coinCounter += (gameManager.tempCoinCounter * Int32.Parse(scene.name));
-			gameManager.coinCounter += (gameManager.tempCoinCounter);
+			gameManager.coinCounter += gameManager.tempCoinCounter;
 			gameManager.tempCoinCounter = 0;
 			int tempPlayerCoins = PlayerPrefs.GetInt("Coins");
 			PlayerPrefs.SetInt("Coins", tempPlayerCoins += gameManager.coinCounter);
 			timeText.text = "" + GetTime();
 			levelLivesText.text = "" + player.GetPlayerCanvas().GetLives();
-			score = (GetTime() * player.GetPlayerCanvas().GetLives()) + coinScore;
+			score = Mathf.Round(((GetTime() / maxTime) * 1500) - ((player.damageTaken / player.GetPlayerCanvas().GetMaxHealth()) * 100)) + (coinScore * 10);
 			player.GetPlayerCanvas().AddXP(coinScore);
 			LevelComplete();
 		}
@@ -138,7 +137,7 @@ public class ScoreTracker : MonoBehaviour {
 				PlayerPrefs.SetInt("Coins", tempPlayerCoins += PlayerPrefs.GetInt("PlayerLevel"));
 			}
 		}
-		if (score >= 450){
+		if (score >= 500){
 			stars[1].SetActive(true);
 			// If the player beats the level for the first time, award bonus exp and gold.
 			if (!PlayerPrefs.HasKey("Level" + float.Parse(SceneManager.GetActiveScene().name) + "Score")){
@@ -153,7 +152,7 @@ public class ScoreTracker : MonoBehaviour {
 				PlayerPrefs.SetInt("Coins", tempPlayerCoins += (PlayerPrefs.GetInt("PlayerLevel") * 2));
 			}
 		}
-		if (score >= 900){
+		if (score >= 1000){
 			stars[2].SetActive(true);
 			// If the player beats the level for the first time, award bonus exp and gold.
 			if (!PlayerPrefs.HasKey("Level" + float.Parse(SceneManager.GetActiveScene().name) + "Score")){
