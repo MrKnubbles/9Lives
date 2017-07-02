@@ -11,7 +11,7 @@ public class LoadLevel : MonoBehaviour {
 	private Vector3 playerMainFacing;
 	private Vector2 moveLocation;
 	public GameObject startLocation;
-	private bool isPlayerMainReady = true;
+	public bool isPlayerMainReady = true;
 	private bool isPlayerMainMoving = false;
 	private string playerMainDirection;
 	private int worldLevelNumber;
@@ -43,6 +43,7 @@ public class LoadLevel : MonoBehaviour {
 	public GameObject soundMuted;
 	public GameObject pauseButton;
 	public ScoreTracker scoreTracker;
+	public MainMenu mainMenu;
 	// Managers
 	public GameManager gameManager;
 	public LevelManager levelManager;
@@ -66,6 +67,7 @@ public class LoadLevel : MonoBehaviour {
 			playerMainMovement.SetSpeed(speed);
 			playerFacing = playerLevel.transform.localScale;
 			playerMainFacing = playerMain.transform.localScale;
+			mainMenu = HUD.transform.GetChild(0).GetComponent<MainMenu>();
 			Screen.sleepTimeout = SleepTimeout.SystemSetting;
 		}
 		else if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main")){
@@ -163,11 +165,13 @@ public class LoadLevel : MonoBehaviour {
 						playerMainMovement.Move();
 						isPlayerMainMoving = false;
 						isPlayerMainReady = true;
+						print("1");
 					}
 					else if (!playerMainMovement.isObjectMoving() && playerMainMovement.isDoneMoving() && isPlayerMainReady){
 						ShowMainMenuObject(houseObjectNumber);
 						playerMain.animator.SetBool("isRunning", false);
 						isPlayerMainReady = false;
+						print("2");
 					}
 				}
 				else if (playerMainDirection == "left"){
@@ -176,17 +180,22 @@ public class LoadLevel : MonoBehaviour {
 						playerMainMovement.Move();
 						isPlayerMainMoving = false;
 						isPlayerMainReady = true;
+						print("3");
 					}
 					else if (!playerMainMovement.isObjectMoving() && playerMainMovement.isDoneMoving() && isPlayerMainReady){
 						ShowMainMenuObject(houseObjectNumber);
 						playerMain.animator.SetBool("isRunning", false);
 						isPlayerMainReady = false;
+						playerMainDirection = "none";
+						print("4");
 					}
 				}
-				else if (playerMainDirection == "none"){
+				else if (playerMainDirection == "none" && !isPlayerMainReady){
 					isPlayerMainMoving = false;
 					ShowMainMenuObject(houseObjectNumber);
 					playerMain.animator.SetBool("isRunning", false);
+					isPlayerMainReady = true;
+					print("5");
 				}
 			}
 		}
@@ -304,6 +313,7 @@ public class LoadLevel : MonoBehaviour {
 		else {
 			playerMainDirection = "none";
 			playerMain.animator.SetBool("isRunning", false);
+			isPlayerMainReady = false;
 		}
 	}
 
@@ -321,14 +331,21 @@ public class LoadLevel : MonoBehaviour {
 
 	public void ShowMainMenuObject(int objectNumber){
 		switch(objectNumber) {
-			// Exit Door - World Select / Level Select
-            case 0:
-				playerMain.transform.position = startLocation.transform.position;
-                ShowWorldSelect();
-                break;
+			// Background is in slot 0 so don't use this.
+			case 0:
+				break;
 
+			// Exit Door - World Select / Level Select
             case 1:
-                
+				playerMain.transform.position = startLocation.transform.position;
+                mainMenu.ShowWorldSelect();
+                break;
+			
+			// Cat Bed - Restore life/lives with cooldown.
+            case 2:
+			// Open window that asks if you want to nap or not
+			// Also displays upgrade.
+                mainMenu.ShowCatBedWindow();
                 break;
 
             default:
@@ -347,14 +364,6 @@ public class LoadLevel : MonoBehaviour {
 		devOptionsScreen.SetActive(true);
 	}
 
-	public void ShowWorldSelect(){
-		playerMain.transform.position = startLocation.transform.position;
-		playerMain.transform.localScale = startLocation.transform.localScale;
-		DisableAllScreens();
-		worldSelectScreen.SetActive(true);
-		playerLevel.Start();
-	}
-
 	public void ShowControls(){
 		DisableAllScreens();
 		controlsScreen.SetActive(true);
@@ -363,10 +372,11 @@ public class LoadLevel : MonoBehaviour {
 	public void BackButton(){
 		DisableAllScreens();
 		mainMenuScreen.SetActive(true);
+		mainMenu.CloseWindows();
 	}
 
 	// Use this before activating any screen.
-	private void DisableAllScreens(){
+	public void DisableAllScreens(){
 		levelSelectScreen.SetActive(false);
 		worldSelectScreen.SetActive(false);
 		controlsScreen.SetActive(false);
