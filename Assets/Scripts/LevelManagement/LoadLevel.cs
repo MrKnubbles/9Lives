@@ -68,6 +68,7 @@ public class LoadLevel : MonoBehaviour {
 			playerFacing = playerLevel.transform.localScale;
 			playerMainFacing = playerMain.transform.localScale;
 			mainMenu = HUD.transform.GetChild(0).GetComponent<MainMenu>();
+			mainMenu.GetUpgradeRanks();
 			Screen.sleepTimeout = SleepTimeout.SystemSetting;
 		}
 		else if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main")){
@@ -345,7 +346,7 @@ public class LoadLevel : MonoBehaviour {
             case 2:
 			// Open window that asks if you want to nap or not
 			// Also displays upgrade.
-                mainMenu.ShowCatBedWindow();
+                mainMenu.catBed.ShowCatBedWindow();
                 break;
 
             default:

@@ -278,6 +278,12 @@ public class PlayerCanvas : MonoBehaviour {
 		expBar.GetComponent<Image>().fillAmount = currentFillAmount;
     }
 
+    public void AddLives(int value){
+        lives += value;
+        PlayerPrefs.SetInt("PlayerLives", maxLives);
+        UpdateLivesText();
+    }
+
     public void AddXP(float value) {
         xp += value;
         if(xp >= nextLevelUpAmount) {
