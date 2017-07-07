@@ -92,7 +92,7 @@ public class Player : MonoBehaviour {
 		audioManager = AudioManager.Instance;
 		gameManager.isGameStarted = true;
 		gameManager.isLevelComplete = false;
-		gameManager.isGameOver = false;
+		gameManager.isLevelOver = false;
 		animator.SetBool("isGameStarted", true);
 		gameManager.isLevelComplete = false;
 		exitDoor = GameObject.Find("ExitDoor/Door").GetComponent<Door>();
@@ -269,7 +269,7 @@ public class Player : MonoBehaviour {
 		isActivatingSwitch = false;
 		int lives = playerCanvas.GetLives();
 		if (lives <= 0) {
-			gameManager.isGameOver = true;
+			gameManager.isLevelOver = true;
 		}
 	}
 
