@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 public class LoadLevel : MonoBehaviour {
 	public PlayerMain player;
+	[SerializeField] PlayerCanvas playerCanvas;
+	[SerializeField] GameObject playerCanvasGO;
+	[SerializeField] GameObject playerCanvasPrefab;
 	public GameObject worldSelectScreen;
 	public GameObject levelSelectScreen;
 	public GameObject[] levelScreens;
@@ -42,6 +45,7 @@ public class LoadLevel : MonoBehaviour {
 	void Start(){
 		Time.timeScale = 1;
 		HUD = GameObject.Find("HUD");
+		InitPlayerCanvas();
 		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main")){
 			musicMuted = HUD.transform.Find("OptionsScreen/MuteMusicButton/MusicMuted").gameObject;
 			soundMuted = HUD.transform.Find("OptionsScreen/MuteSoundButton/SoundMuted").gameObject;
@@ -147,12 +151,8 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	public void LoadNextLevel(){
-		if (PlayerPrefs.GetInt("RemoveAds") != 1){
-			PlayerPrefs.SetInt("LevelAdCounter", PlayerPrefs.GetInt("LevelAdCounter") + 1);
-			if (PlayerPrefs.GetInt("LevelAdCounter") >= 5){
-				unityAds.ShowAd("next");
-				PlayerPrefs.SetInt("LevelAdCounter", 0);
-			}
+		if (playerCanvas.GetLives() <= 0){
+			unityAds.ShowAd("next");
 		}
 		Time.timeScale = 1;
 		gameManager.isPaused = false;
@@ -160,18 +160,15 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	public void LoadLevelAfterAd(){
+		playerCanvas.AddLives(1);
 		Time.timeScale = 1;
 		gameManager.isPaused = false;
 		SceneManager.LoadScene(nextLevelName);
 	}
 
 	public void ReplayLevel(){
-		if (PlayerPrefs.GetInt("RemoveAds") != 1){
-			levelManager.replayCounter++;
-			if (levelManager.replayCounter >= 3){
-				unityAds.ShowAd("restart");
-				levelManager.replayCounter = 0;
-			}
+		if (playerCanvas.GetLives() <= 0){
+			unityAds.ShowAd("restart");
 		}
 		Time.timeScale = 1;
 		gameManager.isPaused = false;
@@ -180,6 +177,7 @@ public class LoadLevel : MonoBehaviour {
 
 	// Only use this within UnityAds to resume gameplay after ad finishes.
 	public void RestartLevelAfterAd(){
+		playerCanvas.AddLives(1);
 		Time.timeScale = 1;
 		gameManager.isPaused = false;
 		SceneManager.LoadScene(currentLevelName);
@@ -363,12 +361,16 @@ public class LoadLevel : MonoBehaviour {
 		}
 	}
 
-	// public void ShowNextWorld(int worldNumber){
-	// 	HideWorlds();
-	// 	ShowWorld(worldNumber);
-	// 	// HidePages();
-	// 	ShowPage(1);
-	// }
+	void InitPlayerCanvas() {
+		playerCanvasGO = GameObject.Find("PlayerCanvas");
+		if(playerCanvasGO == null) {
+			GameObject tmp = GameObject.Instantiate(playerCanvasPrefab);
+			tmp.name = "PlayerCanvas";
+			playerCanvas = tmp.GetComponent<PlayerCanvas>();
+		} else {
+			playerCanvas = playerCanvasGO.GetComponent<PlayerCanvas>();
+		}
+	}
 
 	void ShowWorld(int worldNumber){
 		levelManager.worlds[worldNumber-1].SetActive(true);

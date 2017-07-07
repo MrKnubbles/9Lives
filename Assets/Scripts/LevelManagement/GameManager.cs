@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
 	public static GameManager Instance { get { return m_instance; } }
 	public GameObject gameOverScreen;
 	public bool isPaused = false;
-	public bool isGameOver = false;
+	public bool isLevelOver = false;
 	public bool isGameStarted = false;
 	public bool isLevelComplete = false;
 	private AudioManager audioManager;
