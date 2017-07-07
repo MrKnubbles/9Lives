@@ -82,6 +82,10 @@ public class PlayerCanvas : MonoBehaviour {
 	}
 
 	void OnApplicationQuit() {
+        SaveAllPrefs();
+	}
+
+    public void SaveAllPrefs(){
 		PlayerPrefs.SetFloat("LastExitTime", (float)System.DateTime.Now.Second);
         PlayerPrefs.SetInt("isFirstStartup", 1);
         PlayerPrefs.SetFloat("PlayerHealth", health);
@@ -89,7 +93,7 @@ public class PlayerCanvas : MonoBehaviour {
         PlayerPrefs.SetFloat("NextLevel", nextLevelUpAmount);
         PlayerPrefs.SetInt("PlayerLevel", level);
         PlayerPrefs.SetFloat("XP", xp);
-	}
+    }
 
     public void Die() {
         health = 0;

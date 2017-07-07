@@ -170,7 +170,9 @@ public class CatBed : MonoBehaviour {
 	// Updates the cooldown and upgrade timer to reflect the remaining time.
 	void UpdateTimerText(){
 		//TODO: update timer text
-		timerText.text = currentUpgradeTime.ToString();
-		cooldownText.text = currentCooldownTime.ToString();
+		// timerText.text = currentUpgradeTime.ToString();
+		// cooldownText.text = currentCooldownTime.ToString();
+		// string minutes = Mathf.Floor(timer / 60).ToString("00");
+ 		// string seconds = Mathf.Floor(timer % 60).ToString("00");
 	}
 }

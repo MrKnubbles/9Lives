@@ -6,12 +6,11 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
 	public LoadLevel loadLevel;
-	PlayerCanvas playerCanvas;
 	public CatBed catBed;
 	
 	// Closes the Main Menu and brings the player to the World / Level Select Screen.
 	public void ShowWorldSelect(){
-		if (playerCanvas.GetLives() > 0){
+		if (loadLevel.playerCanvas.GetLives() > 0){
 			loadLevel.playerMain.transform.position = loadLevel.startLocation.transform.position;
 			loadLevel.playerMain.transform.localScale = loadLevel.startLocation.transform.localScale;
 			loadLevel.DisableAllScreens();

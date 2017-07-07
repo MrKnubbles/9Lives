@@ -8,6 +8,9 @@ public class LoadLevel : MonoBehaviour {
 	// Objects required for the Player on the Main Menu
 	public PlayerMain playerMain;
 	private MovePlayer playerMainMovement;
+	public PlayerCanvas playerCanvas;
+	[SerializeField] GameObject playerCanvasGO;
+	[SerializeField] GameObject playerCanvasPrefab;
 	private Vector3 playerMainFacing;
 	private Vector2 moveLocation;
 	public GameObject startLocation;
@@ -58,6 +61,7 @@ public class LoadLevel : MonoBehaviour {
 	void Start(){
 		Time.timeScale = 1;
 		HUD = GameObject.Find("HUD");
+		InitPlayerCanvas();
 		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main")){
 			musicMuted = HUD.transform.Find("OptionsScreen/MuteMusicButton/MusicMuted").gameObject;
 			soundMuted = HUD.transform.Find("OptionsScreen/MuteSoundButton/SoundMuted").gameObject;
@@ -166,13 +170,11 @@ public class LoadLevel : MonoBehaviour {
 						playerMainMovement.Move();
 						isPlayerMainMoving = false;
 						isPlayerMainReady = true;
-						print("1");
 					}
 					else if (!playerMainMovement.isObjectMoving() && playerMainMovement.isDoneMoving() && isPlayerMainReady){
 						ShowMainMenuObject(houseObjectNumber);
 						playerMain.animator.SetBool("isRunning", false);
 						isPlayerMainReady = false;
-						print("2");
 					}
 				}
 				else if (playerMainDirection == "left"){
@@ -181,14 +183,12 @@ public class LoadLevel : MonoBehaviour {
 						playerMainMovement.Move();
 						isPlayerMainMoving = false;
 						isPlayerMainReady = true;
-						print("3");
 					}
 					else if (!playerMainMovement.isObjectMoving() && playerMainMovement.isDoneMoving() && isPlayerMainReady){
 						ShowMainMenuObject(houseObjectNumber);
 						playerMain.animator.SetBool("isRunning", false);
 						isPlayerMainReady = false;
 						playerMainDirection = "none";
-						print("4");
 					}
 				}
 				else if (playerMainDirection == "none" && !isPlayerMainReady){
@@ -196,7 +196,6 @@ public class LoadLevel : MonoBehaviour {
 					ShowMainMenuObject(houseObjectNumber);
 					playerMain.animator.SetBool("isRunning", false);
 					isPlayerMainReady = true;
-					print("5");
 				}
 			}
 		}
@@ -396,6 +395,7 @@ public class LoadLevel : MonoBehaviour {
 		gameManager.PauseGame();
 		pauseMenuScreen.SetActive(true);
 		pauseButton.SetActive(false);
+		print("paused");
 	}
 
 	public void ResumeGame(){
@@ -487,5 +487,16 @@ public class LoadLevel : MonoBehaviour {
 		levelManager.levelPages[0].SetActive(true);
 		levelManager.levelPages[1].SetActive(false);
 		levelManager.levelPages[2].SetActive(false);
+	}
+
+	void InitPlayerCanvas() {
+		playerCanvasGO = GameObject.Find("PlayerCanvas");
+		if(playerCanvasGO == null) {
+			GameObject tmp = GameObject.Instantiate(playerCanvasPrefab);
+			tmp.name = "PlayerCanvas";
+			playerCanvas = tmp.GetComponent<PlayerCanvas>();
+		} else {
+			playerCanvas = playerCanvasGO.GetComponent<PlayerCanvas>();
+		}
 	}
 }
