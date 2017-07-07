@@ -105,7 +105,7 @@ public class ScoreTracker : MonoBehaviour {
 			levelLivesText.text = "" + player.GetPlayerCanvas().GetLives();
 			score = coinScore;
 			player.GetPlayerCanvas().AddXP(coinScore);
-			GameOver();
+			LevelOver();
 		}
 	}
 
@@ -175,7 +175,7 @@ public class ScoreTracker : MonoBehaviour {
 		triggerOnce = true;
 	}
 
-	void GameOver(){
+	void LevelOver(){
 		CheckIfLevelCanBeSkipped();
 		Time.timeScale = 0;
 		audioManager.StopSFX();

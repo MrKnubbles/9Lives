@@ -318,12 +318,15 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	private void SkipLevel(){
+		// Skips a level in World 1.
 		if (Int32.Parse(SceneManager.GetActiveScene().name) <= 44){
 			PlayerPrefs.SetInt("World1PlayerLevel", PlayerPrefs.GetInt("World1PlayerLevel") + 1);
 		}
+		// Skips a level in World 2.
 		else if (Int32.Parse(SceneManager.GetActiveScene().name) >= 46 && Int32.Parse(SceneManager.GetActiveScene().name) <= 89){
 			PlayerPrefs.SetInt("World2PlayerLevel", PlayerPrefs.GetInt("World2PlayerLevel") + 1);
 		}
+		// Skips a level in World 3.
 		else if (Int32.Parse(SceneManager.GetActiveScene().name) >= 91 && Int32.Parse(SceneManager.GetActiveScene().name) <= 134){
 			PlayerPrefs.SetInt("World3PlayerLevel", PlayerPrefs.GetInt("World3PlayerLevel") + 1);
 		}
