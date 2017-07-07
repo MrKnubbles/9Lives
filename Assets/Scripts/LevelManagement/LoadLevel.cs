@@ -346,7 +346,7 @@ public class LoadLevel : MonoBehaviour {
             case 2:
 			// Open window that asks if you want to nap or not
 			// Also displays upgrade.
-                mainMenu.catBed.ShowCatBedWindow();
+                mainMenu.catBed.ShowObjectWindow();
                 break;
 
             default:

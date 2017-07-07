@@ -20,22 +20,17 @@ public class MainMenu : MonoBehaviour {
 	// Closes all windows.
 	public void CloseWindows(){
 		// TODO: Slide window off of screen over 1 second.
-		catBed.catBedWindow.SetActive(false);
+		catBed.objectWindow.SetActive(false);
 	}
 
 	// Gets all upgrade ranks by retrieving PlayerPrefs.
 	public void GetUpgradeRanks(){
-		catBed.catBedUpgradeRank = PlayerPrefs.GetInt("cdUpRank");
-		catBed.catBedUpgradePower = PlayerPrefs.GetInt("cbUpPow");
-		catBed.catBedUpgradeSpeed = PlayerPrefs.GetInt("cbUpSpd");
-		catBed.catBedUpgradeExp = catBed.catBedUpgradeSpeed - (catBed.catBedUpgradeRank * 3);
+		catBed.GetPrefs();
 	}
 
 	// Initializes the upgrade ranks for each object.
 	// This should only be done once upon logging in for the first time.
 	public void InitializeUpgradeRanks(){
-		PlayerPrefs.SetInt("cbUpRank", 0);
-		PlayerPrefs.SetInt("cbUpPow", 0);
-		PlayerPrefs.SetInt("cbUpSpd", 0);
+		catBed.SetPrefs();
 	}
 }
