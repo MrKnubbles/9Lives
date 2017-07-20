@@ -30,6 +30,7 @@ public class LevelManager : MonoBehaviour {
 	public GameObject[] levelButtons;
 	public GameObject[] worlds = new GameObject[3];
 	public GameObject[] nextWorldButtons = new GameObject[2];
+	private MainMenu mainMenu;
 
 	void Awake(){
 		if (m_instance != null && m_instance != this) {
@@ -85,6 +86,7 @@ public class LevelManager : MonoBehaviour {
 			levelPages[8] = HUD.transform.Find("LevelSelectScreen/Background/World3/Page3").gameObject;
 			GameObject.Find("LevelSelectScreen").gameObject.SetActive(false);
 			GameObject.Find("WorldSelectScreen").gameObject.SetActive(false);
+			mainMenu = HUD.transform.GetChild(0).GetComponent<MainMenu>();
 
 			// Sets the player to level 1 the first time they play.
 			if (!PlayerPrefs.HasKey("World1PlayerLevel")){
@@ -102,6 +104,8 @@ public class LevelManager : MonoBehaviour {
 				// TODO: Remove this when game goes live.
 				PlayerPrefs.SetInt("Beta", 1);
 				PlayerPrefs.SetString("ActiveChar", "Beta");
+				// Sets upgrade ranks to 0
+				mainMenu.InitializeUpgradeRanks();
 			}
 			else{
 				world1PlayerLevel = PlayerPrefs.GetInt("World1PlayerLevel");
