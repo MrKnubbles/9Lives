@@ -395,7 +395,6 @@ public class LoadLevel : MonoBehaviour {
 		gameManager.PauseGame();
 		pauseMenuScreen.SetActive(true);
 		pauseButton.SetActive(false);
-		print("paused");
 	}
 
 	public void ResumeGame(){

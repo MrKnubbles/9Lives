@@ -284,6 +284,9 @@ public class PlayerCanvas : MonoBehaviour {
 
     public void AddLives(int value){
         lives += value;
+        if (lives > maxLives){
+            lives = maxLives;
+        }
         PlayerPrefs.SetInt("PlayerLives", maxLives);
         UpdateLivesText();
     }
