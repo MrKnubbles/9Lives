@@ -5,10 +5,32 @@ using System;
 using UnityEngine.UI;
 
 public class LoadLevel : MonoBehaviour {
-	public PlayerMain player;
-	[SerializeField] PlayerCanvas playerCanvas;
+	// Objects required for the Player on the Main Menu
+	public PlayerMain playerMain;
+	private MovePlayer playerMainMovement;
+	public PlayerCanvas playerCanvas;
 	[SerializeField] GameObject playerCanvasGO;
 	[SerializeField] GameObject playerCanvasPrefab;
+	private Vector3 playerMainFacing;
+	private Vector2 moveLocation;
+	public GameObject startLocation;
+	public bool isPlayerMainReady = true;
+	private bool isPlayerMainMoving = false;
+	private string playerMainDirection;
+	private int worldLevelNumber;
+	private float distance = 188f;
+	private float moveDistance;
+	private float speed = 10f;
+	// Objects required for the Player on the World Select / Level Select
+	public PlayerMain playerLevel;
+	private MovePlayer playerMovement;
+	private Vector3 playerFacing;
+	private bool isPlayerLevelReady = true;
+	private bool isPlayerMoving = false;
+	private string playerDirection;
+	private int houseObjectNumber;
+	// Menu Screens
+	public GameObject HUD;
 	public GameObject worldSelectScreen;
 	public GameObject levelSelectScreen;
 	public GameObject[] levelScreens;
@@ -19,28 +41,22 @@ public class LoadLevel : MonoBehaviour {
 	public GameObject creditsScreen;
 	public GameObject devOptionsScreen;
 	public GameObject shopScreen;
+	// UI
 	public GameObject musicMuted;
 	public GameObject soundMuted;
 	public GameObject pauseButton;
+	public ScoreTracker scoreTracker;
+	public MainMenu mainMenu;
+	// Managers
 	public GameManager gameManager;
 	public LevelManager levelManager;
-	public GameObject HUD;
+	private AudioManager audioManager;
+	// Level Management
 	public float currentLevel;
 	public string currentLevelName;
 	public string nextLevelName;
+	// Ads
 	public UnityAds unityAds;
-	private AudioManager audioManager;
-	public ScoreTracker scoreTracker;
-	private float speed = 10f;
-	private Vector2 moveLocation;
-	private Ray ray;
-	private float distance = 188f;
-	private float moveDistance;
-	private bool isPlayerMoving = false;
-	private int worldLevelNumber;
-	private string playerDirection;
-	private MovePlayer playerMovement;
-	private Vector3 playerFacing;
 
 	void Start(){
 		Time.timeScale = 1;
@@ -49,9 +65,14 @@ public class LoadLevel : MonoBehaviour {
 		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main")){
 			musicMuted = HUD.transform.Find("OptionsScreen/MuteMusicButton/MusicMuted").gameObject;
 			soundMuted = HUD.transform.Find("OptionsScreen/MuteSoundButton/SoundMuted").gameObject;
-			playerMovement = player.transform.gameObject.GetComponent<MovePlayer>();
+			playerMovement = playerLevel.transform.gameObject.GetComponent<MovePlayer>();
 			playerMovement.SetSpeed(speed);
-			playerFacing = player.transform.localScale;
+			playerMainMovement = playerMain.transform.gameObject.GetComponent<MovePlayer>();
+			playerMainMovement.SetSpeed(speed);
+			playerFacing = playerLevel.transform.localScale;
+			playerMainFacing = playerMain.transform.localScale;
+			mainMenu = HUD.transform.GetChild(0).GetComponent<MainMenu>();
+			mainMenu.GetUpgradeRanks();
 			Screen.sleepTimeout = SleepTimeout.SystemSetting;
 		}
 		else if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main")){
@@ -103,36 +124,78 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	void LateUpdate(){
-		// Controls player movement on the World / Level Select Screen.
-		// Lets the player move to one location at a time.
 		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main")){
+			// Controls player movement on the World / Level Select Screen.
+			// Lets the player move to one location at a time.
 			if (worldSelectScreen.activeSelf){
 				if (playerDirection == "right"){
-					if (player.transform.position.x < moveLocation.x && isPlayerMoving && !playerMovement.isObjectMoving()){
+					if (playerLevel.transform.position.x < moveLocation.x && isPlayerMoving && !playerMovement.isObjectMoving()){
 						playerMovement.SetDistanceX(moveDistance);
 						playerMovement.Move();
 						isPlayerMoving = false;
+						isPlayerLevelReady = true;
 					}
-					else if (!playerMovement.isObjectMoving() && playerMovement.isDoneMoving()){
+					else if (!playerMovement.isObjectMoving() && playerMovement.isDoneMoving() && isPlayerLevelReady){
 						ShowLevelSelect(worldLevelNumber);
-						player.animator.SetBool("isRunning", false);
+						playerLevel.animator.SetBool("isRunning", false);
+						isPlayerLevelReady = false;
 					}
 				}
 				else if (playerDirection == "left"){
-					if (player.transform.position.x > moveLocation.x && isPlayerMoving && !playerMovement.isObjectMoving()){
+					if (playerLevel.transform.position.x > moveLocation.x && isPlayerMoving && !playerMovement.isObjectMoving()){
 						playerMovement.SetDistanceX(moveDistance);
 						playerMovement.Move();
 						isPlayerMoving = false;
+						isPlayerLevelReady = true;
 					}
-					else if (!playerMovement.isObjectMoving() && playerMovement.isDoneMoving()){
+					else if (!playerMovement.isObjectMoving() && playerMovement.isDoneMoving() && isPlayerLevelReady){
 						ShowLevelSelect(worldLevelNumber);
-						player.animator.SetBool("isRunning", false);
+						playerLevel.animator.SetBool("isRunning", false);
+						isPlayerLevelReady = false;
 					}
 				}
 				else if (playerDirection == "none"){
 					isPlayerMoving = false;
 					ShowLevelSelect(worldLevelNumber);
-					player.animator.SetBool("isRunning", false);
+					playerLevel.animator.SetBool("isRunning", false);
+				}
+			}
+
+			// Controls player movement on the Main Menu.
+			// Lets the player move one location at a time.
+			else if (mainMenuScreen.activeSelf){
+				if (playerMainDirection == "right"){
+					if (playerMain.transform.position.x < moveLocation.x && isPlayerMainMoving && !playerMainMovement.isObjectMoving()){
+						playerMainMovement.SetDistanceX(moveDistance);
+						playerMainMovement.Move();
+						isPlayerMainMoving = false;
+						isPlayerMainReady = true;
+					}
+					else if (!playerMainMovement.isObjectMoving() && playerMainMovement.isDoneMoving() && isPlayerMainReady){
+						ShowMainMenuObject(houseObjectNumber);
+						playerMain.animator.SetBool("isRunning", false);
+						isPlayerMainReady = false;
+					}
+				}
+				else if (playerMainDirection == "left"){
+					if (playerMain.transform.position.x > moveLocation.x && isPlayerMainMoving && !playerMainMovement.isObjectMoving()){
+						playerMainMovement.SetDistanceX(moveDistance);
+						playerMainMovement.Move();
+						isPlayerMainMoving = false;
+						isPlayerMainReady = true;
+					}
+					else if (!playerMainMovement.isObjectMoving() && playerMainMovement.isDoneMoving() && isPlayerMainReady){
+						ShowMainMenuObject(houseObjectNumber);
+						playerMain.animator.SetBool("isRunning", false);
+						isPlayerMainReady = false;
+						playerMainDirection = "none";
+					}
+				}
+				else if (playerMainDirection == "none" && !isPlayerMainReady){
+					isPlayerMainMoving = false;
+					ShowMainMenuObject(houseObjectNumber);
+					playerMain.animator.SetBool("isRunning", false);
+					isPlayerMainReady = true;
 				}
 			}
 		}
@@ -151,8 +214,12 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	public void LoadNextLevel(){
-		if (playerCanvas.GetLives() <= 0){
-			unityAds.ShowAd("next");
+		if (PlayerPrefs.GetInt("RemoveAds") != 1){
+			PlayerPrefs.SetInt("LevelAdCounter", PlayerPrefs.GetInt("LevelAdCounter") + 1);
+			if (PlayerPrefs.GetInt("LevelAdCounter") >= 5){
+				unityAds.ShowAd("next");
+				PlayerPrefs.SetInt("LevelAdCounter", 0);
+			}
 		}
 		Time.timeScale = 1;
 		gameManager.isPaused = false;
@@ -160,15 +227,18 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	public void LoadLevelAfterAd(){
-		playerCanvas.AddLives(1);
 		Time.timeScale = 1;
 		gameManager.isPaused = false;
 		SceneManager.LoadScene(nextLevelName);
 	}
 
 	public void ReplayLevel(){
-		if (playerCanvas.GetLives() <= 0){
-			unityAds.ShowAd("restart");
+		if (PlayerPrefs.GetInt("RemoveAds") != 1){
+			levelManager.replayCounter++;
+			if (levelManager.replayCounter >= 3){
+				unityAds.ShowAd("restart");
+				levelManager.replayCounter = 0;
+			}
 		}
 		Time.timeScale = 1;
 		gameManager.isPaused = false;
@@ -177,7 +247,6 @@ public class LoadLevel : MonoBehaviour {
 
 	// Only use this within UnityAds to resume gameplay after ad finishes.
 	public void RestartLevelAfterAd(){
-		playerCanvas.AddLives(1);
 		Time.timeScale = 1;
 		gameManager.isPaused = false;
 		SceneManager.LoadScene(currentLevelName);
@@ -190,30 +259,61 @@ public class LoadLevel : MonoBehaviour {
 		int secondDigit = worldNumber - roundedValue;
 		// Move location is the building you selected.
 		moveLocation = GameObject.Find("HUD/WorldSelectScreen/WorldsScrollView/Viewport/WorldsSet").transform.GetChild((firstDigit * 3) - (4 - secondDigit)).transform.position;
-		moveDistance = (moveLocation.x - player.transform.position.x);
+		moveDistance = (moveLocation.x - playerLevel.transform.position.x);
 		worldLevelNumber = worldNumber;
 		isPlayerMoving = true;
 		// Makes player run to the right.
-		if (player.transform.position.x < moveLocation.x){
+		if (playerLevel.transform.position.x < moveLocation.x){
 			playerDirection = "right";
-			player.animator.SetBool("isRunning", true);
+			playerLevel.animator.SetBool("isRunning", true);
 			if (playerFacing.x < 0){
 				playerFacing.x *= -1;
-				player.transform.localScale = playerFacing;
+				playerLevel.transform.localScale = playerFacing;
 			}
 		}
 		// Makes player run to the left.
-		else if (player.transform.position.x > moveLocation.x){
+		else if (playerLevel.transform.position.x > moveLocation.x){
 			playerDirection = "left";
-			player.animator.SetBool("isRunning", true);
+			playerLevel.animator.SetBool("isRunning", true);
 			if (playerFacing.x > 0){
 				playerFacing.x *= -1;
-				player.transform.localScale = playerFacing;
+				playerLevel.transform.localScale = playerFacing;
 			}
 		}
 		else {
 			playerDirection = "none";
-			player.animator.SetBool("isRunning", false);
+			playerLevel.animator.SetBool("isRunning", false);
+		}
+	}
+
+	// Sets the location for the player to move to on the Main Menu.
+	public void SetPlayerMainMoveLocation(int objectNumber){
+		moveLocation = GameObject.Find("HUD/MainMenuScreen").transform.GetChild(objectNumber).transform.position;
+		moveDistance = (moveLocation.x - playerMain.transform.position.x);
+		houseObjectNumber = objectNumber;
+		isPlayerMainMoving = true;
+		// Makes player run to the right.
+		if (playerMain.transform.position.x < moveLocation.x){
+			playerMainDirection = "right";
+			playerMain.animator.SetBool("isRunning", true);
+			if (playerMainFacing.x < 0){
+				playerMainFacing.x *= -1;
+				playerMain.transform.localScale = playerMainFacing;
+			}
+		}
+		// Makes player run to the left.
+		else if (playerMain.transform.position.x > moveLocation.x){
+			playerMainDirection = "left";
+			playerMain.animator.SetBool("isRunning", true);
+			if (playerMainFacing.x > 0){
+				playerMainFacing.x *= -1;
+				playerMain.transform.localScale = playerMainFacing;
+			}
+		}
+		else {
+			playerMainDirection = "none";
+			playerMain.animator.SetBool("isRunning", false);
+			isPlayerMainReady = false;
 		}
 	}
 
@@ -229,6 +329,31 @@ public class LoadLevel : MonoBehaviour {
 		ShowPage(secondDigit);
 	}
 
+	public void ShowMainMenuObject(int objectNumber){
+		switch(objectNumber) {
+			// Background is in slot 0 so don't use this.
+			case 0:
+				break;
+
+			// Exit Door - World Select / Level Select
+            case 1:
+				playerMain.transform.position = startLocation.transform.position;
+                mainMenu.ShowWorldSelect();
+                break;
+			
+			// Cat Bed - Restore life/lives with cooldown.
+            case 2:
+			// Open window that asks if you want to nap or not
+			// Also displays upgrade.
+                mainMenu.catBed.ShowObjectWindow();
+                break;
+
+            default:
+                
+                break;
+        }
+	}
+
 	int RoundDown(int toRound)
 	{
 		return toRound - toRound % 10;
@@ -239,12 +364,6 @@ public class LoadLevel : MonoBehaviour {
 		devOptionsScreen.SetActive(true);
 	}
 
-	public void ShowWorldSelect(){
-		DisableAllScreens();
-		worldSelectScreen.SetActive(true);
-		player.Start();
-	}
-
 	public void ShowControls(){
 		DisableAllScreens();
 		controlsScreen.SetActive(true);
@@ -253,10 +372,11 @@ public class LoadLevel : MonoBehaviour {
 	public void BackButton(){
 		DisableAllScreens();
 		mainMenuScreen.SetActive(true);
+		mainMenu.CloseWindows();
 	}
 
 	// Use this before activating any screen.
-	private void DisableAllScreens(){
+	public void DisableAllScreens(){
 		levelSelectScreen.SetActive(false);
 		worldSelectScreen.SetActive(false);
 		controlsScreen.SetActive(false);
@@ -318,15 +438,12 @@ public class LoadLevel : MonoBehaviour {
 	}
 
 	private void SkipLevel(){
-		// Skips a level in World 1.
 		if (Int32.Parse(SceneManager.GetActiveScene().name) <= 44){
 			PlayerPrefs.SetInt("World1PlayerLevel", PlayerPrefs.GetInt("World1PlayerLevel") + 1);
 		}
-		// Skips a level in World 2.
 		else if (Int32.Parse(SceneManager.GetActiveScene().name) >= 46 && Int32.Parse(SceneManager.GetActiveScene().name) <= 89){
 			PlayerPrefs.SetInt("World2PlayerLevel", PlayerPrefs.GetInt("World2PlayerLevel") + 1);
 		}
-		// Skips a level in World 3.
 		else if (Int32.Parse(SceneManager.GetActiveScene().name) >= 91 && Int32.Parse(SceneManager.GetActiveScene().name) <= 134){
 			PlayerPrefs.SetInt("World3PlayerLevel", PlayerPrefs.GetInt("World3PlayerLevel") + 1);
 		}
@@ -346,32 +463,11 @@ public class LoadLevel : MonoBehaviour {
 		else if (levelManager.worlds[1].activeSelf){
 			levelManager.levelPages[pageNumber+2].SetActive(true);
 		}
-		
-		//levelManager.pageTracker.transform.GetChild(pageNumber-1).gameObject.SetActive(true);
 	}
-
-	// public void ShowNextPage(int pageNumber){
-	// 	HidePages();
-	// 	ShowPage(pageNumber);
-	// }
 
 	void HidePages(){
 		for (int i = 0; i < levelManager.levelPages.Length; i++){
 			levelManager.levelPages[i].SetActive(false);
-			// if (i < 3){
-			// 	levelManager.pageTracker.transform.GetChild(i).gameObject.SetActive(false);
-			// }
-		}
-	}
-
-	void InitPlayerCanvas() {
-		playerCanvasGO = GameObject.Find("PlayerCanvas");
-		if(playerCanvasGO == null) {
-			GameObject tmp = GameObject.Instantiate(playerCanvasPrefab);
-			tmp.name = "PlayerCanvas";
-			playerCanvas = tmp.GetComponent<PlayerCanvas>();
-		} else {
-			playerCanvas = playerCanvasGO.GetComponent<PlayerCanvas>();
 		}
 	}
 
@@ -390,5 +486,16 @@ public class LoadLevel : MonoBehaviour {
 		levelManager.levelPages[0].SetActive(true);
 		levelManager.levelPages[1].SetActive(false);
 		levelManager.levelPages[2].SetActive(false);
+	}
+
+	void InitPlayerCanvas() {
+		playerCanvasGO = GameObject.Find("PlayerCanvas");
+		if(playerCanvasGO == null) {
+			GameObject tmp = GameObject.Instantiate(playerCanvasPrefab);
+			tmp.name = "PlayerCanvas";
+			playerCanvas = tmp.GetComponent<PlayerCanvas>();
+		} else {
+			playerCanvas = playerCanvasGO.GetComponent<PlayerCanvas>();
+		}
 	}
 }
