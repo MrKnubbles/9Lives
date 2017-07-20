@@ -28,10 +28,9 @@ public class PlayerCanvas : MonoBehaviour {
     [SerializeField] int maxLives = 9;
     int lives;
     [SerializeField] Text livesText;
-    float currentLifeRegenTime = 1f;    // Time in hours.
-	float lifeRegenInterval = 1f;
+    float currentLifeRegenTime = 20f;
+	float lifeRegenInterval = 20f;
 	float lastLifeRegenTime;
-    int convertToHours = 3600;
 
     // Real time tracking stuff
     float timeSinceLastOpenedGame;
@@ -83,6 +82,10 @@ public class PlayerCanvas : MonoBehaviour {
 	}
 
 	void OnApplicationQuit() {
+        SaveAllPrefs();
+	}
+
+    public void SaveAllPrefs(){
 		PlayerPrefs.SetFloat("LastExitTime", (float)System.DateTime.Now.Second);
         PlayerPrefs.SetInt("isFirstStartup", 1);
         PlayerPrefs.SetFloat("PlayerHealth", health);
@@ -90,7 +93,7 @@ public class PlayerCanvas : MonoBehaviour {
         PlayerPrefs.SetFloat("NextLevel", nextLevelUpAmount);
         PlayerPrefs.SetInt("PlayerLevel", level);
         PlayerPrefs.SetFloat("XP", xp);
-	}
+    }
 
     public void Die() {
         health = 0;
@@ -108,6 +111,14 @@ public class PlayerCanvas : MonoBehaviour {
             PlayerPrefs.SetFloat("PlayerHealth", maxHealth);
         } else {
             health = PlayerPrefs.GetFloat("health");
+            // timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
+            // timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
+            // if(timeSinceLastOpenedGame > (healthRegenInterval * maxHealth)) {
+            //     health = maxHealth;
+            // } else {
+            //     // TODO: Calculate health
+            //     health = maxHealth;
+            // }
         }
         UpdateHealthBar();
     }
@@ -120,11 +131,11 @@ public class PlayerCanvas : MonoBehaviour {
             lives = PlayerPrefs.GetInt("PlayerLives");
             timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
             timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
-            if(timeSinceLastOpenedGame > ((lifeRegenInterval * convertToHours) * maxLives)) {
+            if(timeSinceLastOpenedGame > (lifeRegenInterval * maxLives)) {
                 lives = maxLives;
             } else {
                 // Calculate how many life regen intervals have passed as a single integer
-                int index = (int)(timeGameWasLastOpened / (lifeRegenInterval * convertToHours));
+                int index = (int)(timeGameWasLastOpened / lifeRegenInterval);
                 int extraLives = 0;
                 switch(index) {
                     case 0:
@@ -172,7 +183,7 @@ public class PlayerCanvas : MonoBehaviour {
                         break;
                     
                 }
-                AddLives(extraLives);
+                lives += extraLives;
                 if(lives > maxLives) {
                     lives = maxLives;
                 }
@@ -221,8 +232,8 @@ public class PlayerCanvas : MonoBehaviour {
 
     void UpdateLivesRegeneration() {
         if(lives < maxLives) {
-            if(currentLifeRegenTime * convertToHours > 0) {
-                currentLifeRegenTime -= Time.deltaTime / convertToHours;
+            if(currentLifeRegenTime > 0) {
+                currentLifeRegenTime -= Time.deltaTime;
             } else {
                 health = maxHealth;
                 lives += 1;
@@ -271,10 +282,18 @@ public class PlayerCanvas : MonoBehaviour {
 		expBar.GetComponent<Image>().fillAmount = currentFillAmount;
     }
 
-    // Adds experience to the player.
+    public void AddLives(int value){
+        lives += value;
+        if (lives > maxLives){
+            lives = maxLives;
+        }
+        PlayerPrefs.SetInt("PlayerLives", maxLives);
+        UpdateLivesText();
+    }
+
     public void AddXP(float value) {
         xp += value;
-        if (xp >= nextLevelUpAmount){
+        if(xp >= nextLevelUpAmount) {
             level++;
             xp -= nextLevelUpAmount;
             float newLevelUpAmount = (nextLevelUpAmount * 1.25f) + 20;
@@ -286,16 +305,6 @@ public class PlayerCanvas : MonoBehaviour {
         UpdateLevelText();
         UpdateXPText();
         UpdateXPBar();
-    }
-
-    // Adds lives to the player.
-    public void AddLives(int value){
-        lives += value;
-        if (lives > maxLives){
-            lives = maxLives;
-        }
-        health = maxHealth;
-        UpdateLivesText();
-        UpdateHealthBar();
+        //print("added " + value + " exp");
     }
 }
