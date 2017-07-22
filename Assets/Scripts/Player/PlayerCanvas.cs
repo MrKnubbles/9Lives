@@ -33,6 +33,7 @@ public class PlayerCanvas : MonoBehaviour {
 	float lastLifeRegenTime;
 
     // Real time tracking stuff
+    string debugMessage = "";
     float timeSinceLastOpenedGame;
     float timeGameWasLastOpened;
 
@@ -43,12 +44,8 @@ public class PlayerCanvas : MonoBehaviour {
 
     void Awake() {        
         DontDestroyOnLoad(this);
-        CheckFirstStartup(); 
-
-        InitHealth();   
-        InitLives();   
-        InitLevel();
-        InitXP();      
+        CheckFirstStartup();
+        Load();     
     }
 
 	void Start () {  
@@ -80,13 +77,10 @@ public class PlayerCanvas : MonoBehaviour {
         //float ddd = System.DateTime.Now.Second;
 		//Debug.Log(ddd);
 	}
-
-	void OnApplicationQuit() {
-        SaveAllPrefs();
-	}
-
-    public void SaveAllPrefs(){
-		PlayerPrefs.SetFloat("LastExitTime", (float)System.DateTime.Now.Second);
+    void Save() {
+        string dateTimeString = System.DateTime.UtcNow.ToString (System.Globalization.CultureInfo.InvariantCulture);
+        PlayerPrefs.SetString ("DateTime", dateTimeString);
+		PlayerPrefs.SetString("LastExitTime", new System.DateTime(1970, 1, 1, 8, 0, 0, System.DateTimeKind.Utc).ToString());
         PlayerPrefs.SetInt("isFirstStartup", 1);
         PlayerPrefs.SetFloat("PlayerHealth", health);
         PlayerPrefs.SetInt("PlayerLives", lives);
@@ -94,6 +88,30 @@ public class PlayerCanvas : MonoBehaviour {
         PlayerPrefs.SetInt("PlayerLevel", level);
         PlayerPrefs.SetFloat("XP", xp);
     }
+    
+    void Load() {
+        // Load time since game was last opened
+        System.DateTime dateTime;
+        bool didParse = System.DateTime.TryParse(PlayerPrefs.GetString ("DateTime"), System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dateTime);
+        if (didParse) {
+            System.DateTime now = System.DateTime.UtcNow;
+            System.TimeSpan timeSpan = now - dateTime;
+            timeSinceLastOpenedGame = (float)timeSpan.TotalSeconds;
+            debugMessage = string.Format("{0} seconds have passed since the last save.", timeSinceLastOpenedGame);
+            Debug.Log(debugMessage);
+        } else {
+            debugMessage = "Either the DateTime was invalid or there wasn't a saved time.";
+            Debug.Log(debugMessage);
+        }
+        InitHealth();   
+        InitLives();   
+        InitLevel();
+        InitXP();  
+    }
+
+	void OnApplicationQuit() {
+        Save();
+	}
 
     public void Die() {
         health = 0;
@@ -129,13 +147,11 @@ public class PlayerCanvas : MonoBehaviour {
             PlayerPrefs.SetInt("PlayerLives", maxLives);
         } else {
             lives = PlayerPrefs.GetInt("PlayerLives");
-            timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
-            timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
             if(timeSinceLastOpenedGame > (lifeRegenInterval * maxLives)) {
                 lives = maxLives;
             } else {
                 // Calculate how many life regen intervals have passed as a single integer
-                int index = (int)(timeGameWasLastOpened / lifeRegenInterval);
+                int index = (int)(timeSinceLastOpenedGame / lifeRegenInterval);
                 int extraLives = 0;
                 switch(index) {
                     case 0:
