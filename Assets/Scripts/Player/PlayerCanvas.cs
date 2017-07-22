@@ -70,12 +70,7 @@ public class PlayerCanvas : MonoBehaviour {
     }	
 
 	void Update () {
-        //UpdateHealthRegeneration();
         UpdateLivesRegeneration();
-        // float derp = TimeSinceLastHealthRegen(System.DateTime.Now.Second);
-		// Debug.Log(derp);
-        //float ddd = System.DateTime.Now.Second;
-		//Debug.Log(ddd);
 	}
     public void Save() {
         string dateTimeString = System.DateTime.UtcNow.ToString (System.Globalization.CultureInfo.InvariantCulture);
@@ -322,5 +317,14 @@ public class PlayerCanvas : MonoBehaviour {
         UpdateXPText();
         UpdateXPBar();
         //print("added " + value + " exp");
+    }
+    
+    public void AddLife(int value) {
+        if(lives < maxLives) {
+            lives += value;
+            health = maxHealth;
+        } else {
+            Debug.Log("Warning: Lives are already at maximum!!");
+        }
     }
 }
