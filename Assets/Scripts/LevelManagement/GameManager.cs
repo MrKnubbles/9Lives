@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour {
 		if (SceneManager.GetActiveScene() != SceneManager.GetSceneByName("Main")){
 			loadLevel = GameObject.Find("HUD").GetComponent<LoadLevel>();
 			loadLevel.PauseGame();
-			loadLevel.playerCanvas.SaveAllPrefs();
+			loadLevel.playerCanvas.Save();
 		}
 	}
 	public void PauseGame(){

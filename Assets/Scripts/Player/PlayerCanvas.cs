@@ -77,7 +77,7 @@ public class PlayerCanvas : MonoBehaviour {
         //float ddd = System.DateTime.Now.Second;
 		//Debug.Log(ddd);
 	}
-    void Save() {
+    public void Save() {
         string dateTimeString = System.DateTime.UtcNow.ToString (System.Globalization.CultureInfo.InvariantCulture);
         PlayerPrefs.SetString ("DateTime", dateTimeString);
 		PlayerPrefs.SetString("LastExitTime", new System.DateTime(1970, 1, 1, 8, 0, 0, System.DateTimeKind.Utc).ToString());
