@@ -295,6 +295,7 @@ public class PlayerCanvas : MonoBehaviour {
 
     public void AddLives(int value){
         lives += value;
+        health = maxHealth;
         if (lives > maxLives){
             lives = maxLives;
         }
