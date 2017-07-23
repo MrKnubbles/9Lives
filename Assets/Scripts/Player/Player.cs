@@ -37,6 +37,7 @@ public class Player : MonoBehaviour {
 	public GameObject bloodParticle;
 	public Door exitDoor;
 	public bool isDead = false;
+	public bool isHit = false;
 	public bool isJumping = false;
 	public bool isFalling = false;
 	public bool isSliding = false;
@@ -92,8 +93,9 @@ public class Player : MonoBehaviour {
 		audioManager = AudioManager.Instance;
 		gameManager.isGameStarted = true;
 		gameManager.isLevelComplete = false;
-		gameManager.isGameOver = false;
+		gameManager.isLevelOver = false;
 		animator.SetBool("isGameStarted", true);
+		SetGrounded();
 		gameManager.isLevelComplete = false;
 		exitDoor = GameObject.Find("ExitDoor/Door").GetComponent<Door>();
 		respawnPos = GameObject.Find("Respawn");
@@ -191,6 +193,9 @@ public class Player : MonoBehaviour {
 				Die();
 			// if you're not dead from the last hit then play some FX	
 			} else {	
+				isHit = true;
+				animator.SetBool("isHit", true);
+				animator.SetBool("isRunning", false);
 				SpawnBlood();
 				audioManager.PlayOnce(sfxDie);
 			}
@@ -269,7 +274,7 @@ public class Player : MonoBehaviour {
 		isActivatingSwitch = false;
 		int lives = playerCanvas.GetLives();
 		if (lives <= 0) {
-			gameManager.isGameOver = true;
+			gameManager.isLevelOver = true;
 		}
 	}
 
@@ -311,10 +316,11 @@ public class Player : MonoBehaviour {
 			isSliding = false;
 			isGrounded = true;
 			animator.SetBool("isJumping", false);
-			animator.SetBool("isFalling", false);
+			animator.SetBool("isHit", false);
 			animator.SetBool("isSliding", false);
 			animator.SetBool("isRunning", false);
 			animator.SetBool("isDead", false);
+			animator.SetBool("isFalling", false);
 			rb2d.velocity = new Vector2(0, 0);
 			GetComponent<CircleCollider2D>().enabled = true;
 			transform.position = respawnPos.transform.position;
@@ -356,6 +362,7 @@ public class Player : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D other){
 		if ((other.gameObject.tag == "Trap" || other.gameObject.tag == "TriggerTrap") && !isDead){
 			if(!isInvulnerable) {
+				isGrounded = false;				
 				TrapStats stats = other.gameObject.GetComponent<TrapStats>();
 				if(stats != null) {
 					float damage = stats.damage;
@@ -490,7 +497,9 @@ public class Player : MonoBehaviour {
 
 	public void SetGrounded(){
 		animator.SetBool("isJumping", false);
+		animator.SetBool("isHit", false);
 		animator.SetBool("isFalling", false);
+		isHit = false;
 		isGrounded = true;
 		isJumping = false;
 		isFalling = false;
@@ -506,12 +515,16 @@ public class Player : MonoBehaviour {
 		isFalling = true;
 	}
 
+	public void PrintEvent(string s) {
+        Debug.Log("PrintEvent: " + s + " called at: " + Time.time);
+    }
+
 	private void HandleHeads() {
-		if(isJumping && !isDead || isFalling && !isDead || isSliding && !isDead || hasDoubleJumped && !isDead) {
+		if(isJumping && !isDead && !isHit || isFalling && !isDead && !isHit || isSliding && !isDead && !isHit || hasDoubleJumped && !isDead && !isHit) {
 			headJump.SetActive(true);			
 			headDie.SetActive(false);
 			headIdle.SetActive(false);	
-		} else if(isDead) {		
+		} else if(isDead || isHit) {		
 			headDie.SetActive(true);
 			headJump.SetActive(false);	
 			headIdle.SetActive(false);	

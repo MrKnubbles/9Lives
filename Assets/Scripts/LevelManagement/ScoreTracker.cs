@@ -72,10 +72,10 @@ public class ScoreTracker : MonoBehaviour {
 	}
 
 	void Update () {
-		if (gameManager.isGameStarted && !gameManager.isGameOver && !gameManager.isLevelComplete){
+		if (gameManager.isGameStarted && !gameManager.isLevelOver && !gameManager.isLevelComplete){
 			if (time <= 0){
 				time = 0;
-				gameManager.isGameOver = true;
+				gameManager.isLevelOver = true;
 			}
 			else {
 				time -= Time.deltaTime;
@@ -98,14 +98,14 @@ public class ScoreTracker : MonoBehaviour {
 			player.GetPlayerCanvas().AddXP(coinScore);
 			LevelComplete();
 		}
-		else if (gameManager.isGameOver && !triggerOnce){
+		else if (gameManager.isLevelOver && !triggerOnce){
 			int coinScore = gameManager.tempCoinCounter * coinExpValue;
 			gameManager.tempCoinCounter = 0;
 			timeText.text = "" + GetTime();
-			livesText.text = "" + player.GetPlayerCanvas().GetLives();
+			levelLivesText.text = "" + player.GetPlayerCanvas().GetLives();
 			score = coinScore;
 			player.GetPlayerCanvas().AddXP(coinScore);
-			GameOver();
+			LevelOver();
 		}
 	}
 
@@ -175,7 +175,7 @@ public class ScoreTracker : MonoBehaviour {
 		triggerOnce = true;
 	}
 
-	void GameOver(){
+	void LevelOver(){
 		CheckIfLevelCanBeSkipped();
 		Time.timeScale = 0;
 		audioManager.StopSFX();

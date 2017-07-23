@@ -86,8 +86,9 @@ public class CatBed : MonoBehaviour {
 	}
 
 	public void SavePrefs(){
-		//TODO: THIS NEEDS TO REFERENCE A PROPER TIME
-		PlayerPrefs.SetFloat("LastExitTime", (float)System.DateTime.Now.Second); //HERE ARIN
+		string dateTimeString = System.DateTime.UtcNow.ToString (System.Globalization.CultureInfo.InvariantCulture);
+        PlayerPrefs.SetString ("DateTime", dateTimeString);
+		PlayerPrefs.SetString("LastExitTime", new System.DateTime(1970, 1, 1, 8, 0, 0, System.DateTimeKind.Utc).ToString());
 		PlayerPrefs.SetFloat("cbUpTimer", currentUpgradeTime);
         PlayerPrefs.SetFloat("cbCdTimer", currentCooldownTime);
 	}
@@ -231,9 +232,14 @@ public class CatBed : MonoBehaviour {
 	// Checks to see if the cooldown and upgrade timers
 	// have finished since the player's last exit.
 	void CheckTimers(){
-		// TODO: THIS NEEDS TO REFERENCE A PROPER TIME.
-		timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
-		timeSinceLastOpenedGame = System.DateTime.Now.Second /* HERE ARIN */ - timeGameWasLastOpened;
+		// Load time since game was last opened
+        System.DateTime dateTime;
+        bool didParse = System.DateTime.TryParse(PlayerPrefs.GetString("DateTime"), System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dateTime);
+        if (didParse) {
+            System.DateTime now = System.DateTime.UtcNow;
+            System.TimeSpan timeSpan = now - dateTime;
+            timeSinceLastOpenedGame = (float)timeSpan.TotalSeconds;
+        }
 
 		float tempUpgradeTime = PlayerPrefs.GetFloat("cbUpTimer");
 		currentUpgradeTime = tempUpgradeTime - timeSinceLastOpenedGame;
