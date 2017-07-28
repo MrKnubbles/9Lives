@@ -95,12 +95,18 @@ public class Fridge : MonoBehaviour {
 
 	// Opens the window for the Fridge.
 	public void ShowObjectWindow(){
-		// TODO: Slide window on to screen over 1 second.
+		// TODO: Slide window onto screen.
 		if (savedUpgradePower > 0){
 			objectDescription.text = "Have a snack, restoring " + (healthRestoreAmount + savedUpgradePower) + "% health.";
 		}
 		mainMenu.CloseWindows();
 		objectWindow.SetActive(true);
+	}
+
+	// Closes the window for the Fridge.
+	public void CloseObjectWindow(){
+		// TODO: Slide window off of screen.
+		objectWindow.SetActive(false);
 	}
 
 	// Uses the Fridge, which restores lives with a cooldown.

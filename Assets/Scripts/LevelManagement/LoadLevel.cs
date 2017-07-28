@@ -40,7 +40,6 @@ public class LoadLevel : MonoBehaviour {
 	public GameObject optionsMenuScreen;
 	public GameObject creditsScreen;
 	public GameObject devOptionsScreen;
-	public GameObject shopScreen;
 	// UI
 	public GameObject musicMuted;
 	public GameObject soundMuted;
@@ -355,6 +354,12 @@ public class LoadLevel : MonoBehaviour {
 				mainMenu.fridge.ShowObjectWindow();
 				break;
 
+			// Wardrobe - Player can change characters, equip hats and make purchases.
+			case 4:
+			// Open window that displays characters, equipment and other purchasable goods.
+				mainMenu.wardrobe.ShowObjectWindow();
+				break;
+
             default:
                 
                 break;
@@ -389,7 +394,6 @@ public class LoadLevel : MonoBehaviour {
 		controlsScreen.SetActive(false);
 		optionsMenuScreen.SetActive(false);
 		creditsScreen.SetActive(false);
-		shopScreen.SetActive(false);
 		devOptionsScreen.SetActive(false);
 		mainMenuScreen.SetActive(false);
 	}
@@ -421,12 +425,6 @@ public class LoadLevel : MonoBehaviour {
 	public void ShowOptions(){
 		DisableAllScreens();
 		optionsMenuScreen.SetActive(true);
-	}
-
-	public void ShowStore(){
-		DisableAllScreens();
-		shopScreen.SetActive(true);
-		shopScreen.GetComponent<Shop>().SetDefaultShopState();
 	}
 
 	public void ShowSkipLevel(){

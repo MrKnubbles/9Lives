@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour {
 	[SerializeField] GameObject confirmationWindow;
 	public CatBed catBed;
 	public Fridge fridge;
+	public Wardrobe wardrobe;
 	
 	// Closes the Main Menu and brings the player to the World / Level Select Screen.
 	public void ShowWorldSelect(){
@@ -25,9 +26,9 @@ public class MainMenu : MonoBehaviour {
 
 	// Closes all windows.
 	public void CloseWindows(){
-		// TODO: Slide window off of screen over 1 second.
-		catBed.objectWindow.SetActive(false);
-		fridge.objectWindow.SetActive(false);
+		catBed.CloseObjectWindow();
+		fridge.CloseObjectWindow();
+		wardrobe.CloseObjectWindow();
 	}
 
 	// Gets all upgrade ranks by retrieving PlayerPrefs.

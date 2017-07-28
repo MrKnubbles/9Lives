@@ -103,6 +103,12 @@ public class CatBed : MonoBehaviour {
 		objectWindow.SetActive(true);
 	}
 
+	// Closes the window for the Cat Bed.
+	public void CloseObjectWindow(){
+		// TODO: Slide window off of screen.
+		objectWindow.SetActive(false);
+	}
+
 	// Uses the Cat Bed, which restores lives with a cooldown.
 	public void UseObject(){
 		if (playerStats.GetLives() < 9){
