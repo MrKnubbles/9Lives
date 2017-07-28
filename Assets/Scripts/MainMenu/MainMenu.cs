@@ -10,6 +10,7 @@ public class MainMenu : MonoBehaviour {
 	public CatBed catBed;
 	public Fridge fridge;
 	public Wardrobe wardrobe;
+	public Bank bank;
 	
 	// Closes the Main Menu and brings the player to the World / Level Select Screen.
 	public void ShowWorldSelect(){
@@ -29,12 +30,14 @@ public class MainMenu : MonoBehaviour {
 		catBed.CloseObjectWindow();
 		fridge.CloseObjectWindow();
 		wardrobe.CloseObjectWindow();
+		bank.CloseObjectWindow();
 	}
 
 	// Gets all upgrade ranks by retrieving PlayerPrefs.
 	public void GetUpgradeRanks(){
 		catBed.GetPrefs();
 		fridge.GetPrefs();
+		bank.GetPrefs();
 	}
 
 	// Initializes the upgrade ranks for each object.
@@ -42,6 +45,7 @@ public class MainMenu : MonoBehaviour {
 	public void InitializeUpgradeRanks(){
 		catBed.SetPrefs();
 		fridge.SetPrefs();
+		bank.SetPrefs();
 	}
 
 	// Opens to Upgrade Confirmation window for a specific object.

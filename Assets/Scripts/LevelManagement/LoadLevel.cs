@@ -360,6 +360,12 @@ public class LoadLevel : MonoBehaviour {
 				mainMenu.wardrobe.ShowObjectWindow();
 				break;
 
+			// Bank - Generates gold over time.
+			case 5:
+			// Open window that allows you to claim generated gold.
+				mainMenu.bank.ShowObjectWindow();
+				break;
+
             default:
                 
                 break;
