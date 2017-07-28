@@ -99,6 +99,7 @@ public class CatBed : MonoBehaviour {
 		if (savedUpgradePower > 0){
 			objectDescription.text = "Take a cat nap, restoring " + (livesRestoreAmount + savedUpgradePower) + " lives.";
 		}
+		mainMenu.CloseWindows();
 		objectWindow.SetActive(true);
 	}
 
@@ -188,7 +189,7 @@ public class CatBed : MonoBehaviour {
 			}
 			else {
 				UpgradeObject();
-				PlayerPrefs.SetInt("cdIsUp", 0);
+				PlayerPrefs.SetInt("cbIsUp", 0);
 				currentUpgradeTime = savedUpgradeTime;
 				UpdateUpgradeText();
 			}

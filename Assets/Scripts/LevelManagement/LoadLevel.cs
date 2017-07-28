@@ -348,6 +348,13 @@ public class LoadLevel : MonoBehaviour {
                 mainMenu.catBed.ShowObjectWindow();
                 break;
 
+			// Fridge - Restore health with cooldown.
+			case 3:
+			// Open window that asks if you want to eat or not
+			// Also displays upgrade.
+				mainMenu.fridge.ShowObjectWindow();
+				break;
+
             default:
                 
                 break;
