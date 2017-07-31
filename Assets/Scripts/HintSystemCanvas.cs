@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 public enum ScreenPosition {
-		NONE,
-		TOP_LEFT,
-		TOP_RIGHT,
-		BOTTOM_RIGHT,
-		BOTTOM_LEFT,
-		MIDDLE
-	}
+	NONE,
+	TOP_LEFT,
+	TOP_RIGHT,
+	BOTTOM_RIGHT,
+	BOTTOM_LEFT,
+	MIDDLE
+}
 public class HintSystemCanvas : MonoBehaviour {	
 
 	public static HintSystemCanvas m_singleton = null;
-	[SerializeField] GameObject m_defaultHintWindow;	
+	[SerializeField] GameObject m_defaultHintWindow;
+	[SerializeField] GameObject m_highlightArrow;
 	
 	void Awake() {        
         DontDestroyOnLoad(this);
@@ -25,20 +26,21 @@ public class HintSystemCanvas : MonoBehaviour {
 		} else if(m_singleton != this) {
 			Destroy(gameObject);
 		}
-		string tmp = "Derp";
-		DisplayDefaultHint(tmp, ScreenPosition.BOTTOM_LEFT);
-		DisplayDefaultHint(tmp, ScreenPosition.TOP_LEFT);
-		DisplayDefaultHint(tmp, ScreenPosition.BOTTOM_RIGHT);
-		DisplayDefaultHint(tmp, ScreenPosition.TOP_RIGHT);
-		DisplayDefaultHint(tmp);
+		// TODO: Debug Only!!
+		// string tmp = "Derp";
+		// DisplayDefaultHint(tmp, ScreenPosition.BOTTOM_LEFT);
+		// DisplayDefaultHint(tmp, ScreenPosition.TOP_LEFT);
+		// DisplayDefaultHint(tmp, ScreenPosition.BOTTOM_RIGHT);
+		// DisplayDefaultHint(tmp, ScreenPosition.TOP_RIGHT);
+		// DisplayDefaultHint(tmp);
 	}
 
 	public void DisplayDefaultHint(string hintText, ScreenPosition screenPosition = ScreenPosition.MIDDLE, GameObject objectToHighlight = null) {
-		GameObject tmp = Instantiate(m_defaultHintWindow, this.transform);
-		RectTransform rectTransform = tmp.GetComponent<RectTransform>();
 
-		tmp.GetComponentInChildren<Text>().text = hintText;
-
+		// Display Hint Window with text
+		GameObject tmpWindow = Instantiate(m_defaultHintWindow, this.transform);
+		RectTransform rectTransform = tmpWindow.GetComponent<RectTransform>();
+		tmpWindow.GetComponentInChildren<Text>().text = hintText;
 		switch(screenPosition) {
 			case ScreenPosition.TOP_LEFT:
 				rectTransform.localPosition = new Vector2((rectTransform.rect.width / 2), -(rectTransform.rect.height / 2));
@@ -74,6 +76,15 @@ public class HintSystemCanvas : MonoBehaviour {
 				Debug.Log("Something went wrong. The position specified for the hint window is not valid in method DisplayDefaultHint in HintSystemCanvas.cs");
 				break;
 		}
-		Destroy(tmp, 5);
+		Destroy(tmpWindow, 5);
+
+		// Display arrow over the specified object if it is not null
+		if(objectToHighlight != null) {
+			float height = objectToHighlight.GetComponent<SpriteRenderer>().bounds.size.y;
+			Vector2 position = new Vector2(objectToHighlight.transform.position.x, (objectToHighlight.transform.position.y + height));
+			GameObject tmpArrow = Instantiate(m_highlightArrow);
+			tmpArrow.transform.position = position;
+			Destroy(tmpArrow, 5);
+		}
 	}
 }
