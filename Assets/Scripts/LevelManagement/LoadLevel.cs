@@ -34,12 +34,8 @@ public class LoadLevel : MonoBehaviour {
 	public GameObject worldSelectScreen;
 	public GameObject levelSelectScreen;
 	public GameObject[] levelScreens;
-	public GameObject controlsScreen;
 	public GameObject mainMenuScreen;
 	public GameObject pauseMenuScreen;
-	public GameObject optionsMenuScreen;
-	public GameObject creditsScreen;
-	public GameObject devOptionsScreen;
 	// UI
 	public GameObject musicMuted;
 	public GameObject soundMuted;
@@ -62,8 +58,8 @@ public class LoadLevel : MonoBehaviour {
 		HUD = GameObject.Find("HUD");
 		InitPlayerCanvas();
 		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main")){
-			musicMuted = HUD.transform.Find("OptionsScreen/MuteMusicButton/MusicMuted").gameObject;
-			soundMuted = HUD.transform.Find("OptionsScreen/MuteSoundButton/SoundMuted").gameObject;
+			musicMuted = HUD.transform.Find("OptionsWindow/MuteMusicButton/MusicMuted").gameObject;
+			soundMuted = HUD.transform.Find("OptionsWindow/MuteSoundButton/SoundMuted").gameObject;
 			playerMovement = playerLevel.transform.gameObject.GetComponent<MovePlayer>();
 			playerMovement.SetSpeed(speed);
 			playerMainMovement = playerMain.transform.gameObject.GetComponent<MovePlayer>();
@@ -91,7 +87,7 @@ public class LoadLevel : MonoBehaviour {
 
 	void Update(){
 		// If you are in the Main scene and the Options menu is open... show if music/sound is muted.
-		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main") && optionsMenuScreen.activeSelf){
+		if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("Main") && mainMenu.optionsWindow.activeSelf){
 			if (PlayerPrefs.GetInt("MusicMuted") == -1){
 				musicMuted.SetActive(true);
 			}
@@ -390,37 +386,6 @@ public class LoadLevel : MonoBehaviour {
 		return toRound - toRound % 10;
 	}
 
-	public void ShowDevOptions(){
-		DisableAllScreens();
-		devOptionsScreen.SetActive(true);
-	}
-
-	public void ShowControls(){
-		DisableAllScreens();
-		controlsScreen.SetActive(true);
-	}
-
-	public void BackButton(){
-		DisableAllScreens();
-		mainMenuScreen.SetActive(true);
-		mainMenu.CloseWindows();
-	}
-
-	// Use this before activating any screen.
-	public void DisableAllScreens(){
-		levelSelectScreen.SetActive(false);
-		worldSelectScreen.SetActive(false);
-		controlsScreen.SetActive(false);
-		optionsMenuScreen.SetActive(false);
-		creditsScreen.SetActive(false);
-		devOptionsScreen.SetActive(false);
-		mainMenuScreen.SetActive(false);
-	}
-
-	public void QuitGame(){
-		Application.Quit();
-	}
-
 	public void PauseGame(){
 		gameManager.PauseGame();
 		pauseMenuScreen.SetActive(true);
@@ -439,11 +404,6 @@ public class LoadLevel : MonoBehaviour {
 
 	public void MuteSound(){
 		audioManager.MuteSFX();
-	}
-
-	public void ShowOptions(){
-		DisableAllScreens();
-		optionsMenuScreen.SetActive(true);
 	}
 
 	public void ShowSkipLevel(){
@@ -473,11 +433,6 @@ public class LoadLevel : MonoBehaviour {
 		}
 		PlayerPrefs.SetInt("Skip", PlayerPrefs.GetInt("Skip") - 1);
 		LoadNextLevel();
-	}
-
-	public void ShowCredits(){
-		DisableAllScreens();
-		creditsScreen.SetActive(true);
 	}
 
 	public void ShowPage(int pageNumber){

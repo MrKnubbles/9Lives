@@ -14,6 +14,10 @@ public class MainMenu : MonoBehaviour {
 	public Bank bank;
 	public TV tv;
 	public Computer computer;
+	public GameObject controlsWindow;
+	public GameObject optionsWindow;
+	public GameObject creditsWindow;
+	public GameObject devOptionsWindow;
 	[SerializeField] private Shop shop;
 	
 	// Closes the Main Menu and brings the player to the World / Level Select Screen.
@@ -23,7 +27,7 @@ public class MainMenu : MonoBehaviour {
 		if (loadLevel.playerCanvas.GetLives() > 0){
 			loadLevel.playerMain.transform.position = loadLevel.startLocation.transform.position;
 			loadLevel.playerMain.transform.localScale = loadLevel.startLocation.transform.localScale;
-			loadLevel.DisableAllScreens();
+			DisableComputerWindows();
 			loadLevel.worldSelectScreen.SetActive(true);
 			loadLevel.playerLevel.Start();
 		}
@@ -31,6 +35,7 @@ public class MainMenu : MonoBehaviour {
 
 	// Closes all windows.
 	public void CloseWindows(){
+		DisableComputerWindows();
 		catBed.CloseObjectWindow();
 		fridge.CloseObjectWindow();
 		wardrobe.CloseObjectWindow();
@@ -45,6 +50,47 @@ public class MainMenu : MonoBehaviour {
 		fridge.GetPrefs();
 		bank.GetPrefs();
 		tv.GetPrefs();
+	}
+
+	// Use this before activating any screen.
+	public void DisableComputerWindows(){
+		controlsWindow.SetActive(false);
+		optionsWindow.SetActive(false);
+		creditsWindow.SetActive(false);
+		devOptionsWindow.SetActive(false);
+	}
+
+	// Opens ControlsWindow which displays game controls.
+	public void ShowControls(){
+		DisableComputerWindows();
+		controlsWindow.SetActive(true);
+	}
+
+	// Opens CreditsWindow which displays game credits.
+	public void ShowCredits(){
+		DisableComputerWindows();
+		creditsWindow.SetActive(true);
+	}
+
+	// Opens DevOptionsWindow which contains cheats.
+	public void ShowDevOptions(){
+		DisableComputerWindows();
+		devOptionsWindow.SetActive(true);
+	}
+
+	// Opens OptionsWindow which contains buttons to Mute Music and Mute Sound.
+	public void ShowOptions(){
+		DisableComputerWindows();
+		optionsWindow.SetActive(true);
+	}
+
+	public void QuitGame(){
+		Application.Quit();
+	}
+
+	// Attach this to the CloseButton on any windows within ComputerWindow.
+	public void BackButton(){
+		DisableComputerWindows();
 	}
 
 	// Initializes the upgrade ranks for each object.
