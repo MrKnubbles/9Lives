@@ -293,6 +293,7 @@ public class PlayerCanvas : MonoBehaviour {
 		expBar.GetComponent<Image>().fillAmount = currentFillAmount;
     }
 
+    // Add lives to the player.
     public void AddLives(int value){
         lives += value;
         health = maxHealth;
@@ -303,6 +304,7 @@ public class PlayerCanvas : MonoBehaviour {
         UpdateLivesText();
     }
 
+    // Add experience to the player.
     public void AddXP(float value) {
         xp += value;
         if(xp >= nextLevelUpAmount) {
@@ -320,12 +322,12 @@ public class PlayerCanvas : MonoBehaviour {
         //print("added " + value + " exp");
     }
     
-    public void AddLife(int value) {
-        if(lives < maxLives) {
-            lives += value;
+    // Add % of max health to the player.
+    public void AddPercentHealth(int value) {
+        float percentOfMaxHealth = maxHealth * (value * .01f);
+        health += percentOfMaxHealth;
+        if (health > maxHealth){
             health = maxHealth;
-        } else {
-            Debug.Log("Warning: Lives are already at maximum!!");
         }
     }
 }

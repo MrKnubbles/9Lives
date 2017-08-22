@@ -99,7 +99,14 @@ public class CatBed : MonoBehaviour {
 		if (savedUpgradePower > 0){
 			objectDescription.text = "Take a cat nap, restoring " + (livesRestoreAmount + savedUpgradePower) + " lives.";
 		}
+		mainMenu.CloseWindows();
 		objectWindow.SetActive(true);
+	}
+
+	// Closes the window for the Cat Bed.
+	public void CloseObjectWindow(){
+		// TODO: Slide window off of screen.
+		objectWindow.SetActive(false);
 	}
 
 	// Uses the Cat Bed, which restores lives with a cooldown.
@@ -116,10 +123,19 @@ public class CatBed : MonoBehaviour {
 
 	// Initiates the upgrade process
 	public void BeginUpgrade(){
-		// TODO: Check if the player has enough money to afford the upgrade.
-		upgradeLocked.SetActive(true);
-		PlayerPrefs.SetInt("cbIsUp", 1);
-		mainMenu.CloseConfirmationWindow();
+		// If player has enough money...
+		// Deduct cost from player and begin upgrading.
+		if (PlayerPrefs.GetInt("Coins") >= savedUpgradeCost){
+			int tempGold = PlayerPrefs.GetInt("Coins");
+			tempGold -= savedUpgradeCost;
+			PlayerPrefs.SetInt("Coins", tempGold);
+			upgradeLocked.SetActive(true);
+			PlayerPrefs.SetInt("cbIsUp", 1);
+			mainMenu.CloseConfirmationWindow();
+		}
+		else {
+			// TODO: Prompt Gold purchase in Shop.
+		}
 	}
 
 	// Upgrades the Cat Bed.
@@ -146,7 +162,6 @@ public class CatBed : MonoBehaviour {
 
 	// Ranks up the Cat Bed.
 	void RankUp(){
-		// TODO: Deduct cost from player money here.
 		PlayerPrefs.SetInt("cbIsUp", 0);
 		savedUpgradeRank += 1;
 		savedUpgradeSpeed += 1;
@@ -188,7 +203,7 @@ public class CatBed : MonoBehaviour {
 			}
 			else {
 				UpgradeObject();
-				PlayerPrefs.SetInt("cdIsUp", 0);
+				PlayerPrefs.SetInt("cbIsUp", 0);
 				currentUpgradeTime = savedUpgradeTime;
 				UpdateUpgradeText();
 			}
@@ -212,7 +227,7 @@ public class CatBed : MonoBehaviour {
 		}
 	}
 
-	// Unlocks to current object to be used again.
+	// Unlocks the Cat Bed to be used again.
 	void UnlockObject(){
 		cooldownLocked.SetActive(false);
 		ResetCooldownTimer();
