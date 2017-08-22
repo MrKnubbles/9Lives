@@ -13,6 +13,7 @@ public class MainMenu : MonoBehaviour {
 	public Wardrobe wardrobe;
 	public Bank bank;
 	public TV tv;
+	public Computer computer;
 	[SerializeField] private Shop shop;
 	
 	// Closes the Main Menu and brings the player to the World / Level Select Screen.
@@ -35,6 +36,7 @@ public class MainMenu : MonoBehaviour {
 		wardrobe.CloseObjectWindow();
 		bank.CloseObjectWindow();
 		tv.CloseObjectWindow();
+		computer.CloseObjectWindow();
 	}
 
 	// Gets all upgrade ranks by retrieving PlayerPrefs.

@@ -374,6 +374,12 @@ public class LoadLevel : MonoBehaviour {
 				mainMenu.tv.ShowObjectWindow();
 				break;
 
+			// Computer - Contains Options, Controls and Credits.
+			case 7:
+			// Open the Computer which contains buttons to open Options, Controls and Credits.
+				mainMenu.computer.ShowObjectWindow();
+				break;
+
             default:
                 break;
         }
