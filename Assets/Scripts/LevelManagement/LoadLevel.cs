@@ -363,11 +363,18 @@ public class LoadLevel : MonoBehaviour {
 			// Bank - Generates gold over time.
 			case 5:
 			// Open window that allows you to claim generated gold.
+			// Also displays upgrade.
 				mainMenu.bank.ShowObjectWindow();
 				break;
 
+			// TV - Watch Ads to get rewards.
+			case 6:
+			// Open window that allows you to watch ads for rewards.
+			// Also displays upgrade.
+				mainMenu.tv.ShowObjectWindow();
+				break;
+
             default:
-                
                 break;
         }
 	}

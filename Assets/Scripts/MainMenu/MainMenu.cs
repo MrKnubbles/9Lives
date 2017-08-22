@@ -7,10 +7,13 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour {
 	public LoadLevel loadLevel;
 	[SerializeField] GameObject confirmationWindow;
+	[SerializeField] GameObject adConfirmationWindow;
 	public CatBed catBed;
 	public Fridge fridge;
 	public Wardrobe wardrobe;
 	public Bank bank;
+	public TV tv;
+	[SerializeField] private Shop shop;
 	
 	// Closes the Main Menu and brings the player to the World / Level Select Screen.
 	public void ShowWorldSelect(){
@@ -31,6 +34,7 @@ public class MainMenu : MonoBehaviour {
 		fridge.CloseObjectWindow();
 		wardrobe.CloseObjectWindow();
 		bank.CloseObjectWindow();
+		tv.CloseObjectWindow();
 	}
 
 	// Gets all upgrade ranks by retrieving PlayerPrefs.
@@ -38,6 +42,7 @@ public class MainMenu : MonoBehaviour {
 		catBed.GetPrefs();
 		fridge.GetPrefs();
 		bank.GetPrefs();
+		tv.GetPrefs();
 	}
 
 	// Initializes the upgrade ranks for each object.
@@ -46,6 +51,7 @@ public class MainMenu : MonoBehaviour {
 		catBed.SetPrefs();
 		fridge.SetPrefs();
 		bank.SetPrefs();
+		tv.SetPrefs();
 	}
 
 	// Opens to Upgrade Confirmation window for a specific object.
@@ -61,5 +67,17 @@ public class MainMenu : MonoBehaviour {
 			confirmationWindow.transform.GetChild(i).gameObject.SetActive(false);
 		}
 		confirmationWindow.SetActive(false);
+	}
+
+	public void PromptAdConfirmation(){
+		adConfirmationWindow.SetActive(true);
+	}
+
+	public void CloseWatchAdWindow(){
+		adConfirmationWindow.SetActive(false);
+	}
+
+	public void UpdateCurrencies(){
+		shop.UpdateCurrencies();
 	}
 }

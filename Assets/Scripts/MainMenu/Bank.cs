@@ -120,15 +120,25 @@ public class Bank : MonoBehaviour {
 		PlayerPrefs.SetInt("Coins", PlayerPrefs.GetInt("Coins") + savedGoldGenerated);
 		savedGoldGenerated = 0;
 		PlayerPrefs.SetInt("bGoldGen", savedGoldGenerated);
+		mainMenu.UpdateCurrencies();
 		UpdateDescription();
 	}
 
 	// Initiates the upgrade process
 	public void BeginUpgrade(){
-		// TODO: Check if the player has enough money to afford the upgrade.
-		upgradeLocked.SetActive(true);
-		PlayerPrefs.SetInt("bIsUp", 1);
-		mainMenu.CloseConfirmationWindow();
+		// If player has enough money...
+		// Deduct cost from player and begin upgrading.
+		if (PlayerPrefs.GetInt("Coins") >= savedUpgradeCost){
+			int tempGold = PlayerPrefs.GetInt("Coins");
+			tempGold -= savedUpgradeCost;
+			PlayerPrefs.SetInt("Coins", tempGold);
+			upgradeLocked.SetActive(true);
+			PlayerPrefs.SetInt("bIsUp", 1);
+			mainMenu.CloseConfirmationWindow();
+		}
+		else {
+			// TODO: Prompt Gold purchase in Shop.
+		}
 	}
 
 	// Upgrades the Bank.
@@ -155,7 +165,6 @@ public class Bank : MonoBehaviour {
 
 	// Ranks up the Bank.
 	void RankUp(){
-		// TODO: Deduct cost from player money here.
 		PlayerPrefs.SetInt("bIsUp", 0);
 		savedUpgradeRank += 1;
 		savedUpgradeCap += 1;
@@ -221,7 +230,7 @@ public class Bank : MonoBehaviour {
 		}
 	}
 
-	// Unlocks to current object to be used again.
+	// Unlocks the Bank to be used again.
 	void UnlockObject(){
 		cooldownLocked.SetActive(false);
 	}
@@ -248,12 +257,15 @@ public class Bank : MonoBehaviour {
 		}
 		if (timeSinceLastOpenedGame > (goldRegenTimer * (maxGold / goldRegenAmount))){
 			savedGoldGenerated = maxGold;
+			PlayerPrefs.SetInt("bGoldGen", savedGoldGenerated);
+			UpdateDescription();
 		}
 		else {
 			// Calculate how many gold regen intervals have passed as a single integer
-			int index = (int)(timeSinceLastOpenedGame / (goldRegenTimer * (maxGold / goldRegenAmount)));
+			int index = (int)(timeSinceLastOpenedGame / goldRegenTimer);
 			savedGoldGenerated = index *= goldRegenAmount;
 			PlayerPrefs.SetInt("bGoldGen", savedGoldGenerated);
+			UpdateDescription();
 		}
 	}
 

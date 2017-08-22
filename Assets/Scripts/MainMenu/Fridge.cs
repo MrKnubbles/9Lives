@@ -123,10 +123,19 @@ public class Fridge : MonoBehaviour {
 
 	// Initiates the upgrade process
 	public void BeginUpgrade(){
-		// TODO: Check if the player has enough money to afford the upgrade.
-		upgradeLocked.SetActive(true);
-		PlayerPrefs.SetInt("fIsUp", 1);
-		mainMenu.CloseConfirmationWindow();
+		// If player has enough money...
+		// Deduct cost from player and begin upgrading.
+		if (PlayerPrefs.GetInt("Coins") >= savedUpgradeCost){
+			int tempGold = PlayerPrefs.GetInt("Coins");
+			tempGold -= savedUpgradeCost;
+			PlayerPrefs.SetInt("Coins", tempGold);
+			upgradeLocked.SetActive(true);
+			PlayerPrefs.SetInt("fIsUp", 1);
+			mainMenu.CloseConfirmationWindow();
+		}
+		else {
+			// TODO: Prompt Gold purchase in Shop.
+		}
 	}
 
 	// Upgrades the Fridge.
@@ -153,7 +162,6 @@ public class Fridge : MonoBehaviour {
 
 	// Ranks up the Fridge.
 	void RankUp(){
-		// TODO: Deduct cost from player money here.
 		PlayerPrefs.SetInt("fIsUp", 0);
 		savedUpgradeRank += 1;
 		savedUpgradeSpeed += 1;
@@ -219,7 +227,7 @@ public class Fridge : MonoBehaviour {
 		}
 	}
 
-	// Unlocks to current object to be used again.
+	// Unlocks the Fridge to be used again.
 	void UnlockObject(){
 		cooldownLocked.SetActive(false);
 		ResetCooldownTimer();
