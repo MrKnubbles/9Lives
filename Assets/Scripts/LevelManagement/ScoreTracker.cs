@@ -67,41 +67,50 @@ public class ScoreTracker : MonoBehaviour {
 		
 		levelNumberText.text = worldNumber + " - " + levelNumber;
 		audioManager = AudioManager.Instance;
-		time = maxTime;
+		time = 0;
 		triggerOnce = false;
 	}
 
 	void Update () {
+		// if player is alive and has not completed the level
 		if (gameManager.isGameStarted && !gameManager.isLevelOver && !gameManager.isLevelComplete){
-			if (time <= 0){
-				time = 0;
-				gameManager.isLevelOver = true;
-			}
-			else {
-				time -= Time.deltaTime;
-			}
-			if (time >= 0){
+			if(time <= maxTime) {
+				time += Time.deltaTime;
 				timeText.text = "" + GetTime();
 				//TODO: Update score in live time to display on the score bar.
 				// scoreText.text = "" + GetScore();
+			} else {
+				timeText.text = "∞";
+				time = maxTime + 1;
 			}
 		}
+		// if player completes the level
 		else if (gameManager.isLevelComplete && !triggerOnce){
 			int coinScore = gameManager.tempCoinCounter * coinExpValue;
 			gameManager.coinCounter += gameManager.tempCoinCounter;
 			gameManager.tempCoinCounter = 0;
 			int tempPlayerCoins = PlayerPrefs.GetInt("Coins");
 			PlayerPrefs.SetInt("Coins", tempPlayerCoins += gameManager.coinCounter);
-			timeText.text = "" + GetTime();
+			if(time <= maxTime) {
+				timeText.text = "" + GetTime();
+				score = Mathf.Round((((maxTime - GetTime()) / maxTime) * 1500) - ((player.damageTaken / player.GetPlayerCanvas().GetMaxHealth()) * 100)) + (coinScore * 10);
+			} else {
+				timeText.text = "∞";
+				score = Mathf.Round(((1 / maxTime) * 1500) - ((player.damageTaken / player.GetPlayerCanvas().GetMaxHealth()) * 100)) + (coinScore * 10);
+			}
 			levelLivesText.text = "" + player.GetPlayerCanvas().GetLives();
-			score = Mathf.Round(((GetTime() / maxTime) * 1500) - ((player.damageTaken / player.GetPlayerCanvas().GetMaxHealth()) * 100)) + (coinScore * 10);
 			player.GetPlayerCanvas().AddXP(coinScore);
 			LevelComplete();
 		}
+		// if player dies
 		else if (gameManager.isLevelOver && !triggerOnce){
 			int coinScore = gameManager.tempCoinCounter * coinExpValue;
 			gameManager.tempCoinCounter = 0;
-			timeText.text = "" + GetTime();
+			if(time <= maxTime) {
+				timeText.text = "" + GetTime();
+			} else {
+				timeText.text = "∞";
+			}
 			levelLivesText.text = "" + player.GetPlayerCanvas().GetLives();
 			score = coinScore;
 			player.GetPlayerCanvas().AddXP(coinScore);

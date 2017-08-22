@@ -4375,6 +4375,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 82914452409821460, guid: a2165af4b36dece4e8d09a9dd3b111a0,
+        type: 2}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a2165af4b36dece4e8d09a9dd3b111a0, type: 2}
   m_IsPrefabParent: 0
@@ -11690,7 +11695,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameOverScreen: {fileID: 1665593515}
   isPaused: 0
-  isGameOver: 0
+  isLevelOver: 0
   isGameStarted: 0
   isLevelComplete: 0
   loadLevel: {fileID: 0}
@@ -13821,7 +13826,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca52362f768f94740a79c5d45e533b46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
+  playerMain: {fileID: 0}
+  playerCanvas: {fileID: 0}
+  playerCanvasGO: {fileID: 0}
+  playerCanvasPrefab: {fileID: 0}
+  startLocation: {fileID: 0}
+  isPlayerMainReady: 1
+  playerLevel: {fileID: 0}
+  HUD: {fileID: 1944350189}
   worldSelectScreen: {fileID: 0}
   levelSelectScreen: {fileID: 0}
   levelScreens: []
@@ -13835,14 +13847,14 @@ MonoBehaviour:
   musicMuted: {fileID: 1782446499}
   soundMuted: {fileID: 1259218441}
   pauseButton: {fileID: 1935147903}
+  scoreTracker: {fileID: 0}
+  mainMenu: {fileID: 0}
   gameManager: {fileID: 0}
   levelManager: {fileID: 0}
-  HUD: {fileID: 1944350189}
   currentLevel: 0
   currentLevelName: 
   nextLevelName: 
   unityAds: {fileID: 1944350192}
-  scoreTracker: {fileID: 0}
 --- !u!114 &1944350192
 MonoBehaviour:
   m_ObjectHideFlags: 0
