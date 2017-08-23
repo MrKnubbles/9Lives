@@ -122,6 +122,7 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	public void CloseWatchAdWindow(){
+		tv.CloseRewardWindows();
 		adConfirmationWindow.SetActive(false);
 	}
 

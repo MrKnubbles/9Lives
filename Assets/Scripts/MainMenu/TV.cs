@@ -13,6 +13,9 @@ public class TV : MonoBehaviour {
 	[SerializeField] Text objectDescription;
 	private float convertToHours = 3600f;
 	private int maxRank = 3;
+	// Reward
+	[SerializeField] private GameObject rewardWindow;
+	[SerializeField] private GameObject noRewardWindow;
 	// Cooldown
 	[SerializeField] GameObject cooldownLocked;
 	[SerializeField] Image cooldownBar;
@@ -38,7 +41,7 @@ public class TV : MonoBehaviour {
 	public float savedUpgradeTime = 7200; // 2 hours * 3600 = converted to seconds
     // Real time tracking stuff
     float timeSinceLastOpenedGame;
-    float timeGameWasLastOpened;
+
 
 	void Awake(){
 		playerStats = GameObject.Find("PlayerCanvas").GetComponent<PlayerCanvas>();
@@ -112,6 +115,11 @@ public class TV : MonoBehaviour {
 		objectWindow.SetActive(false);
 	}
 
+	public void CloseRewardWindows(){
+		rewardWindow.SetActive(false);
+		noRewardWindow.SetActive(false);
+	}
+
 	// Uses the TV, which prompts the user to watch an Ad for a reward.
 	public void UseObject(){
 		mainMenu.PromptAdConfirmation();
@@ -134,12 +142,18 @@ public class TV : MonoBehaviour {
 			tempGems += (savedUpgradeSpeed - 3);
 			PlayerPrefs.SetInt("Gems", tempGems);
 		}
+		mainMenu.UpdateCurrencies();
+		mainMenu.CloseWatchAdWindow();
+		CloseRewardWindows();
+		rewardWindow.SetActive(true);
+		// TODO: Grant bonus Gold for watching multiple times in a row.
 	}
 
 	// Grants no reward since the player skipped the Ad or it failed to load.
 	public void NoRewardForAd(){
-		// TODO: Prompt a window saying the Ad failed to play.
-		print("Ad cancelled or failed to load.");
+		mainMenu.CloseWatchAdWindow();
+		CloseRewardWindows();
+		noRewardWindow.SetActive(true);
 	}
 
 	// Initiates the upgrade process
