@@ -57,6 +57,8 @@ public class TV : MonoBehaviour {
 		if (PlayerPrefs.GetInt("tvIsOnCd") == 1){
 			cooldownLocked.SetActive(true);
 		}
+		UpdateCostText();
+		UpdateRankBar();
 	}
 
 	void Update(){
@@ -78,7 +80,7 @@ public class TV : MonoBehaviour {
 	}
 
 	public void SetPrefs(){
-		PlayerPrefs.SetInt("tvUpCost", 0);
+		PlayerPrefs.SetInt("tvUpCost", 500);
 		PlayerPrefs.SetInt("tvLevel", 1);
 		PlayerPrefs.SetInt("tvUpPow", 0);
 		PlayerPrefs.SetInt("tvUpRank", 0);

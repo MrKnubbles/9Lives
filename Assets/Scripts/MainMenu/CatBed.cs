@@ -13,6 +13,7 @@ public class CatBed : MonoBehaviour {
 	private float convertToHours = 3600f;
 	private int livesRestoreAmount = 1;
 	private int maxRank = 3;
+	private float currentBoostDuration;
 	// Cooldown
 	[SerializeField] GameObject cooldownLocked;
 	[SerializeField] Image cooldownBar;
@@ -34,7 +35,7 @@ public class CatBed : MonoBehaviour {
 	public int savedUpgradeLevel = 1;
 	public int savedUpgradePower = 0;
 	public int savedUpgradeRank = 0;
-	public int savedUpgradeSpeed = 0;
+	public int savedUpgradeDuration = 0;
 	public float savedUpgradeTime = 7200; // 2 hours * 3600 = converted to seconds
     // Real time tracking stuff
     float timeSinceLastOpenedGame;
@@ -54,6 +55,8 @@ public class CatBed : MonoBehaviour {
 		if (PlayerPrefs.GetInt("cbIsOnCd") == 1){
 			cooldownLocked.SetActive(true);
 		}
+		UpdateCostText();
+		UpdateRankBar();
 	}
 
 	void Update(){
@@ -70,12 +73,12 @@ public class CatBed : MonoBehaviour {
 		savedUpgradeLevel = PlayerPrefs.GetInt("cbLevel");
 		savedUpgradePower = PlayerPrefs.GetInt("cbUpPow");
 		savedUpgradeRank = PlayerPrefs.GetInt("cbUpRank");
-		savedUpgradeSpeed = PlayerPrefs.GetInt("cbUpSpd");
+		savedUpgradeDuration = PlayerPrefs.GetInt("cbUpDur");
 		savedUpgradeTime = PlayerPrefs.GetFloat("cbUpTime");
 	}
 
 	public void SetPrefs(){
-		PlayerPrefs.SetInt("cbUpCost", 0);
+		PlayerPrefs.SetInt("cbUpCost", 200);
 		PlayerPrefs.SetInt("cbLevel", 1);
 		PlayerPrefs.SetInt("cbUpPow", 0);
 		PlayerPrefs.SetInt("cbUpRank", 0);
@@ -91,14 +94,13 @@ public class CatBed : MonoBehaviour {
 		PlayerPrefs.SetString("LastExitTime", new System.DateTime(1970, 1, 1, 8, 0, 0, System.DateTimeKind.Utc).ToString());
 		PlayerPrefs.SetFloat("cbUpTimer", currentUpgradeTime);
         PlayerPrefs.SetFloat("cbCdTimer", currentCooldownTime);
+		PlayerPrefs.SetFloat("ExpDuration", currentBoostDuration);
 	}
 
 	// Opens the window for the Cat Bed.
 	public void ShowObjectWindow(){
 		// TODO: Slide window on to screen over 1 second.
-		if (savedUpgradePower > 0){
-			objectDescription.text = "Take a cat nap, restoring " + (livesRestoreAmount + savedUpgradePower) + " lives.";
-		}
+		objectDescription.text = "Take a cat nap, granting " + (20 + (10 * savedUpgradePower)) + "% bonus experience for " + (6 + (1 * savedUpgradeDuration)) + " minutes.";
 		mainMenu.CloseWindows();
 		objectWindow.SetActive(true);
 	}
@@ -109,16 +111,12 @@ public class CatBed : MonoBehaviour {
 		objectWindow.SetActive(false);
 	}
 
-	// Uses the Cat Bed, which restores lives with a cooldown.
+	// Uses the Cat Bed, which grants bonus exp for a short duration.
 	public void UseObject(){
-		if (playerStats.GetLives() < 9){
-			playerStats.AddLives(1 + savedUpgradePower);
-			cooldownLocked.SetActive(true);
-			PlayerPrefs.SetInt("cbIsOnCd", 1);
-		}
-		else{
-			// TODO: Prompt the player that their lives are full.
-		}
+		PlayerPrefs.SetInt("ExpBoost", 20 + (10 * savedUpgradePower));
+		PlayerPrefs.SetFloat("ExpDuration", 6 + (1 * savedUpgradeDuration));
+		cooldownLocked.SetActive(true);
+		PlayerPrefs.SetInt("cbIsOnCd", 1);
 	}
 
 	// Initiates the upgrade process
@@ -164,9 +162,9 @@ public class CatBed : MonoBehaviour {
 	void RankUp(){
 		PlayerPrefs.SetInt("cbIsUp", 0);
 		savedUpgradeRank += 1;
-		savedUpgradeSpeed += 1;
+		savedUpgradeDuration += 1;
 		PlayerPrefs.SetInt("cbUpRank", savedUpgradeRank);
-		PlayerPrefs.SetInt("cbUpSpd", savedUpgradeSpeed);
+		PlayerPrefs.SetInt("cbUpDur", savedUpgradeDuration);
 		if (savedUpgradeRank <= 3){
 			IncreaseCost(200);
 			IncreaseTime(1);
@@ -177,6 +175,7 @@ public class CatBed : MonoBehaviour {
 		}
 		UpdateRankBar();
 		UpdateCostText();
+		GetPrefs();
 	}
 
 	// Levels up the Cat Bed once it reaches max Rank.
@@ -192,6 +191,7 @@ public class CatBed : MonoBehaviour {
 		IncreaseTime(1);
 		UpdateRankBar();
 		UpdateCostText();
+		GetPrefs();
 	}
 
 	// Countdown timer to upgrade Rank of object.
@@ -223,6 +223,21 @@ public class CatBed : MonoBehaviour {
 				PlayerPrefs.SetInt("cbIsOnCd", 0);
 				currentCooldownTime = objectCooldown;
 				UpdateCooldownText();
+			}
+		}
+	}
+
+	// Timer for duration of exp boost.
+	void ExpBoostCountdown(){
+		if (PlayerPrefs.GetFloat("ExpDuration") > 0){
+			if (currentBoostDuration > 0){
+				currentBoostDuration -= Time.deltaTime;
+				//UpdateDurationText();
+			}
+			else {
+				PlayerPrefs.SetFloat("ExpDuration", 0);
+				currentBoostDuration = 0;
+				//UpdateDurationText();
 			}
 		}
 	}
@@ -260,6 +275,8 @@ public class CatBed : MonoBehaviour {
 		currentUpgradeTime = tempUpgradeTime - timeSinceLastOpenedGame;
 		float tempCooldownTime = PlayerPrefs.GetFloat("cbCdTimer");
 		currentCooldownTime = tempCooldownTime - timeSinceLastOpenedGame;
+		float tempDurationTime = PlayerPrefs.GetFloat("ExpDuration");
+		currentBoostDuration = tempDurationTime - timeSinceLastOpenedGame;
 		// If there is still time remaining on upgrade, set it to "is upgrading"
 		if (currentUpgradeTime > 0){
 			PlayerPrefs.SetInt("cbIsUp", 1);

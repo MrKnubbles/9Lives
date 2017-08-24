@@ -54,6 +54,8 @@ public class Fridge : MonoBehaviour {
 		if (PlayerPrefs.GetInt("fIsOnCd") == 1){
 			cooldownLocked.SetActive(true);
 		}
+		UpdateCostText();
+		UpdateRankBar();
 	}
 
 	void Update(){
@@ -96,7 +98,7 @@ public class Fridge : MonoBehaviour {
 	// Opens the window for the Fridge.
 	public void ShowObjectWindow(){
 		// TODO: Slide window onto screen.
-		if (savedUpgradePower < 6){
+		if (savedUpgradePower > 6){
 			objectDescription.text = "Have a snack, restoring " + (savedUpgradePower - 5) + " lives.";
 		}
 		else {
@@ -114,9 +116,9 @@ public class Fridge : MonoBehaviour {
 
 	// Uses the Fridge, which restores health or lives (based on level) with a cooldown.
 	public void UseObject(){
-		if (savedUpgradePower < 6){
+		if (savedUpgradePower <= 6){
 			if (playerStats.GetHealth() < playerStats.GetMaxHealth()){
-				playerStats.AddPercentHealth(50 + (5 * savedUpgradePower));
+				playerStats.AddPercentHealth(25 + (15 * savedUpgradePower));
 				cooldownLocked.SetActive(true);
 				PlayerPrefs.SetInt("fIsOnCd", 1);
 			}

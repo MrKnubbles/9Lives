@@ -306,11 +306,18 @@ public class PlayerCanvas : MonoBehaviour {
 
     // Add experience to the player.
     public void AddXP(float value) {
-        xp += value;
+        // If the player has an exp boost active, grant bonus exp.
+        if (PlayerPrefs.GetFloat("ExpDuration") > 0){
+            int expBoost = PlayerPrefs.GetInt("ExpBoost");
+            xp += value + (value * expBoost * .01f);
+        }
+        else {
+            xp += value;
+        }
         if(xp >= nextLevelUpAmount) {
             level++;
             xp -= nextLevelUpAmount;
-            float newLevelUpAmount = (nextLevelUpAmount * 1.25f) + 20;
+            float newLevelUpAmount = (nextLevelUpAmount * 1.5f) + 10;
             nextLevelUpAmount = newLevelUpAmount;
             PlayerPrefs.SetFloat("NextLevel", nextLevelUpAmount);
         }
