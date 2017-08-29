@@ -24,6 +24,8 @@ public class MainMenu : MonoBehaviour {
 	public void ShowWorldSelect(){
 		catBed.SavePrefs();
 		fridge.SavePrefs();
+		bank.SavePrefs();
+		tv.SavePrefs();
 		if (loadLevel.playerCanvas.GetLives() > 0){
 			loadLevel.playerMain.transform.position = loadLevel.startLocation.transform.position;
 			loadLevel.playerMain.transform.localScale = loadLevel.startLocation.transform.localScale;
@@ -91,6 +93,13 @@ public class MainMenu : MonoBehaviour {
 	// Attach this to the CloseButton on any windows within ComputerWindow.
 	public void BackButton(){
 		DisableComputerWindows();
+	}
+
+	// Loads the MainMenu from the WorldSelectScreen.
+	public void HomeButton(){
+		CloseWindows();
+		DisableComputerWindows();
+		loadLevel.worldSelectScreen.SetActive(false);
 	}
 
 	// Initializes the upgrade ranks for each object.

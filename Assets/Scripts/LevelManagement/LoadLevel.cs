@@ -319,7 +319,6 @@ public class LoadLevel : MonoBehaviour {
 		HideWorlds();
 		levelSelectScreen.SetActive(true);
 		levelScreens[worldNumber - (roundedValue + secondDigit) - 1 + (1 * firstDigit)].SetActive(true);
-		mainMenuScreen.SetActive(false);
 		HidePages();
 		ShowPage(secondDigit);
 	}
