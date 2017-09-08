@@ -16,11 +16,19 @@ public class LoadLevel : MonoBehaviour {
 	public GameObject startLocation;
 	public bool isPlayerMainReady = true;
 	private bool isPlayerMainMoving = false;
+	private bool atStairsBottom = false;
+	private bool atStairsTop = false;
 	private string playerMainDirection;
 	private int worldLevelNumber;
-	private float distance = 188f;
 	private float moveDistance;
+	private float stairsMoveDistance;
+	private float stairsDistanceX;
+	private float stairsDistanceY;
 	private float speed = 10f;
+	private int currentFloor = 1;
+	private int targetFloor;
+	[SerializeField] private GameObject stairsBottom;
+	[SerializeField] private GameObject stairsTop;
 	// Objects required for the Player on the World Select / Level Select
 	public PlayerMain playerLevel;
 	private MovePlayer playerMovement;
@@ -159,41 +167,129 @@ public class LoadLevel : MonoBehaviour {
 			// Controls player movement on the Main Menu.
 			// Lets the player move one location at a time.
 			else if (mainMenuScreen.activeSelf){
-				if (playerMainDirection == "right"){
-					if (playerMain.transform.position.x < moveLocation.x && isPlayerMainMoving && !playerMainMovement.isObjectMoving()){
+				// If move location is on the same floor as the Player, move to location.
+				if (targetFloor == currentFloor){
+					if (isPlayerMainMoving && !playerMainMovement.isObjectMoving()){
+						if (playerMain.transform.position.x < moveLocation.x){
+							PlayerMainFaceRight();
+						}
+						else {
+							PlayerMainFaceLeft();
+						}
 						playerMainMovement.SetDistanceX(moveDistance);
 						playerMainMovement.Move();
 						isPlayerMainMoving = false;
 						isPlayerMainReady = true;
 					}
+					// If Player has reached target location, stop running and open window.
 					else if (!playerMainMovement.isObjectMoving() && playerMainMovement.isDoneMoving() && isPlayerMainReady){
 						ShowMainMenuObject(houseObjectNumber);
 						playerMain.animator.SetBool("isRunning", false);
 						isPlayerMainReady = false;
 					}
 				}
-				else if (playerMainDirection == "left"){
-					if (playerMain.transform.position.x > moveLocation.x && isPlayerMainMoving && !playerMainMovement.isObjectMoving()){
+				// If Player is on the bottom floor, run to bottom of stairs.
+				else if (targetFloor > currentFloor) {
+					if (isPlayerMainMoving && !playerMainMovement.isObjectMoving()){
+						if (playerMain.transform.position.x < stairsBottom.transform.position.x){
+							PlayerMainFaceRight();
+						}
+						else {
+							PlayerMainFaceLeft();
+						}
+						playerMainMovement.SetDistanceX(stairsMoveDistance);
+						playerMainMovement.Move();
+						isPlayerMainMoving = false;
+						isPlayerMainReady = true;
+						atStairsBottom = true;
+					}
+					// If Player is at bottom of stairs, run to top of stairs.
+					else if (!playerMainMovement.isObjectMoving() && playerMainMovement.isDoneMoving() && isPlayerMainReady && atStairsBottom){
+						PlayerMainFaceLeft();
+						playerMainMovement.SetDistanceXY(stairsDistanceX, stairsDistanceY);
+						playerMainMovement.Move();
+						isPlayerMainMoving = false;
+						isPlayerMainReady = true;
+						atStairsBottom = false;
+						atStairsTop = true;
+					}
+					// If Player is at top of stairs, run to final location.
+					else if (!playerMainMovement.isObjectMoving() && playerMainMovement.isDoneMoving() && isPlayerMainReady && atStairsTop){
+						if (playerMain.transform.position.x < moveLocation.x){
+							PlayerMainFaceRight();
+						}
+						else {
+							PlayerMainFaceLeft();
+						}
 						playerMainMovement.SetDistanceX(moveDistance);
 						playerMainMovement.Move();
 						isPlayerMainMoving = false;
 						isPlayerMainReady = true;
+						atStairsTop = false;
 					}
+					// If Player has reached final location, stop running and open window.
 					else if (!playerMainMovement.isObjectMoving() && playerMainMovement.isDoneMoving() && isPlayerMainReady){
 						ShowMainMenuObject(houseObjectNumber);
 						playerMain.animator.SetBool("isRunning", false);
 						isPlayerMainReady = false;
-						playerMainDirection = "none";
 					}
 				}
-				else if (playerMainDirection == "none" && !isPlayerMainReady){
-					isPlayerMainMoving = false;
-					ShowMainMenuObject(houseObjectNumber);
-					playerMain.animator.SetBool("isRunning", false);
-					isPlayerMainReady = true;
+				// If Player is on top floor, run to top of stairs.
+				else if (targetFloor < currentFloor) {
+					if (isPlayerMainMoving && !playerMainMovement.isObjectMoving()){
+						if (playerMain.transform.position.x < stairsTop.transform.position.x){
+							PlayerMainFaceRight();
+						}
+						else {
+							PlayerMainFaceLeft();
+						}
+						playerMainMovement.SetDistanceX(stairsMoveDistance);
+						playerMainMovement.Move();
+						isPlayerMainMoving = false;
+						isPlayerMainReady = true;
+						atStairsTop = true;
+					}
+					// If Player is at top of stairs, run to bottom of stairs.
+					else if (!playerMainMovement.isObjectMoving() && playerMainMovement.isDoneMoving() && isPlayerMainReady && atStairsTop){
+						PlayerMainFaceRight();
+						playerMainMovement.SetDistanceXY(stairsDistanceX, stairsDistanceY);
+						playerMainMovement.Move();
+						isPlayerMainMoving = false;
+						isPlayerMainReady = true;
+						atStairsBottom = true;
+						atStairsTop = false;
+					}
+					// If Player is at bottom of stairs, run to final location.
+					else if (!playerMainMovement.isObjectMoving() && playerMainMovement.isDoneMoving() && isPlayerMainReady && atStairsBottom){
+						if (playerMain.transform.position.x < moveLocation.x){
+							PlayerMainFaceRight();
+						}
+						else {
+							PlayerMainFaceLeft();
+						}
+						playerMainMovement.SetDistanceX(moveDistance);
+						playerMainMovement.Move();
+						isPlayerMainMoving = false;
+						isPlayerMainReady = true;
+						atStairsBottom = false;
+					}
+					// If Player has reached final location, stop running and open window.
+					else if (!playerMainMovement.isObjectMoving() && playerMainMovement.isDoneMoving() && isPlayerMainReady){
+						ShowMainMenuObject(houseObjectNumber);
+						playerMain.animator.SetBool("isRunning", false);
+						isPlayerMainReady = false;
+					}
 				}
 			}
 		}
+		else if (playerMainDirection == "none" && !isPlayerMainReady){
+			isPlayerMainMoving = false;
+			ShowMainMenuObject(houseObjectNumber);
+			playerMain.animator.SetBool("isRunning", false);
+			isPlayerMainReady = true;
+		}
+			
+		
 	}
 
 	public void LoadMainMenu(){
@@ -283,27 +379,36 @@ public class LoadLevel : MonoBehaviour {
 
 	// Sets the location for the player to move to on the Main Menu.
 	public void SetPlayerMainMoveLocation(int objectNumber){
-		moveLocation = GameObject.Find("HUD/MainMenuScreen").transform.GetChild(objectNumber).transform.position;
+		int roundedValue = RoundDown(objectNumber);
+		targetFloor = roundedValue/10;
+		int targetObject = objectNumber - roundedValue;
+		moveLocation = GameObject.Find("HUD/MainMenuScreen").transform.GetChild(targetObject).transform.position;
 		moveDistance = (moveLocation.x - playerMain.transform.position.x);
+		if (targetFloor > currentFloor){
+			moveDistance = moveLocation.x - stairsTop.transform.position.x;
+			stairsMoveDistance = (stairsBottom.transform.position.x - playerMain.transform.position.x);
+			stairsDistanceX = (stairsTop.transform.position.x - stairsBottom.transform.position.x);
+			stairsDistanceY = (stairsTop.transform.position.y - stairsBottom.transform.position.y);
+		}
+		else if (targetFloor < currentFloor){
+			moveDistance = moveLocation.x - stairsBottom.transform.position.x;
+			stairsMoveDistance = (stairsTop.transform.position.x - playerMain.transform.position.x);
+			stairsDistanceX = (stairsBottom.transform.position.x - stairsTop.transform.position.x);
+			stairsDistanceY = (stairsBottom.transform.position.y - stairsTop.transform.position.y);
+		}
 		houseObjectNumber = objectNumber;
 		isPlayerMainMoving = true;
 		// Makes player run to the right.
 		if (playerMain.transform.position.x < moveLocation.x){
 			playerMainDirection = "right";
 			playerMain.animator.SetBool("isRunning", true);
-			if (playerMainFacing.x < 0){
-				playerMainFacing.x *= -1;
-				playerMain.transform.localScale = playerMainFacing;
-			}
+			PlayerMainFaceRight();
 		}
 		// Makes player run to the left.
 		else if (playerMain.transform.position.x > moveLocation.x){
 			playerMainDirection = "left";
 			playerMain.animator.SetBool("isRunning", true);
-			if (playerMainFacing.x > 0){
-				playerMainFacing.x *= -1;
-				playerMain.transform.localScale = playerMainFacing;
-			}
+			PlayerMainFaceLeft();
 		}
 		else {
 			playerMainDirection = "none";
@@ -319,9 +424,22 @@ public class LoadLevel : MonoBehaviour {
 		HideWorlds();
 		levelSelectScreen.SetActive(true);
 		levelScreens[worldNumber - (roundedValue + secondDigit) - 1 + (1 * firstDigit)].SetActive(true);
-		mainMenuScreen.SetActive(false);
 		HidePages();
 		ShowPage(secondDigit);
+	}
+
+	private void PlayerMainFaceLeft(){
+		if (playerMainFacing.x > 0){
+			playerMainFacing.x *= -1;
+			playerMain.transform.localScale = playerMainFacing;
+		}
+	}
+
+	private void PlayerMainFaceRight(){
+		if (playerMainFacing.x < 0){
+			playerMainFacing.x *= -1;
+			playerMain.transform.localScale = playerMainFacing;
+		}
 	}
 
 	public void ShowMainMenuObject(int objectNumber){
@@ -330,51 +448,58 @@ public class LoadLevel : MonoBehaviour {
 			case 0:
 				break;
 
-			// Exit Door - World Select / Level Select
-            case 1:
-				playerMain.transform.position = startLocation.transform.position;
-                mainMenu.ShowWorldSelect();
-                break;
-			
-			// Cat Bed - Restore life/lives with cooldown.
-            case 2:
-			// Open window that asks if you want to nap or not
-			// Also displays upgrade.
-                mainMenu.catBed.ShowObjectWindow();
-                break;
-
 			// Fridge - Restore health with cooldown.
-			case 3:
+			case 11:
 			// Open window that asks if you want to eat or not
 			// Also displays upgrade.
+				currentFloor = 1;
 				mainMenu.fridge.ShowObjectWindow();
 				break;
 
+			// Exit Door - World Select / Level Select
+            case 12:
+				playerMain.transform.position = startLocation.transform.position;
+				currentFloor = 1;
+                mainMenu.ShowWorldSelect();
+                break;
+			
 			// Wardrobe - Player can change characters, equip hats and make purchases.
-			case 4:
+			case 23:
 			// Open window that displays characters, equipment and other purchasable goods.
+				currentFloor = 2;
 				mainMenu.wardrobe.ShowObjectWindow();
 				break;
 
 			// Bank - Generates gold over time.
-			case 5:
+			case 24:
 			// Open window that allows you to claim generated gold.
 			// Also displays upgrade.
+				currentFloor = 2;
 				mainMenu.bank.ShowObjectWindow();
 				break;
 
+			// Computer - Contains Options, Controls and Credits.
+			case 25:
+			// Open the Computer which contains buttons to open Options, Controls and Credits.
+				currentFloor = 2;
+				mainMenu.computer.ShowObjectWindow();
+				break;
+
 			// TV - Watch Ads to get rewards.
-			case 6:
+			case 26:
 			// Open window that allows you to watch ads for rewards.
 			// Also displays upgrade.
+				currentFloor = 2;
 				mainMenu.tv.ShowObjectWindow();
 				break;
 
-			// Computer - Contains Options, Controls and Credits.
-			case 7:
-			// Open the Computer which contains buttons to open Options, Controls and Credits.
-				mainMenu.computer.ShowObjectWindow();
-				break;
+			// Cat Bed - Restore life/lives with cooldown.
+            case 27:
+			// Open window that asks if you want to nap or not
+			// Also displays upgrade.
+                currentFloor = 2;
+				mainMenu.catBed.ShowObjectWindow();
+                break;
 
             default:
                 break;

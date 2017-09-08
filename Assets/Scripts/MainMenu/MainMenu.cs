@@ -24,6 +24,8 @@ public class MainMenu : MonoBehaviour {
 	public void ShowWorldSelect(){
 		catBed.SavePrefs();
 		fridge.SavePrefs();
+		bank.SavePrefs();
+		tv.SavePrefs();
 		if (loadLevel.playerCanvas.GetLives() > 0){
 			loadLevel.playerMain.transform.position = loadLevel.startLocation.transform.position;
 			loadLevel.playerMain.transform.localScale = loadLevel.startLocation.transform.localScale;
@@ -93,6 +95,13 @@ public class MainMenu : MonoBehaviour {
 		DisableComputerWindows();
 	}
 
+	// Loads the MainMenu from the WorldSelectScreen.
+	public void HomeButton(){
+		CloseWindows();
+		DisableComputerWindows();
+		loadLevel.worldSelectScreen.SetActive(false);
+	}
+
 	// Initializes the upgrade ranks for each object.
 	// This should only be done once upon logging in for the first time.
 	public void InitializeUpgradeRanks(){
@@ -122,6 +131,7 @@ public class MainMenu : MonoBehaviour {
 	}
 
 	public void CloseWatchAdWindow(){
+		tv.CloseRewardWindows();
 		adConfirmationWindow.SetActive(false);
 	}
 

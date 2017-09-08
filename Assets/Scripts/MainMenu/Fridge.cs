@@ -11,7 +11,7 @@ public class Fridge : MonoBehaviour {
 	public GameObject objectWindow;
 	[SerializeField] Text objectDescription;
 	private float convertToHours = 3600f;
-	private int healthRestoreAmount = 60; // percentage of max health.
+	private int healthRestoreAmount = 25; // percentage of max health.
 	private int maxRank = 3;
 	// Cooldown
 	[SerializeField] GameObject cooldownLocked;
@@ -54,6 +54,8 @@ public class Fridge : MonoBehaviour {
 		if (PlayerPrefs.GetInt("fIsOnCd") == 1){
 			cooldownLocked.SetActive(true);
 		}
+		UpdateCostText();
+		UpdateRankBar();
 	}
 
 	void Update(){
@@ -96,8 +98,11 @@ public class Fridge : MonoBehaviour {
 	// Opens the window for the Fridge.
 	public void ShowObjectWindow(){
 		// TODO: Slide window onto screen.
-		if (savedUpgradePower > 0){
-			objectDescription.text = "Have a snack, restoring " + (healthRestoreAmount + savedUpgradePower) + "% health.";
+		if (savedUpgradePower > 6){
+			objectDescription.text = "Have a snack, restoring " + (savedUpgradePower - 5) + " lives.";
+		}
+		else {
+			objectDescription.text = "Have a snack, restoring " + (healthRestoreAmount + (savedUpgradePower * 15)) + "% health.";
 		}
 		mainMenu.CloseWindows();
 		objectWindow.SetActive(true);
@@ -109,15 +114,28 @@ public class Fridge : MonoBehaviour {
 		objectWindow.SetActive(false);
 	}
 
-	// Uses the Fridge, which restores health with a cooldown.
+	// Uses the Fridge, which restores health or lives (based on level) with a cooldown.
 	public void UseObject(){
-		if (playerStats.GetHealth() < playerStats.GetMaxHealth()){
-			playerStats.AddPercentHealth(50 + (5 * savedUpgradePower));
-			cooldownLocked.SetActive(true);
-			PlayerPrefs.SetInt("fIsOnCd", 1);
+		if (savedUpgradePower <= 6){
+			if (playerStats.GetHealth() < playerStats.GetMaxHealth()){
+				playerStats.AddPercentHealth(25 + (15 * savedUpgradePower));
+				cooldownLocked.SetActive(true);
+				PlayerPrefs.SetInt("fIsOnCd", 1);
+			}
+			else{
+				// TODO: Prompt the player that their health is full.
+			}
+
 		}
-		else{
-			// TODO: Prompt the player that their lives are full.
+		else {
+			if (playerStats.GetLives() < 9){
+				playerStats.AddLives(savedUpgradePower - 5);
+				cooldownLocked.SetActive(true);
+				PlayerPrefs.SetInt("fIsOnCd", 1);
+			}
+			else{
+				// TODO: Prompt the player that their lives are full.
+			}
 		}
 	}
 

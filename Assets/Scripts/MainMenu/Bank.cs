@@ -60,6 +60,8 @@ public class Bank : MonoBehaviour {
 		else{
 			cooldownLocked.SetActive(false);
 		}
+		UpdateCostText();
+		UpdateRankBar();
 	}
 
 	void Update(){
@@ -83,7 +85,7 @@ public class Bank : MonoBehaviour {
 	}
 
 	public void SetPrefs(){
-		PlayerPrefs.SetInt("bUpCost", 0);
+		PlayerPrefs.SetInt("bUpCost", 100);
 		PlayerPrefs.SetInt("bLevel", 1);
 		PlayerPrefs.SetInt("bUpPow", 0);
 		PlayerPrefs.SetInt("bUpRank", 0);
