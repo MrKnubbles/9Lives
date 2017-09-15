@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class StartUp : MonoBehaviour {
 
-	float startUpTime = 5f;
+	float startUpTime = 2f;
 	
 	void Update () {
 		if(startUpTime > 0) {
