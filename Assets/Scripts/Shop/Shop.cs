@@ -93,7 +93,7 @@ public class Shop : MonoBehaviour {
 			SelectChar(selectedItem);
 		}
 		confirmationWindow.SetActive(false);
-		UpdateItemAvailability();
+		UpdateCurrencies();
 	}
 
 	public void JumpToGemPurchase(){
@@ -109,7 +109,7 @@ public class Shop : MonoBehaviour {
 		confirmationWindow.SetActive(false);
 	}
 
-	private void UpdateItemAvailability(){
+	public void UpdateCurrencies(){
 		goldText.text = PlayerPrefs.GetInt("Coins").ToString();
 		gemsText.text = PlayerPrefs.GetInt("Gems").ToString();
 	}

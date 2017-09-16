@@ -85,7 +85,9 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	public void StopRunning(){
-		player.GetComponent<Animator>().SetBool("isRunning", false);
+		if(!player.isHit) {
+			player.GetComponent<Animator>().SetBool("isRunning", false);
+		}
 	}
 
 	public void MoveLeft(){
@@ -96,7 +98,9 @@ public class PlayerMovement : MonoBehaviour {
 					player.rb2d.velocity *= -1;
 				}
 				else if (!player.isSliding){
-					player.GetComponent<Animator>().SetBool("isRunning", true);
+					if(!player.isHit) {
+						player.GetComponent<Animator>().SetBool("isRunning", true);
+					}
 					player.pos = player.transform.localPosition;
 					player.facing = player.transform.localScale;
 					player.pos.x -= player.moveSpeed * Time.deltaTime;
@@ -119,7 +123,9 @@ public class PlayerMovement : MonoBehaviour {
 					player.rb2d.velocity *= -1;
 				}
 				else if (!player.isSliding){
-					player.GetComponent<Animator>().SetBool("isRunning", true);
+					if(!player.isHit) {
+						player.GetComponent<Animator>().SetBool("isRunning", true);
+					}
 					player.pos = player.transform.localPosition;
 					player.facing = player.transform.localScale;
 					player.pos.x += player.moveSpeed * Time.deltaTime;

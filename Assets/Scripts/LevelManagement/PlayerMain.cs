@@ -34,7 +34,6 @@ public class PlayerMain : MonoBehaviour {
 		GetSpriteRenderers();
 		SetCharacter();
 		SetHeads();
-		animator.SetBool("isGameStarted", true);
 	} 
 
 	public void AttachHeadAccessory(GameObject accessory) {

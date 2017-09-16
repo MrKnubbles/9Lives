@@ -28,12 +28,12 @@ public class PlayerCanvas : MonoBehaviour {
     [SerializeField] int maxLives = 9;
     int lives;
     [SerializeField] Text livesText;
-    float currentLifeRegenTime = 1f;    // Time in hours.
-	float lifeRegenInterval = 1f;
+    float currentLifeRegenTime = 20f;
+	float lifeRegenInterval = 20f;
 	float lastLifeRegenTime;
-    int convertToHours = 3600;
 
     // Real time tracking stuff
+    string debugMessage = "";
     float timeSinceLastOpenedGame;
     float timeGameWasLastOpened;
 
@@ -44,12 +44,8 @@ public class PlayerCanvas : MonoBehaviour {
 
     void Awake() {        
         DontDestroyOnLoad(this);
-        CheckFirstStartup(); 
-
-        InitHealth();   
-        InitLives();   
-        InitLevel();
-        InitXP();      
+        CheckFirstStartup();
+        Load();     
     }
 
 	void Start () {  
@@ -74,22 +70,42 @@ public class PlayerCanvas : MonoBehaviour {
     }	
 
 	void Update () {
-        //UpdateHealthRegeneration();
         UpdateLivesRegeneration();
-        // float derp = TimeSinceLastHealthRegen(System.DateTime.Now.Second);
-		// Debug.Log(derp);
-        //float ddd = System.DateTime.Now.Second;
-		//Debug.Log(ddd);
 	}
-
-	void OnApplicationQuit() {
-		PlayerPrefs.SetFloat("LastExitTime", (float)System.DateTime.Now.Second);
+    public void Save() {
+        string dateTimeString = System.DateTime.UtcNow.ToString (System.Globalization.CultureInfo.InvariantCulture);
+        PlayerPrefs.SetString ("DateTime", dateTimeString);
+		PlayerPrefs.SetString("LastExitTime", new System.DateTime(1970, 1, 1, 8, 0, 0, System.DateTimeKind.Utc).ToString());
         PlayerPrefs.SetInt("isFirstStartup", 1);
         PlayerPrefs.SetFloat("PlayerHealth", health);
         PlayerPrefs.SetInt("PlayerLives", lives);
         PlayerPrefs.SetFloat("NextLevel", nextLevelUpAmount);
         PlayerPrefs.SetInt("PlayerLevel", level);
         PlayerPrefs.SetFloat("XP", xp);
+    }
+    
+    void Load() {
+        // Load time since game was last opened
+        System.DateTime dateTime;
+        bool didParse = System.DateTime.TryParse(PlayerPrefs.GetString ("DateTime"), System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out dateTime);
+        if (didParse) {
+            System.DateTime now = System.DateTime.UtcNow;
+            System.TimeSpan timeSpan = now - dateTime;
+            timeSinceLastOpenedGame = (float)timeSpan.TotalSeconds;
+            debugMessage = string.Format("{0} seconds have passed since the last save.", timeSinceLastOpenedGame);
+            Debug.Log(debugMessage);
+        } else {
+            debugMessage = "Either the DateTime was invalid or there wasn't a saved time.";
+            Debug.Log(debugMessage);
+        }
+        InitHealth();   
+        InitLives();   
+        InitLevel();
+        InitXP();  
+    }
+
+	void OnApplicationQuit() {
+        Save();
 	}
 
     public void Die() {
@@ -108,6 +124,14 @@ public class PlayerCanvas : MonoBehaviour {
             PlayerPrefs.SetFloat("PlayerHealth", maxHealth);
         } else {
             health = PlayerPrefs.GetFloat("health");
+            // timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
+            // timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
+            // if(timeSinceLastOpenedGame > (healthRegenInterval * maxHealth)) {
+            //     health = maxHealth;
+            // } else {
+            //     // TODO: Calculate health
+            //     health = maxHealth;
+            // }
         }
         UpdateHealthBar();
     }
@@ -118,13 +142,11 @@ public class PlayerCanvas : MonoBehaviour {
             PlayerPrefs.SetInt("PlayerLives", maxLives);
         } else {
             lives = PlayerPrefs.GetInt("PlayerLives");
-            timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
-            timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
-            if(timeSinceLastOpenedGame > ((lifeRegenInterval * convertToHours) * maxLives)) {
+            if(timeSinceLastOpenedGame > (lifeRegenInterval * maxLives)) {
                 lives = maxLives;
             } else {
                 // Calculate how many life regen intervals have passed as a single integer
-                int index = (int)(timeGameWasLastOpened / (lifeRegenInterval * convertToHours));
+                int index = (int)(timeSinceLastOpenedGame / lifeRegenInterval);
                 int extraLives = 0;
                 switch(index) {
                     case 0:
@@ -172,7 +194,7 @@ public class PlayerCanvas : MonoBehaviour {
                         break;
                     
                 }
-                AddLives(extraLives);
+                lives += extraLives;
                 if(lives > maxLives) {
                     lives = maxLives;
                 }
@@ -221,8 +243,8 @@ public class PlayerCanvas : MonoBehaviour {
 
     void UpdateLivesRegeneration() {
         if(lives < maxLives) {
-            if(currentLifeRegenTime * convertToHours > 0) {
-                currentLifeRegenTime -= Time.deltaTime / convertToHours;
+            if(currentLifeRegenTime > 0) {
+                currentLifeRegenTime -= Time.deltaTime;
             } else {
                 health = maxHealth;
                 lives += 1;
@@ -271,13 +293,31 @@ public class PlayerCanvas : MonoBehaviour {
 		expBar.GetComponent<Image>().fillAmount = currentFillAmount;
     }
 
-    // Adds experience to the player.
+    // Add lives to the player.
+    public void AddLives(int value){
+        lives += value;
+        health = maxHealth;
+        if (lives > maxLives){
+            lives = maxLives;
+        }
+        PlayerPrefs.SetInt("PlayerLives", maxLives);
+        UpdateLivesText();
+    }
+
+    // Add experience to the player.
     public void AddXP(float value) {
-        xp += value;
-        if (xp >= nextLevelUpAmount){
+        // If the player has an exp boost active, grant bonus exp.
+        if (PlayerPrefs.GetFloat("ExpDuration") > 0){
+            int expBoost = PlayerPrefs.GetInt("ExpBoost");
+            xp += value + (value * expBoost * .01f);
+        }
+        else {
+            xp += value;
+        }
+        if(xp >= nextLevelUpAmount) {
             level++;
             xp -= nextLevelUpAmount;
-            float newLevelUpAmount = (nextLevelUpAmount * 1.25f) + 20;
+            float newLevelUpAmount = (nextLevelUpAmount * 1.5f) + 10;
             nextLevelUpAmount = newLevelUpAmount;
             PlayerPrefs.SetFloat("NextLevel", nextLevelUpAmount);
         }
@@ -286,16 +326,15 @@ public class PlayerCanvas : MonoBehaviour {
         UpdateLevelText();
         UpdateXPText();
         UpdateXPBar();
+        //print("added " + value + " exp");
     }
-
-    // Adds lives to the player.
-    public void AddLives(int value){
-        lives += value;
-        if (lives > maxLives){
-            lives = maxLives;
+    
+    // Add % of max health to the player.
+    public void AddPercentHealth(int value) {
+        float percentOfMaxHealth = maxHealth * (value * .01f);
+        health += percentOfMaxHealth;
+        if (health > maxHealth){
+            health = maxHealth;
         }
-        health = maxHealth;
-        UpdateLivesText();
-        UpdateHealthBar();
     }
 }

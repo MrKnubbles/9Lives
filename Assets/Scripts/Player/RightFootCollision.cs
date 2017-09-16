@@ -15,22 +15,32 @@ public class RightFootCollision : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other){
-		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "MovingPlatform" || other.gameObject.tag == "Ramp"){
-			isGrounded = true;
+		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "MovingPlatform" || other.gameObject.tag == "Ramp"){			
+			if(!player.isHit) {
+				isGrounded = true;
+			} else {
+				player.isHit = false;
+			}
 		}
 	}
 
 	void OnTriggerStay2D(Collider2D other){
 		if (other.gameObject.tag == "Platform" || other.gameObject.tag == "MovingPlatform"){
-			if (leftFoot.isGrounded){
-				player.SetGrounded();
+			if (leftFoot.isGrounded){		
+				if(!player.isHit) {
+					player.SetGrounded();	
+				}
 			}
-			else if (player.rb2d.velocity.y == 0){
-				player.SetGrounded();
+			else if (player.rb2d.velocity.y == 0){		
+				if(!player.isHit) {
+					player.SetGrounded();	
+				}
 			}
 		}
-		if (other.gameObject.tag == "Ramp"){
-			player.SetGrounded();
+		if (other.gameObject.tag == "Ramp"){		
+			if(!player.isHit) {
+				player.SetGrounded();	
+			}
 		}
 	}
 
