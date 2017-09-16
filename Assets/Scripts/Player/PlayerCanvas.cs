@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerCanvas : MonoBehaviour {
+
+    public static PlayerCanvas singleton = null;
     
     [SerializeField] bool isFirstStartup = true;
 
@@ -42,8 +44,14 @@ public class PlayerCanvas : MonoBehaviour {
     public float GetHealth() { return health; }
     public int GetLives() { return lives; }
     public float GetMaxHealth() { return maxHealth; }
+    public bool IsFirstStartup { get{ return isFirstStartup; }}
 
     void Awake() {        
+        if(singleton == null) {
+            singleton = this;
+        } else {
+            Destroy(this.gameObject);
+        }
         DontDestroyOnLoad(this);
         CheckFirstStartup();
         Load();     
