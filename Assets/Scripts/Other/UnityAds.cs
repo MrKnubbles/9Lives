@@ -18,16 +18,6 @@ public class UnityAds : MonoBehaviour
 	public void ShowAd(string condition){
 		ShowOptions options = new ShowOptions();
 
-		// if (condition == "restart"){
-		// 	options.resultCallback = AdCallbackHandlerForRestart;
-		// }
-		// else if (condition == "next"){
-		// 	options.resultCallback = AdCallbackHandlerForNext;
-		// }
-		// else if (condition == "reward"){
-		// 	options.resultCallback = AdCallbackHandlerForReward;
-		// }
-
 		switch (condition){
 			case "restart":
 				options.resultCallback = AdCallbackHandlerForRestart;
