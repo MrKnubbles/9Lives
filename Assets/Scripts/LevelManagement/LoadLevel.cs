@@ -563,7 +563,7 @@ public class LoadLevel : MonoBehaviour {
 		}
 	}
 
-	void HidePages(){
+	public void HidePages(){
 		for (int i = 0; i < levelManager.levelPages.Length; i++){
 			levelManager.levelPages[i].SetActive(false);
 		}
