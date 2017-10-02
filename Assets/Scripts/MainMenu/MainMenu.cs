@@ -100,6 +100,8 @@ public class MainMenu : MonoBehaviour {
 		CloseWindows();
 		DisableComputerWindows();
 		loadLevel.worldSelectScreen.SetActive(false);
+		loadLevel.HidePages();
+		loadLevel.levelSelectScreen.SetActive(false);
 	}
 
 	// Initializes the upgrade ranks for each object.
