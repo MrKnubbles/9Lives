@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerCanvas : MonoBehaviour {
+
+    public static PlayerCanvas singleton = null;
     
     [SerializeField] bool isFirstStartup = true;
 
@@ -19,6 +21,7 @@ public class PlayerCanvas : MonoBehaviour {
     // Health Stuff
 	[SerializeField] float maxHealth = 5;
 	float health;
+    [SerializeField] Text healthText;
 	[SerializeField] Image healthBarForeground;
 	float healthRegenInterval = 5f;
 	float lastHealthRegenTime;
@@ -41,8 +44,14 @@ public class PlayerCanvas : MonoBehaviour {
     public float GetHealth() { return health; }
     public int GetLives() { return lives; }
     public float GetMaxHealth() { return maxHealth; }
+    public bool IsFirstStartup { get{ return isFirstStartup; }}
 
     void Awake() {        
+        if(singleton == null) {
+            singleton = this;
+        } else {
+            Destroy(this.gameObject);
+        }
         DontDestroyOnLoad(this);
         CheckFirstStartup();
         Load();     
@@ -123,6 +132,9 @@ public class PlayerCanvas : MonoBehaviour {
             health = maxHealth;
             PlayerPrefs.SetFloat("PlayerHealth", maxHealth);
         } else {
+            if(PlayerPrefs.HasKey("MaxHealth")) {
+                maxHealth = PlayerPrefs.GetFloat("MaxHealth");
+            }
             health = PlayerPrefs.GetFloat("health");
             // timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
             // timeSinceLastOpenedGame = System.DateTime.Now.Second - timeGameWasLastOpened;
@@ -274,6 +286,7 @@ public class PlayerCanvas : MonoBehaviour {
 	void UpdateHealthBar() {
 		float currentFillAmount =  health / maxHealth;
 		healthBarForeground.GetComponent<Image>().fillAmount = currentFillAmount;
+        healthText.text = "" + health.ToString() + "/" + maxHealth;
 	}
 
 	void UpdateLivesText() {
@@ -316,6 +329,8 @@ public class PlayerCanvas : MonoBehaviour {
         }
         if(xp >= nextLevelUpAmount) {
             level++;
+            maxHealth += 5;
+            PlayerPrefs.SetFloat("MaxHealth", maxHealth);
             xp -= nextLevelUpAmount;
             float newLevelUpAmount = (nextLevelUpAmount * 1.5f) + 10;
             nextLevelUpAmount = newLevelUpAmount;
