@@ -15,6 +15,7 @@ public class HintSystemCanvas : MonoBehaviour {
 	public static HintSystemCanvas m_singleton = null;
 	[SerializeField] GameObject m_defaultHintWindow;
 	[SerializeField] GameObject m_highlightArrow;
+	GameObject m_highlightedObject = null;
 	
 	void Awake() {        
         DontDestroyOnLoad(this);
@@ -35,56 +36,21 @@ public class HintSystemCanvas : MonoBehaviour {
 		// DisplayDefaultHint(tmp);
 	}
 
-	public void DisplayDefaultHint(string hintText, ScreenPosition screenPosition = ScreenPosition.MIDDLE, GameObject objectToHighlight = null) {
+	public void DisplayDefaultHint(string hintText, Vector3 messagePos = default(Vector3), GameObject objectToHighlight = null) {
 
-		// Display Hint Window with text
-		GameObject tmpWindow = Instantiate(m_defaultHintWindow, this.transform);
-		RectTransform rectTransform = tmpWindow.GetComponent<RectTransform>();
-		tmpWindow.GetComponentInChildren<Text>().text = hintText;
-		switch(screenPosition) {
-			case ScreenPosition.TOP_LEFT:
-				rectTransform.localPosition = new Vector2((rectTransform.rect.width / 2), -(rectTransform.rect.height / 2));
-				rectTransform.anchorMin = new Vector2(0,1);
-				rectTransform.anchorMax = new Vector2(0,1);
-				break;
+		m_highlightedObject = objectToHighlight;
+		RectTransform rectTransform = m_defaultHintWindow.GetComponent<RectTransform>();
+		m_defaultHintWindow.GetComponentInChildren<Text>().text = hintText;
+		m_defaultHintWindow.SetActive(true);
+		rectTransform.position = messagePos;
+		Time.timeScale = 0f;
+	}
 
-			case ScreenPosition.TOP_RIGHT:
-				rectTransform.localPosition = new Vector2(-(rectTransform.rect.width / 2), -(rectTransform.rect.height / 2));
-				rectTransform.anchorMin = new Vector2(1, 1);
-				rectTransform.anchorMax = new Vector2(1, 1);
-				break;
-
-			case ScreenPosition.BOTTOM_RIGHT:
-				rectTransform.localPosition = new Vector2(-(rectTransform.rect.width / 2), (rectTransform.rect.height / 2));
-				rectTransform.anchorMin = new Vector2(1,0);
-				rectTransform.anchorMax = new Vector2(1,0);
-				break;
-
-			case ScreenPosition.BOTTOM_LEFT:
-				rectTransform.localPosition = new Vector2((rectTransform.rect.width / 2), (rectTransform.rect.height / 2));
-				rectTransform.anchorMin = new Vector2(0,0);
-				rectTransform.anchorMax = new Vector2(0,0);
-
-				break;
-
-			case ScreenPosition.MIDDLE:
-				rectTransform.anchorMin = new Vector2(0.5f,0.5f);
-				rectTransform.anchorMax = new Vector2(0.5f,0.5f);
-				break;
-
-			default:
-				Debug.Log("Something went wrong. The position specified for the hint window is not valid in method DisplayDefaultHint in HintSystemCanvas.cs");
-				break;
+	public void ResumePlay() {
+		m_defaultHintWindow.SetActive(false);
+		if(m_highlightedObject != null) {
+			m_highlightedObject.SetActive(false);
 		}
-		Destroy(tmpWindow, 5);
-
-		// Display arrow over the specified object if it is not null
-		if(objectToHighlight != null) {
-			float height = objectToHighlight.GetComponent<SpriteRenderer>().bounds.size.y;
-			Vector2 position = new Vector2(objectToHighlight.transform.position.x, (objectToHighlight.transform.position.y + height));
-			GameObject tmpArrow = Instantiate(m_highlightArrow);
-			tmpArrow.transform.position = position;
-			Destroy(tmpArrow, 5);
-		}
+		Time.timeScale = 1f;
 	}
 }
