@@ -138,6 +138,8 @@ public class Player : MonoBehaviour {
 					SetFalling();
 				}
 			}
+		} else {
+			action.StopRunning();
 		}
 		if ((Input.GetKeyUp(KeyCode.L) && gameManager.isLevelComplete)){
 			HUD.GetComponent<LoadLevel>().ReplayLevel();

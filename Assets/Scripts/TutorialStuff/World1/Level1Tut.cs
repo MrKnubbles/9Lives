@@ -11,6 +11,7 @@ public class Level1Tut : MonoBehaviour {
 	[SerializeField] RectTransform m_messagePositionJumpSlide;
 
 	void Start () {
+		// TODO: delete/comment the 2 lines below. Debug only
 		PlayerPrefs.DeleteKey("Level1TutStartTriggered");
 		PlayerPrefs.DeleteKey("Level1TutJumpSlideTriggered");
 		if(!PlayerPrefs.HasKey("Level1TutStartTriggered")) {
