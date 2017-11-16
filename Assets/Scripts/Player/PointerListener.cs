@@ -44,29 +44,31 @@ public class PointerListener : MonoBehaviour, IPointerDownHandler, IPointerUpHan
  
     void Update()
     {
-        if (!isInside)
-            return;
- 
-        switch(Direction)
-        {
-            case eAction.Left:
-                action.MoveLeft();
-                break;
-            case eAction.Right:
-                action.MoveRight();
-                break;
-            case eAction.Special:
-                if (isPressed){
-                    action.Special();
-                    isPressed = false;
-                }
-                break;
-            case eAction.Jump:
-                if (isPressed){
-                    action.Jump();
-                    isPressed = false;
-                }
-                break;
+        if (!GameManager.Instance.isLevelComplete && !GameManager.Instance.isPaused){
+            if (!isInside)
+                return;
+    
+            switch(Direction)
+            {
+                case eAction.Left:
+                    action.MoveLeft();
+                    break;
+                case eAction.Right:
+                    action.MoveRight();
+                    break;
+                case eAction.Special:
+                    if (isPressed){
+                        action.Special();
+                        isPressed = false;
+                    }
+                    break;
+                case eAction.Jump:
+                    if (isPressed){
+                        action.Jump();
+                        isPressed = false;
+                    }
+                    break;
+            }
         }
     }
 }

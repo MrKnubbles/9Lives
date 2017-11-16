@@ -16,6 +16,8 @@ public class HintSystemCanvas : MonoBehaviour {
 	[SerializeField] GameObject m_defaultHintWindow;
 	[SerializeField] GameObject m_highlightArrow;
 	GameObject m_highlightedObject = null;
+	GameObject m_owl = null;
+	[SerializeField] GameObject m_owlPrefab;
 	
 	void Awake() {        
         DontDestroyOnLoad(this);
@@ -42,15 +44,21 @@ public class HintSystemCanvas : MonoBehaviour {
 		RectTransform rectTransform = m_defaultHintWindow.GetComponent<RectTransform>();
 		m_defaultHintWindow.GetComponentInChildren<Text>().text = hintText;
 		m_defaultHintWindow.SetActive(true);
+		Vector3 owlPos = new Vector3(messagePos.x - 1.2f, messagePos.y - 0.8f, messagePos.z);
+		m_owl = Instantiate(m_owlPrefab, owlPos, Quaternion.identity);
 		rectTransform.position = messagePos;
-		Time.timeScale = 0f;
+		GameManager.Instance.isPaused = true;
 	}
 
 	public void ResumePlay() {
 		m_defaultHintWindow.SetActive(false);
+		if(m_owl != null) {
+			//m_owl = null;
+			Destroy(m_owl.gameObject);
+		}
 		if(m_highlightedObject != null) {
 			m_highlightedObject.SetActive(false);
 		}
-		Time.timeScale = 1f;
+		GameManager.Instance.isPaused = false;
 	}
 }
