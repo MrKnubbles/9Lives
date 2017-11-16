@@ -84,8 +84,8 @@ public class LevelManager : MonoBehaviour {
 			levelPages[6] = HUD.transform.Find("LevelSelectScreen/Background/World3/Page1").gameObject;
 			levelPages[7] = HUD.transform.Find("LevelSelectScreen/Background/World3/Page2").gameObject;
 			levelPages[8] = HUD.transform.Find("LevelSelectScreen/Background/World3/Page3").gameObject;
-			GameObject.Find("LevelSelectScreen").gameObject.SetActive(false);
-			GameObject.Find("WorldSelectScreen").gameObject.SetActive(false);
+			GameObject.Find("HUD/LevelSelectScreen").gameObject.SetActive(false);
+			GameObject.Find("HUD/WorldSelectScreen").gameObject.SetActive(false);
 			mainMenu = HUD.transform.GetChild(0).GetComponent<MainMenu>();
 
 			// Sets the player to level 1 the first time they play.
