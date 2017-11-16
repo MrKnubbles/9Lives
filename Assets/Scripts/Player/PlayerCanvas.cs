@@ -147,16 +147,16 @@ public class PlayerCanvas : MonoBehaviour {
             timeGameWasLastOpened = PlayerPrefs.GetFloat("LastExitTime");
             if(timeSinceLastOpenedGame > (healthRegenInterval * maxHealth)) {
                 health = maxHealth;
-                Debug.Log("greater then");
+                //Debug.Log("greater then");
             } else {
                 float healthIntervalsPassed = (timeSinceLastOpenedGame / healthRegenInterval);
-                Debug.Log(healthIntervalsPassed.ToString());
+                //Debug.Log(healthIntervalsPassed.ToString());
                 if(healthIntervalsPassed > 1) {
                     // Calculate how many health regen intervals have passed as a single integer
                     int extraHealth = (int)healthIntervalsPassed;
-                    Debug.Log("less then");
-                    Debug.Log(extraHealth.ToString());
-                    Debug.Log((healthRegenInterval * maxHealth).ToString());
+                    //Debug.Log("less then");
+                    //Debug.Log(extraHealth.ToString());
+                    //Debug.Log((healthRegenInterval * maxHealth).ToString());
                     health += extraHealth;
                 }
             }
