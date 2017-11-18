@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Level1Tut : MonoBehaviour {
 
@@ -12,11 +11,11 @@ public class Level1Tut : MonoBehaviour {
 
 	void Start () {
 		// TODO: delete/comment the 2 lines below. Debug only
-		PlayerPrefs.DeleteKey("Level1TutStartTriggered");
-		PlayerPrefs.DeleteKey("Level1TutJumpSlideTriggered");
+		// PlayerPrefs.DeleteKey("Level1TutStartTriggered");
+		// PlayerPrefs.DeleteKey("Level1TutJumpSlideTriggered");
 		if(!PlayerPrefs.HasKey("Level1TutStartTriggered")) {
 			m_arrowMove.SetActive(true);
-			HintSystemCanvas.m_singleton.DisplayDefaultHint("Press these buttons to move left and right.", m_messagePositionMove.position, m_arrowMove);
+			HintSystemCanvas.m_singleton.DisplayDefaultHint("Press these buttons to move left and right. Don't forget to collect coins to buy stuff from the shop!", m_messagePositionMove.position, m_arrowMove);
 			PlayerPrefs.SetString("Level1TutStartTriggered", "");
 		}
 	}
@@ -24,7 +23,7 @@ public class Level1Tut : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D other) {
 		if(!PlayerPrefs.HasKey("Level1TutJumpSlideTriggered")) {
 			m_arrowJumpSlide.SetActive(true);
-			HintSystemCanvas.m_singleton.DisplayDefaultHint("Press the left button to slide and the right button to jump!", m_messagePositionJumpSlide.position, m_arrowJumpSlide);
+			HintSystemCanvas.m_singleton.DisplayDefaultHint("Press the left button to slide and the right button to jump! Get to the door to beat the level.", m_messagePositionJumpSlide.position, m_arrowJumpSlide);
 			PlayerPrefs.SetString("Level1TutJumpSlideTriggered", "");
 		}
 	}

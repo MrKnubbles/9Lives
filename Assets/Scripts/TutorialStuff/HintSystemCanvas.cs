@@ -40,7 +40,9 @@ public class HintSystemCanvas : MonoBehaviour {
 
 	public void DisplayDefaultHint(string hintText, Vector3 messagePos = default(Vector3), GameObject objectToHighlight = null) {
 
-		m_highlightedObject = objectToHighlight;
+		if(objectToHighlight != null) {
+			m_highlightedObject = objectToHighlight;
+		}
 		RectTransform rectTransform = m_defaultHintWindow.GetComponent<RectTransform>();
 		m_defaultHintWindow.GetComponentInChildren<Text>().text = hintText;
 		m_defaultHintWindow.SetActive(true);
@@ -53,7 +55,6 @@ public class HintSystemCanvas : MonoBehaviour {
 	public void ResumePlay() {
 		m_defaultHintWindow.SetActive(false);
 		if(m_owl != null) {
-			//m_owl = null;
 			Destroy(m_owl.gameObject);
 		}
 		if(m_highlightedObject != null) {
